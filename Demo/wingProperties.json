@@ -11,118 +11,70 @@
 			"children":[
 				{
 					"isFolder":false,
-					"key":"border_png",
-					"name":"border_png"
+					"key":"btn_jump_png",
+					"name":"btn_jump_png"
 				},
 				{
 					"isFolder":false,
-					"key":"button_down_png",
-					"name":"button_down_png"
+					"key":"btn_shoot_png",
+					"name":"btn_shoot_png"
 				},
 				{
 					"isFolder":false,
-					"key":"button_up_png",
-					"name":"button_up_png"
+					"key":"btn_switch_jpg",
+					"name":"btn_switch_jpg"
+				},
+				{
+					"children":[
+						{
+							"isFolder":false,
+							"key":"bullet01",
+							"name":"bullet01"
+						},
+						{
+							"isFolder":false,
+							"key":"bullet01_destroy",
+							"name":"bullet01_destroy"
+						},
+						{
+							"isFolder":false,
+							"key":"bullet02",
+							"name":"bullet02"
+						},
+						{
+							"isFolder":false,
+							"key":"bullet02_destroy",
+							"name":"bullet02_destroy"
+						},
+						{
+							"isFolder":false,
+							"key":"bullet03",
+							"name":"bullet03"
+						}
+					],
+					"isFolder":false,
+					"key":"bullets_json",
+					"name":"bullets_json"
 				},
 				{
 					"isFolder":false,
-					"key":"checkbox_select_disabled_png",
-					"name":"checkbox_select_disabled_png"
+					"key":"dog_png",
+					"name":"dog_png"
 				},
 				{
 					"isFolder":false,
-					"key":"checkbox_select_down_png",
-					"name":"checkbox_select_down_png"
+					"key":"hit_png",
+					"name":"hit_png"
 				},
 				{
 					"isFolder":false,
-					"key":"checkbox_select_up_png",
-					"name":"checkbox_select_up_png"
+					"key":"laser_png",
+					"name":"laser_png"
 				},
 				{
 					"isFolder":false,
-					"key":"checkbox_unselect_png",
-					"name":"checkbox_unselect_png"
-				},
-				{
-					"isFolder":false,
-					"key":"handle_png",
-					"name":"handle_png"
-				},
-				{
-					"isFolder":false,
-					"key":"header_png",
-					"name":"header_png"
-				},
-				{
-					"isFolder":false,
-					"key":"off_png",
-					"name":"off_png"
-				},
-				{
-					"isFolder":false,
-					"key":"on_png",
-					"name":"on_png"
-				},
-				{
-					"isFolder":false,
-					"key":"radiobutton_select_disabled_png",
-					"name":"radiobutton_select_disabled_png"
-				},
-				{
-					"isFolder":false,
-					"key":"radiobutton_select_down_png",
-					"name":"radiobutton_select_down_png"
-				},
-				{
-					"isFolder":false,
-					"key":"radiobutton_select_up_png",
-					"name":"radiobutton_select_up_png"
-				},
-				{
-					"isFolder":false,
-					"key":"radiobutton_unselect_png",
-					"name":"radiobutton_unselect_png"
-				},
-				{
-					"isFolder":false,
-					"key":"roundthumb_png",
-					"name":"roundthumb_png"
-				},
-				{
-					"isFolder":false,
-					"key":"selected_png",
-					"name":"selected_png"
-				},
-				{
-					"isFolder":false,
-					"key":"thumb_pb_png",
-					"name":"thumb_pb_png"
-				},
-				{
-					"isFolder":false,
-					"key":"thumb_png",
-					"name":"thumb_png"
-				},
-				{
-					"isFolder":false,
-					"key":"track_pb_png",
-					"name":"track_pb_png"
-				},
-				{
-					"isFolder":false,
-					"key":"track_png",
-					"name":"track_png"
-				},
-				{
-					"isFolder":false,
-					"key":"track_sb_png",
-					"name":"track_sb_png"
-				},
-				{
-					"isFolder":false,
-					"key":"tracklight_png",
-					"name":"tracklight_png"
+					"key":"statusbar_jpg",
+					"name":"statusbar_jpg"
 				}
 			]
 		}

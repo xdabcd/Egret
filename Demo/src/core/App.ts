@@ -295,17 +295,17 @@ class App {
      */
     public static Init():void {
         //全局配置数据
-        App.GlobalData = RES.getRes("global");
+        App.GlobalData = RES.getRes("global_json");
         //开启调试
         App.DebugUtils.isOpen(App.GlobalData.IsDebug);
         App.DebugUtils.setThreshold(5);
         //扩展功能初始化
         App.EgretExpandUtils.init();
         //实例化Http请求
-        App.Http.initServer(App.GlobalData.HttpSerever);
+//        App.Http.initServer(App.GlobalData.HttpSerever);
         //实例化ProtoBuf和Socket请求
-        App.ProtoFile = dcodeIO.ProtoBuf.loadProto(RES.getRes(App.GlobalData.ProtoFile));
-        App.ProtoConfig = RES.getRes(App.GlobalData.ProtoConfig);
-        App.Socket.initServer(App.GlobalData.SocketServer, App.GlobalData.SocketPort, new ByteArrayMsgByProtobuf());
+//        App.ProtoFile = dcodeIO.ProtoBuf.loadProto(RES.getRes(App.GlobalData.ProtoFile));
+//        App.ProtoConfig = RES.getRes(App.GlobalData.ProtoConfig);
+//        App.Socket.initServer(App.GlobalData.SocketServer, App.GlobalData.SocketPort, new ByteArrayMsgByProtobuf());
     }
 }

@@ -37,10 +37,6 @@ var Main = (function (_super) {
         //注入自定义的素材解析器
         this.stage.registerImplementation("eui.IAssetAdapter", new AssetAdapter());
         this.stage.registerImplementation("eui.IThemeAdapter", new ThemeAdapter());
-        //适配方式
-        if (App.DeviceUtils.IsPC) {
-            App.StageUtils.setScaleMode(egret.StageScaleMode.SHOW_ALL);
-        }
         //初始化Resource资源加载库
         RES.addEventListener(RES.ResourceEvent.CONFIG_COMPLETE, this.onConfigComplete, this);
         RES.loadConfig("resource/default.res.json", "resource/");
@@ -60,7 +56,6 @@ var Main = (function (_super) {
     p.onThemeLoadComplete = function () {
         //初始化
         this.initScene();
-        this.initModule();
         RES.addEventListener(RES.ResourceEvent.GROUP_COMPLETE, this.onResourceLoadComplete, this);
         RES.addEventListener(RES.ResourceEvent.GROUP_LOAD_ERROR, this.onResourceLoadError, this);
         RES.addEventListener(RES.ResourceEvent.GROUP_PROGRESS, this.onResourceProgress, this);
@@ -73,6 +68,7 @@ var Main = (function (_super) {
     p.onResourceLoadComplete = function (event) {
         if (event.groupName == "preload") {
             //设置加载进度界面
+            App.ControllerManager.register(ControllerConst.Loading, new LoadingController());
             App.SceneManager.runScene(SceneConst.Loading);
             RES.loadGroup("loading");
         }
@@ -86,6 +82,7 @@ var Main = (function (_super) {
     };
     p.start = function () {
         App.Init();
+        App.ControllerManager.register(ControllerConst.Game, new GameController());
         App.SceneManager.runScene(SceneConst.Game);
     };
     /**
@@ -94,13 +91,6 @@ var Main = (function (_super) {
     p.initScene = function () {
         App.SceneManager.register(SceneConst.Loading, new LoadingScene());
         App.SceneManager.register(SceneConst.Game, new GameScene());
-    };
-    /**
-     * 初始化所有模块
-     */
-    p.initModule = function () {
-        App.ControllerManager.register(ControllerConst.Loading, new LoadingController());
-        App.ControllerManager.register(ControllerConst.Game, new GameController());
     };
     /**
      * preload资源组加载进度

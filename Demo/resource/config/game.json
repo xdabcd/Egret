@@ -1,0 +1,30 @@
+{
+    "bottom_h" : 110,
+    "heroes" : [
+		{
+			"id" : 1,
+			"gun" : 1,
+			"anim" : "dog",
+			"width" : 140,
+			"height" : 180,
+			"upAs" : 10,
+			"downAs" : 5
+		}
+    ],
+    "guns" : [
+    	{
+    		"id" : 1,
+    		"bullet" : 1,
+    		"img" : "gun_png"
+    	}
+    ],
+    "bullets" : [
+    	{
+    		"id" : 1,
+    		"img" : "bullet01_png"
+    	}
+    
+    ]
+    
+    
+}

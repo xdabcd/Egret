@@ -68,13 +68,13 @@
 				},
 				{
 					"isFolder":false,
-					"key":"laser_png",
-					"name":"laser_png"
+					"key":"statusbar_jpg",
+					"name":"statusbar_jpg"
 				},
 				{
 					"isFolder":false,
-					"key":"statusbar_jpg",
-					"name":"statusbar_jpg"
+					"key":"load_Reel_png",
+					"name":"load_Reel_png"
 				}
 			]
 		}

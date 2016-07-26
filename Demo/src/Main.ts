@@ -35,12 +35,7 @@ class Main extends eui.UILayer {
         //注入自定义的素材解析器
         this.stage.registerImplementation("eui.IAssetAdapter",new AssetAdapter());
         this.stage.registerImplementation("eui.IThemeAdapter",new ThemeAdapter());
-        
-        //适配方式
-        if(App.DeviceUtils.IsPC) {
-            App.StageUtils.setScaleMode(egret.StageScaleMode.SHOW_ALL);
-        }
-                
+            
         //初始化Resource资源加载库
         RES.addEventListener(RES.ResourceEvent.CONFIG_COMPLETE,this.onConfigComplete,this);
         RES.loadConfig("resource/default.res.json","resource/");
@@ -63,7 +58,6 @@ class Main extends eui.UILayer {
     private onThemeLoadComplete(): void {
         //初始化
         this.initScene();
-        this.initModule();
         
         RES.addEventListener(RES.ResourceEvent.GROUP_COMPLETE,this.onResourceLoadComplete,this);
         RES.addEventListener(RES.ResourceEvent.GROUP_LOAD_ERROR,this.onResourceLoadError,this);
@@ -78,6 +72,7 @@ class Main extends eui.UILayer {
     private onResourceLoadComplete(event:RES.ResourceEvent):void {
         if (event.groupName == "preload") {
             //设置加载进度界面
+            App.ControllerManager.register(ControllerConst.Loading,new LoadingController());
             App.SceneManager.runScene(SceneConst.Loading);
             RES.loadGroup("loading");
         } else if(event.groupName == "loading"){
@@ -91,6 +86,7 @@ class Main extends eui.UILayer {
     
     private start(){
         App.Init();
+        App.ControllerManager.register(ControllerConst.Game,new GameController());
         App.SceneManager.runScene(SceneConst.Game);
     }
     
@@ -100,14 +96,6 @@ class Main extends eui.UILayer {
     private initScene(): void {
         App.SceneManager.register(SceneConst.Loading, new LoadingScene());
         App.SceneManager.register(SceneConst.Game, new GameScene());
-    }
-    
-    /**
-     * 初始化所有模块
-     */
-    private initModule(): void {
-        App.ControllerManager.register(ControllerConst.Loading, new LoadingController());
-        App.ControllerManager.register(ControllerConst.Game, new GameController());
     }
     
     /**

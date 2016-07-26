@@ -5,36 +5,16 @@
 			"name":"preload"
 		},
 		{
-			"keys":"bullet01_destroy_json,bullet02_destroy_json,bullet03_json,bullets_json,laser_png,dog_json,dog_png,btn_jump_png,btn_shoot_png,btn_switch_jpg,hit_png,statusbar_jpg,global_json",
+			"keys":"bullets_json,dog_json,dog_png,btn_jump_png,btn_shoot_png,btn_switch_jpg,hit_png,statusbar_jpg,global_json,game_json",
 			"name":"loading"
 		}
 	],
 	"resources":[
 		{
-			"name":"bullet01_destroy_json",
-			"type":"json",
-			"url":"assets/bullets/bullet01_destroy.json"
-		},
-		{
-			"name":"bullet02_destroy_json",
-			"type":"json",
-			"url":"assets/bullets/bullet02_destroy.json"
-		},
-		{
-			"name":"bullet03_json",
-			"type":"json",
-			"url":"assets/bullets/bullet03.json"
-		},
-		{
 			"name":"bullets_json",
 			"subkeys":"bullet01,bullet01_destroy,bullet02,bullet02_destroy,bullet03",
 			"type":"sheet",
 			"url":"assets/bullets/bullets.json"
-		},
-		{
-			"name":"laser_png",
-			"type":"image",
-			"url":"assets/bullets/laser.png"
 		},
 		{
 			"name":"dog_json",
@@ -75,6 +55,16 @@
 			"name":"global_json",
 			"type":"json",
 			"url":"config/global.json"
+		},
+		{
+			"name":"load_Reel_png",
+			"type":"image",
+			"url":"assets/load_Reel.png"
+		},
+		{
+			"name":"game_json",
+			"type":"json",
+			"url":"config/game.json"
 		}
 	]
 }

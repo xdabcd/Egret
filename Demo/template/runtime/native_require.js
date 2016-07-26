@@ -102,8 +102,14 @@ var game_file_list = [
 	"bin-debug/main/const/SceneConst.js",
 	"bin-debug/main/const/ViewConst.js",
 	"bin-debug/main/module/game/GameController.js",
+	"bin-debug/main/module/game/GameManager.js",
 	"bin-debug/main/module/game/GameUIView.js",
 	"bin-debug/main/module/game/GameView.js",
+	"bin-debug/main/module/game/data/BulletData.js",
+	"bin-debug/main/module/game/data/GunData.js",
+	"bin-debug/main/module/game/data/HeroData.js",
+	"bin-debug/main/module/game/object/Bullet.js",
+	"bin-debug/main/module/game/object/Hero.js",
 	"bin-debug/main/module/loading/LoadingConst.js",
 	"bin-debug/main/module/loading/LoadingController.js",
 	"bin-debug/main/module/loading/LoadingView.js",
@@ -138,7 +144,7 @@ egret_native.egretStart = function () {
         //以下为自动修改，请勿修改
         //----auto option start----
 		entryClassName: "Main",
-		frameRate: 30,
+		frameRate: 60,
 		scaleMode: "fixedWidth",
 		contentWidth: 1334,
 		contentHeight: 750,

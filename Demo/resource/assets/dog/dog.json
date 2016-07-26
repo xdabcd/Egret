@@ -2,7 +2,7 @@
 	"dog":{
 		"frameRate":24,
 		"labels":[
-			{"name":"run","frame":1,"end":7}
+			{"name":"idle","frame":1,"end":7}
 			
 			],
 		"events":[

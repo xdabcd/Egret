@@ -12,7 +12,8 @@ var GameView = (function (_super) {
     var d = __define,c=GameView,p=c.prototype;
     p.initUI = function () {
         _super.prototype.initUI.call(this);
-        this.hero = ObjectPool.pop("Hero", 1);
+        this.hero = ObjectPool.pop("Hero", this.controller);
+        this.hero.init(1);
         var heroPos = this.getPerPos(0.1, 0.3);
         this.hero.x = heroPos.x;
         this.hero.y = heroPos.y;
@@ -20,6 +21,9 @@ var GameView = (function (_super) {
     };
     p.initData = function () {
         _super.prototype.initData.call(this);
+    };
+    p.SetHeroUp = function (up) {
+        this.hero.IsUp = up;
     };
     d(p, "min_x"
         ,function () {

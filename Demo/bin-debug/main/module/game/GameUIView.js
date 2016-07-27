@@ -34,9 +34,11 @@ var GameUIView = (function (_super) {
     };
     p.jumpBtnDown = function () {
         this.jumpBtn.scaleX = this.jumpBtn.scaleY = 0.9;
+        App.ControllerManager.applyFunc(ControllerConst.Game, GameConst.Jump, true);
     };
     p.jumpBtnUp = function () {
         this.jumpBtn.scaleX = this.jumpBtn.scaleY = 1;
+        App.ControllerManager.applyFunc(ControllerConst.Game, GameConst.Jump, false);
     };
     p.shootBtnDown = function () {
         this.shootBtn.scaleX = this.shootBtn.scaleY = 0.9;
@@ -49,7 +51,7 @@ var GameUIView = (function (_super) {
             case Keyboard.W:
                 this.jumpBtnDown();
                 break;
-            case Keyboard.D:
+            case Keyboard.K:
                 this.shootBtnDown();
                 break;
             default:

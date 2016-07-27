@@ -4,18 +4,23 @@
 		{
 			"id" : 1,
 			"gun" : 1,
+			"gunX" : 80,
+			"gunY" : 70,
 			"anim" : "dog",
 			"width" : 140,
 			"height" : 180,
-			"upAs" : 10,
-			"downAs" : 5
+			"upAs" : 55,
+			"downAs" : 20
 		}
     ],
     "guns" : [
     	{
     		"id" : 1,
     		"bullet" : 1,
-    		"img" : "gun_png"
+    		"bulletX" : 80,
+    		"bulletY" : 0,
+    		"img" : "bullet01",
+    		"interval" : 1
     	}
     ],
     "bullets" : [

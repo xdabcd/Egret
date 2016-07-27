@@ -16,7 +16,8 @@ class GameView extends BaseSpriteView {
     public initUI(): void {
         super.initUI();
 
-        this.hero = ObjectPool.pop("Hero",1);
+        this.hero = ObjectPool.pop("Hero", this.controller);
+        this.hero.init(1);
         var heroPos = this.getPerPos(0.1, 0.3);
         this.hero.x = heroPos.x;
         this.hero.y = heroPos.y;
@@ -25,6 +26,10 @@ class GameView extends BaseSpriteView {
 
     public initData(): void {
         super.initData();
+    }
+    
+    public SetHeroUp(up: Boolean){
+        this.hero.IsUp = up;
     }
     
     public get min_x(): number{

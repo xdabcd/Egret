@@ -43,10 +43,13 @@ class GameUIView extends BaseSpriteView {
     
     private jumpBtnDown(){
         this.jumpBtn.scaleX = this.jumpBtn.scaleY = 0.9;
+        App.ControllerManager.applyFunc(ControllerConst.Game, GameConst.Jump, true);
+
     }
     
     private jumpBtnUp(){
         this.jumpBtn.scaleX = this.jumpBtn.scaleY = 1;
+        App.ControllerManager.applyFunc(ControllerConst.Game, GameConst.Jump, false);
     }
     
     private shootBtnDown(){
@@ -62,7 +65,7 @@ class GameUIView extends BaseSpriteView {
             case Keyboard.W:
                 this.jumpBtnDown();
                 break;
-            case Keyboard.D:
+            case Keyboard.K:
                 this.shootBtnDown();
                 break;
             default:

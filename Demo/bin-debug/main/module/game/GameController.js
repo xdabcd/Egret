@@ -14,15 +14,28 @@ var GameController = (function (_super) {
         App.ViewManager.register(ViewConst.Game, this.gameView);
         this.gameUIView = new GameUIView(this, LayerManager.Game_UI);
         App.ViewManager.register(ViewConst.GameUI, this.gameUIView);
-        this.lastTime = egret.getTimer();
-        this.gameView.addEventListener(egret.Event.ENTER_FRAME, this.update, this);
+        this.registerFunc(GameConst.Jump, this.jump, this);
     }
     var d = __define,c=GameController,p=c.prototype;
-    p.update = function () {
-        var curTime = egret.getTimer();
-        var deltaTime = curTime - this.lastTime;
-        this.lastTime = curTime;
-        console.log(deltaTime);
+    p.jump = function (up) {
+        this.gameView.SetHeroUp(up);
+    };
+    p.CreateBullet = function () {
+        //        this.gameView.cre
+    };
+    /**
+     * 检测英雄是否超出范围(Y轴)
+     */
+    p.CheckHeroOut = function (hero) {
+        if (hero.y - hero.anchorOffsetY < this.gameView.min_y) {
+            hero.y = this.gameView.min_y + hero.anchorOffsetY;
+            return true;
+        }
+        else if (hero.y - hero.anchorOffsetY + hero.height > this.gameView.max_y) {
+            hero.y = this.gameView.max_y + hero.anchorOffsetY - hero.height;
+            return true;
+        }
+        return false;
     };
     /**
      * 碰撞检测

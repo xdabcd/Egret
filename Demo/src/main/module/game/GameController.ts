@@ -7,7 +7,6 @@ class GameController extends BaseController {
 
     private gameView: GameView;
     private gameUIView: GameUIView;
-    private lastTime: number;
     
     public constructor() {
         super();
@@ -21,17 +20,30 @@ class GameController extends BaseController {
         this.gameUIView = new GameUIView(this, LayerManager.Game_UI);
         App.ViewManager.register(ViewConst.GameUI, this.gameUIView);
         
-        this.lastTime = egret.getTimer();
-        this.gameView.addEventListener(egret.Event.ENTER_FRAME, this.update, this);
+        this.registerFunc(GameConst.Jump, this.jump, this);
     }
     
-    private update(){
-        var curTime = egret.getTimer();
-        var deltaTime = curTime - this.lastTime;
-        this.lastTime = curTime;
-        console.log(deltaTime);
+    private jump(up: Boolean): void {
+        this.gameView.SetHeroUp(up);
     }
     
+    public CreateBullet(): void{
+//        this.gameView.cre
+    }
+    
+    /**
+     * 检测英雄是否超出范围(Y轴)
+     */ 
+    public CheckHeroOut(hero: Hero): Boolean{
+        if(hero.y - hero.anchorOffsetY < this.gameView.min_y){
+            hero.y = this.gameView.min_y + hero.anchorOffsetY;
+            return true;
+        }else if(hero.y - hero.anchorOffsetY + hero.height > this.gameView.max_y){
+            hero.y = this.gameView.max_y + hero.anchorOffsetY - hero.height;
+            return true;
+        }
+        return false;
+    }
     
     /**
      * 碰撞检测

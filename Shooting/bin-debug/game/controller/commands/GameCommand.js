@@ -13,6 +13,7 @@ var GameCommand = (function (_super) {
      * 注册消息
      */
     p.register = function () {
+        this.facade.registerCommand(GameCommand.START_GAME, GameCommand);
         this.facade.registerCommand(GameCommand.JUMP, GameCommand);
         this.facade.registerCommand(GameCommand.SHOOT, GameCommand);
     };
@@ -20,7 +21,7 @@ var GameCommand = (function (_super) {
         var gameProxy = (this.facade.retrieveProxy(GameProxy.NAME));
         var data = notifica.getBody();
         switch (notifica.getName()) {
-            case GameCommand.JUMP: {
+            case GameCommand.START_GAME: {
                 AppFacade.getInstance().sendNotification(SceneCommand.CHANGE, SceneId.Game);
                 gameProxy.init();
                 break;

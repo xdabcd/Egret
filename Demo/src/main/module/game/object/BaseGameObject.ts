@@ -8,13 +8,15 @@ class BaseGameObject extends egret.DisplayObjectContainer {
     private originY: number = 0;
 
     public controller: BaseController;
+    public _side: Side;
 
     public constructor($controller: BaseController) {
         super();
         this.controller = $controller;
     }
 
-    public init(...args: any[]): void {
+    public init(side: Side, ...args: any[]): void {
+        this._side = side;
         App.TimerManager.doFrame(1,0,this.onFrame,this);
     }
 
@@ -62,4 +64,13 @@ class BaseGameObject extends egret.DisplayObjectContainer {
     public get gameController(): GameController {
         return <GameController>this.controller;
     }
+    
+    public get side(): Side{
+        return this._side;
+    }
+}
+
+enum Side{
+    Own,
+    Enemy
 }

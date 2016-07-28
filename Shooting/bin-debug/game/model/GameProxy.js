@@ -15,12 +15,10 @@ var GameProxy = (function (_super) {
     var d = __define,c=GameProxy,p=c.prototype;
     p.init = function () {
         GameManager.init();
-        this.initGameUI();
-    };
-    p.initGameUI = function () {
+        this.sendNotification(GameProxy.INIT, { width: StageUtils.getWidth(), height: StageUtils.getHeight(), uiHeight: GameManager.uiHeight });
     };
     /** 初始化底部UI */
-    GameProxy.INIT_GAME_UI = "init_game_ui";
+    GameProxy.INIT = "init";
     return GameProxy;
 }(puremvc.Proxy));
 egret.registerClass(GameProxy,'GameProxy',["puremvc.IProxy","puremvc.INotifier"]);

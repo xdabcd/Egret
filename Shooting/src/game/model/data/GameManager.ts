@@ -4,7 +4,7 @@
  *
  */
 class GameManager {
-    private static _bottomHeight: number;
+    private static _uiHeight: number;
     private static _heroDic: { [id: number]: HeroData } = {};
     private static _gunDic: { [id: number]: GunData } = {};
     private static _bulletDic: { [id: number]: BulletData } = {};
@@ -14,7 +14,7 @@ class GameManager {
      */
     public static init() {
         var data = RES.getRes("game_json");
-        this._bottomHeight = data["bottom_h"];
+        this._uiHeight = data["ui_height"];
         var heroes: Array<HeroData> = data["heroes"];
         var guns: Array<GunData> = data["guns"];
         var bullets: Array<BulletData> = data["bullets"];
@@ -59,7 +59,7 @@ class GameManager {
     /**
      * 底部UI高度
      */ 
-    public static get bottomHeight(): number{
-        return this._bottomHeight;
+    public static get uiHeight(): number{
+        return this._uiHeight;
     }
 }

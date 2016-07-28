@@ -1,14 +1,8 @@
 {
-	"groups":[
-		{
-			"keys":"",
+	"groups":[{
+			"keys":"bullets_json,hero_json,hero_png,btn_switch_jpg,btn_shoot_png,btn_jump_png,bottom_jpg,game_json",
 			"name":"preload"
-		},
-		{
-			"keys":"bullets_json,hero_json,hero_png,btn_switch_jpg,btn_shoot_png,btn_jump_png,bottom_jpg",
-			"name":"loading"
-		}
-	],
+		}],
 	"resources":[
 		{
 			"name":"bullets_json",
@@ -45,6 +39,11 @@
 			"name":"bottom_jpg",
 			"type":"image",
 			"url":"assets/bottom.jpg"
+		},
+		{
+			"name":"game_json",
+			"type":"json",
+			"url":"config/game.json"
 		}
 	]
 }

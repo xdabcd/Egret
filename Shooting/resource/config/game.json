@@ -1,5 +1,5 @@
 {
-    "bottom_h" : 110,
+    "ui_height" : 110,
     "heroes" : [
 		{
 			"id" : 1,

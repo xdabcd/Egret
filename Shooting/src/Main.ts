@@ -38,6 +38,10 @@ class Main extends eui.UILayer {
     
     protected createChildren(): void {
         super.createChildren();
+        
+        //初始化工具类
+        UtilsManager.init();
+        
         //inject the custom material parser
         //注入自定义的素材解析器
         var assetAdapter = new AssetAdapter();

@@ -109,6 +109,7 @@ var game_file_list = [
 	"bin-debug/main/module/game/data/BulletData.js",
 	"bin-debug/main/module/game/data/GunData.js",
 	"bin-debug/main/module/game/data/HeroData.js",
+	"bin-debug/main/module/game/data/MoveData.js",
 	"bin-debug/main/module/game/object/BaseGameObject.js",
 	"bin-debug/main/module/game/object/Bullet.js",
 	"bin-debug/main/module/game/object/Hero.js",

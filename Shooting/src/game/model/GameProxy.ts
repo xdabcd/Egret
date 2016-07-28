@@ -14,17 +14,13 @@ class GameProxy extends puremvc.Proxy implements puremvc.IProxy {
     }
 
     /** 初始化底部UI */
-    public static INIT_GAME_UI: string = "init_game_ui";
+    public static INIT: string = "init";
 
     public init() {
         GameManager.init();
-        this.initGameUI();
+        this.sendNotification(GameProxy.INIT,{ width: StageUtils.getWidth(),height: StageUtils.getHeight(), uiHeight: GameManager.uiHeight});
     }
 
 
 
-    private initGameUI() {
-
-
-    }
 }

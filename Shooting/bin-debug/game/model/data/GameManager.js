@@ -12,7 +12,7 @@ var GameManager = (function () {
      */
     GameManager.init = function () {
         var data = RES.getRes("game_json");
-        this._bottomHeight = data["bottom_h"];
+        this._uiHeight = data["ui_height"];
         var heroes = data["heroes"];
         var guns = data["guns"];
         var bullets = data["bullets"];
@@ -47,12 +47,12 @@ var GameManager = (function () {
     GameManager.getBulletData = function (id) {
         return this._bulletDic[id];
     };
-    d(GameManager, "bottomHeight"
+    d(GameManager, "uiHeight"
         /**
          * 底部UI高度
          */
         ,function () {
-            return this._bottomHeight;
+            return this._uiHeight;
         }
     );
     GameManager._heroDic = {};

@@ -36,6 +36,8 @@ var Main = (function (_super) {
     var d = __define,c=Main,p=c.prototype;
     p.createChildren = function () {
         _super.prototype.createChildren.call(this);
+        //初始化工具类
+        UtilsManager.init();
         //inject the custom material parser
         //注入自定义的素材解析器
         var assetAdapter = new AssetAdapter();

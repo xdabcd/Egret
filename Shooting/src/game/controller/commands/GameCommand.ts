@@ -21,6 +21,7 @@ class GameCommand extends puremvc.SimpleCommand implements puremvc.ICommand {
      * 注册消息
      */ 
     public register(): void {
+        this.facade.registerCommand(GameCommand.START_GAME,GameCommand);
         this.facade.registerCommand(GameCommand.JUMP,GameCommand);
         this.facade.registerCommand(GameCommand.SHOOT,GameCommand);
     }
@@ -29,7 +30,7 @@ class GameCommand extends puremvc.SimpleCommand implements puremvc.ICommand {
         var gameProxy: GameProxy = <GameProxy><any>(this.facade.retrieveProxy(GameProxy.NAME));
         var data: any = notifica.getBody();
         switch(notifica.getName()) {
-            case GameCommand.JUMP: {
+            case GameCommand.START_GAME: {
                 AppFacade.getInstance().sendNotification(SceneCommand.CHANGE, SceneId.Game);
                 gameProxy.init();
                 break;

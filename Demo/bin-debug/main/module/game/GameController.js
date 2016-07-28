@@ -14,15 +14,12 @@ var GameController = (function (_super) {
         App.ViewManager.register(ViewConst.Game, this.gameView);
         this.gameUIView = new GameUIView(this, LayerManager.Game_UI);
         App.ViewManager.register(ViewConst.GameUI, this.gameUIView);
-        this.registerFunc(GameConst.Jump, this.jump, this);
+        this.registerFunc(GameConst.Jump, this.gameView.Jump, this.gameView);
+        this.registerFunc(GameConst.Shoot, this.gameView.Shoot, this.gameView);
+        this.registerFunc(GameConst.CeateBullet, this.gameView.CreateBullet, this.gameView);
+        this.registerFunc(GameConst.RemoveBullet, this.gameView.RemoveBullet, this.gameView);
     }
     var d = __define,c=GameController,p=c.prototype;
-    p.jump = function (up) {
-        this.gameView.SetHeroUp(up);
-    };
-    p.CreateBullet = function () {
-        //        this.gameView.cre
-    };
     /**
      * 检测英雄是否超出范围(Y轴)
      */
@@ -38,15 +35,15 @@ var GameController = (function (_super) {
         return false;
     };
     /**
+     * 检测是否超出屏幕
+     */
+    p.CheckOutScreen = function (object) {
+        return !this.hitTest(new egret.Rectangle(object.x, object.y, object.width, object.height), new egret.Rectangle(0, 0, App.StageUtils.getWidth(), App.StageUtils.getHeight()));
+    };
+    /**
      * 碰撞检测
      */
-    p.hitTest = function (obj1, obj2) {
-        var rect1 = obj1.getBounds();
-        var rect2 = obj2.getBounds();
-        rect1.x = obj1.x;
-        rect1.y = obj1.y;
-        rect2.x = obj2.x;
-        rect2.y = obj2.y;
+    p.hitTest = function (rect1, rect2) {
         return rect1.intersects(rect2);
     };
     return GameController;

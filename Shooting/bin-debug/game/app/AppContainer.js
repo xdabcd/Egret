@@ -18,5 +18,5 @@ var AppContainer = (function (_super) {
         this.addChild(this.gameScene);
     };
     return AppContainer;
-}(egret.Stage));
+}(egret.DisplayObjectContainer));
 egret.registerClass(AppContainer,'AppContainer');

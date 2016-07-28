@@ -13,15 +13,15 @@ class GameSceneMediator extends puremvc.Mediator implements puremvc.IMediator {
 
     public listNotificationInterests(): Array<any> {
         return [
-            GameProxy.INIT_GAME_UI
+            GameProxy.INIT
         ];
     }
 
     public handleNotification(notification: puremvc.INotification): void {
         var data: any = notification.getBody();
         switch(notification.getName()) {
-            case GameProxy.INIT_GAME_UI: {
-                this.gameScene.initGameUI(data.width,data.height);
+            case GameProxy.INIT: {
+                this.gameScene.init(data.width,data.height,data.uiHeight);
                 break;
             }
         }

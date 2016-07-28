@@ -17,9 +17,9 @@ class GameUIView extends BaseSpriteView {
     public initUI(): void {
         super.initUI();
         
-        this.bg = App.DisplayUtils.createBitmap("statusbar_jpg");
+        this.bg = App.DisplayUtils.createBitmap("bottom_jpg");
         this.bg.width = this.width;
-        this.bg.height = GameManager.Bottom_H;
+        this.bg.height = GameManager.UI_H;
         AnchorUtil.setAnchorY(this.bg, 1);
         this.bg.name = "bg";
         this.addChild(this.bg);
@@ -54,6 +54,7 @@ class GameUIView extends BaseSpriteView {
     
     private shootBtnDown(){
         this.shootBtn.scaleX = this.shootBtn.scaleY = 0.9;
+        App.ControllerManager.applyFunc(ControllerConst.Game, GameConst.Shoot);
     }
     
     private shootBtnUp(){
@@ -78,7 +79,7 @@ class GameUIView extends BaseSpriteView {
             case Keyboard.W:
                 this.jumpBtnUp();
                 break;
-            case Keyboard.D:
+            case Keyboard.K:
                 this.shootBtnUp();
                 break;
             default:

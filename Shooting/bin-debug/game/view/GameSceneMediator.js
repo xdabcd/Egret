@@ -11,14 +11,14 @@ var GameSceneMediator = (function (_super) {
     var d = __define,c=GameSceneMediator,p=c.prototype;
     p.listNotificationInterests = function () {
         return [
-            GameProxy.INIT_GAME_UI
+            GameProxy.INIT
         ];
     };
     p.handleNotification = function (notification) {
         var data = notification.getBody();
         switch (notification.getName()) {
-            case GameProxy.INIT_GAME_UI: {
-                this.gameScene.initGameUI(data.width, data.height);
+            case GameProxy.INIT: {
+                this.gameScene.init(data.width, data.height, data.uiHeight);
                 break;
             }
         }

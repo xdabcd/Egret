@@ -3,7 +3,7 @@
  * @author 
  *
  */
-class AppContainer extends egret.Stage {
+class AppContainer extends egret.DisplayObjectContainer {
     public constructor() {
         super();
     }

@@ -12,6 +12,7 @@ class Hero extends BaseGameObject{
     private gun: egret.Bitmap;
     private isUp: Boolean;
     private speed: number;
+    private aiType: AiType;
     
     private shootInterval: number;
     private shootCd: number;
@@ -23,11 +24,16 @@ class Hero extends BaseGameObject{
         super($controller);
     }
 
-    public init(id: number): void {
-        super.init();
+    public init(id: number, side: Side): void {
+        super.init(side);
 
         this.id = id;
-        var heroData = GameManager.HeroDic[id];
+        if(this.side == Side.Own){
+            this.scaleX = 1;
+        } else if(this.side == Side.Enemy){
+            this.scaleX = -1;
+        }
+        var heroData = GameManager.GetHeroData(id);
         this.height = heroData.width;
         this.width = heroData.height;
         //设置动画，并装上枪
@@ -39,6 +45,10 @@ class Hero extends BaseGameObject{
         this.speed = 0;
     }
 	
+    public SetAI(aiType: AiType){
+        this.aiType = aiType;
+    }
+    
 	private setAnim(anim: string){
     	  if(this.anim == null){
             this.anim = new egret.MovieClip(); 
@@ -47,8 +57,8 @@ class Hero extends BaseGameObject{
             this.addChild(this.anim);
     	  }
     
-        var mcData = RES.getRes(anim + "_json");
-        var mcTexture = RES.getRes(anim + "_png");
+        var mcData = RES.getRes("hero_json");
+        var mcTexture = RES.getRes("hero_png");
         var mcDataFactory: egret.MovieClipDataFactory = new egret.MovieClipDataFactory(mcData,mcTexture);
         this.anim.movieClipData = mcDataFactory.generateMovieClipData(anim);
         this.anim.gotoAndPlay(1,-1);  
@@ -61,7 +71,7 @@ class Hero extends BaseGameObject{
     	      this.gun.y = y;
     	      this.addChild(this.gun);
     	  }
-        var gunData = GameManager.GunDic[id];
+        var gunData = GameManager.GetGunData(id);
         this.gun.texture = RES.getRes(gunData.img);
         this.shootInterval = gunData.interval;
         this.shootCd = 0;
@@ -71,15 +81,17 @@ class Hero extends BaseGameObject{
 	}
 	
 	public Shoot(){
-	    if(this.shootCd == 0){
+	    if(this.shootCd <= 0){
 	        this.shootCd = this.shootInterval;
-	        
+            var x = this.x + this.gun.x + this.bulletX;
+            var y = this.y + this.gun.y + this.bulletY;
+            var moveData = new MoveData(0);
+            App.ControllerManager.applyFunc(ControllerConst.Game,GameConst.CeateBullet,this.bulletId,this.side,x,y,moveData);
 	    }
 	}
 	
     public update(time: number){
         super.update(time);
-
         var t = time / 1000;
         let as = -this.downAs;
         if(this.isUp){
@@ -90,6 +102,10 @@ class Hero extends BaseGameObject{
 	    if(this.gameController.CheckHeroOut(this)){
 	        this.speed = 0;
 	    }
+	    
+	    if(this.shootCd > 0){
+	        this.shootCd -= t;
+	    }
 	}
 	
 	public set IsUp(value: Boolean){
@@ -99,4 +115,8 @@ class Hero extends BaseGameObject{
 
 enum HeroState {
     
+}
+
+enum AiType{
+    Follow
 }

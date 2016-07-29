@@ -19,10 +19,10 @@ var GameUIView = (function (_super) {
         AnchorUtil.setAnchorY(this.bg, 1);
         this.bg.name = "bg";
         this.addChild(this.bg);
-        this.jumpBtn = this.createBtn("btn_jump_png", 120, -this.bg.height / 2, this.jumpBtnUp, this.jumpBtnDown, this);
+        this.jumpBtn = this.createBtn("btn_jump_png", 180, -this.bg.height / 2, this.jumpBtnUp, this.jumpBtnDown, this);
         this.jumpBtn.name = "jumpBtn";
         this.addChild(this.jumpBtn);
-        this.shootBtn = this.createBtn("btn_shoot_png", this.width - 120, -this.bg.height / 2, this.shootBtnUp, this.shootBtnDown, this);
+        this.shootBtn = this.createBtn("btn_shoot_png", this.width - 180, -this.bg.height / 2, this.shootBtnUp, this.shootBtnDown, this);
         this.shootBtn.name = "shootBtn";
         this.addChild(this.shootBtn);
         //键盘控制

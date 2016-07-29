@@ -13,4 +13,5 @@ class HeroData {
 	public width: number;
 	public upAs: number;
 	public downAs: number;
+	public hp: number;
 }

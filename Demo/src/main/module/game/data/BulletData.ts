@@ -9,4 +9,5 @@ class BulletData {
 	public speed: number;
 	public width: number;
 	public height: number;
+	public damage: number;
 }

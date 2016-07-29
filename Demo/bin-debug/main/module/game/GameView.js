@@ -8,7 +8,7 @@ var GameView = (function (_super) {
     function GameView($controller, $parent) {
         _super.call(this, $controller, $parent);
         this.ownBullets = [];
-        this.enemy = [];
+        this.enemies = [];
         this.enemyBullets = [];
         this.controller = $controller;
     }
@@ -39,7 +39,7 @@ var GameView = (function (_super) {
         enemy.x = pos.x;
         enemy.y = pos.y;
         this.addChild(enemy);
-        this.enemy.push(enemy);
+        this.enemies.push(enemy);
     };
     p.CreateBullet = function (id, side, x, y, moveData) {
         var bullet = ObjectPool.pop("Bullet", this.controller);
@@ -70,6 +70,12 @@ var GameView = (function (_super) {
     };
     p.Shoot = function () {
         this.hero.Shoot();
+    };
+    p.GetHero = function () {
+        return this.hero;
+    };
+    p.GetEnemies = function () {
+        return this.enemies;
     };
     d(p, "min_x"
         ,function () {

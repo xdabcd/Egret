@@ -4,20 +4,33 @@
 		{
 			"id" : 1,
 			"gun" : 1,
-			"gunX" : 80,
-			"gunY" : 70,
+			"gunX" : 50,
+			"gunY" : 80,
 			"anim" : "dog",
-			"width" : 140,
-			"height" : 180,
+			"width" : 150,
+			"height" : 150,
 			"upAs" : 55,
-			"downAs" : 20
+			"downAs" : 20,
+			"hp" : 5,
+			"areas" : [
+				{
+					"x" : 1,
+					"y" : 1,
+					"r" : 30
+				},
+				{
+					"x" : 1,
+					"y" : 1,
+					"r" : 30
+				}
+			]
 		}
     ],
     "guns" : [
     	{
     		"id" : 1,
     		"bullet" : 1,
-    		"bulletX" : 80,
+    		"bulletX" : 20,
     		"bulletY" : 0,
     		"img" : "bullet01",
     		"interval" : 0.8
@@ -26,10 +39,11 @@
     "bullets" : [
     	{
     		"id" : 1,
-    		"img" : "bullet01",
-    		"speed" : 1200,
+    		"img" : "bullet02",
+    		"speed" : 1100,
     		"width" : 63,
-    		"height" : 52
+    		"height" : 52,
+    		"damage" : 1
     	}
     
     ]

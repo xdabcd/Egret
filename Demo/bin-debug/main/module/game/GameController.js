@@ -21,6 +21,41 @@ var GameController = (function (_super) {
     }
     var d = __define,c=GameController,p=c.prototype;
     /**
+     * 检查敌人相对英雄位置
+     * 1: 英雄在上方 0: 持平 -1: 英雄在下方
+     */
+    p.CheckEnemyPosByHero = function (enemy) {
+        var hero = this.gameView.GetHero();
+        if (hero.y - enemy.y < -10) {
+            return 1;
+        }
+        else if (hero.y - enemy.y > 10) {
+            return -1;
+        }
+        return 0;
+    };
+    /**
+     * 检测子弹是否击中英雄
+     */
+    p.CheckHurt = function (bullet) {
+        var hurt = false;
+        var arr = [];
+        if (bullet.side == Side.Own) {
+            arr = this.gameView.GetEnemies();
+        }
+        else {
+            arr = [this.gameView.GetHero()];
+        }
+        for (var i = 0; i < arr.length; i++) {
+            var hero = arr[i];
+            if (this.hitTest(new egret.Rectangle(bullet.x - ((bullet.scaleX == -1) ? bullet.width : 0), bullet.y, bullet.width, bullet.height), new egret.Rectangle(hero.x - ((hero.scaleX == -1) ? hero.width : 0), hero.y, hero.width, hero.height))) {
+                hurt = true;
+                hero.Hurt(bullet.GetDamage());
+            }
+        }
+        return hurt;
+    };
+    /**
      * 检测英雄是否超出范围(Y轴)
      */
     p.CheckHeroOut = function (hero) {

@@ -8,7 +8,7 @@ class GameView extends BaseSpriteView {
     
     private hero: Hero;
     private ownBullets: Array<Bullet> = [];
-    private enemy: Array<Hero> = [];
+    private enemies: Array<Hero> = [];
     private enemyBullets: Array<Bullet> = [];
     
     public constructor($controller: BaseController,$parent: egret.DisplayObjectContainer) {
@@ -47,7 +47,7 @@ class GameView extends BaseSpriteView {
         enemy.x = pos.x;
         enemy.y = pos.y;
         this.addChild(enemy);
-        this.enemy.push(enemy);
+        this.enemies.push(enemy);
     }
     
     public CreateBullet(id:number, side:Side, x:number, y:number, moveData: MoveData){
@@ -81,6 +81,14 @@ class GameView extends BaseSpriteView {
     
     public Shoot(){
         this.hero.Shoot();
+    }
+    
+    public GetHero(): Hero{
+        return this.hero;
+    }
+    
+    public GetEnemies(): Array<Hero>{
+        return this.enemies;
     }
     
     public get min_x(): number{

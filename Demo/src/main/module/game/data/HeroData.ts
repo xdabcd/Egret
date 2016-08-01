@@ -13,5 +13,7 @@ class HeroData {
 	public width: number;
 	public upAs: number;
 	public downAs: number;
+	public maxSpeed: number;
+	public minSpeed: number;
 	public hp: number;
 }

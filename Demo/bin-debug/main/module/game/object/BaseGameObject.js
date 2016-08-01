@@ -45,4 +45,5 @@ var Side;
 (function (Side) {
     Side[Side["Own"] = 0] = "Own";
     Side[Side["Enemy"] = 1] = "Enemy";
+    Side[Side["Middle"] = 2] = "Middle";
 })(Side || (Side = {}));

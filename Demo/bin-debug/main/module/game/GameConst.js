@@ -9,4 +9,5 @@ var GameConst;
     GameConst[GameConst["Shoot"] = 2] = "Shoot";
     GameConst[GameConst["CeateBullet"] = 3] = "CeateBullet";
     GameConst[GameConst["RemoveBullet"] = 4] = "RemoveBullet";
+    GameConst[GameConst["RemoveItem"] = 5] = "RemoveItem";
 })(GameConst || (GameConst = {}));

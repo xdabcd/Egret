@@ -18,6 +18,7 @@ var GameController = (function (_super) {
         this.registerFunc(GameConst.Shoot, this.gameView.Shoot, this.gameView);
         this.registerFunc(GameConst.CeateBullet, this.gameView.CreateBullet, this.gameView);
         this.registerFunc(GameConst.RemoveBullet, this.gameView.RemoveBullet, this.gameView);
+        this.registerFunc(GameConst.RemoveItem, this.gameView.RemoveItem, this.gameView);
     }
     var d = __define,c=GameController,p=c.prototype;
     /**
@@ -35,10 +36,19 @@ var GameController = (function (_super) {
         return 0;
     };
     /**
-     * 检测子弹是否击中英雄
+     * 检测子弹是否击中
      */
-    p.CheckHurt = function (bullet) {
-        var hurt = false;
+    p.CheckHit = function (bullet) {
+        var hit = false;
+        var items = this.gameView.GetItems();
+        for (var i = 0; i < items.length; i++) {
+            var item = items[i];
+            if (this.hitTest(new egret.Rectangle(bullet.x - ((bullet.scaleX == -1) ? bullet.width : 0), bullet.y, bullet.width, bullet.height), new egret.Rectangle(item.x, item.y, item.width, item.height))) {
+                hit = true;
+                App.ControllerManager.applyFunc(ControllerConst.Game, GameConst.RemoveItem, item);
+                bullet.GetCreater().ChangeGun(item.GetAward());
+            }
+        }
         var arr = [];
         if (bullet.side == Side.Own) {
             arr = this.gameView.GetEnemies();
@@ -49,11 +59,11 @@ var GameController = (function (_super) {
         for (var i = 0; i < arr.length; i++) {
             var hero = arr[i];
             if (this.hitTest(new egret.Rectangle(bullet.x - ((bullet.scaleX == -1) ? bullet.width : 0), bullet.y, bullet.width, bullet.height), new egret.Rectangle(hero.x - ((hero.scaleX == -1) ? hero.width : 0), hero.y, hero.width, hero.height))) {
-                hurt = true;
+                hit = true;
                 hero.Hurt(bullet.GetDamage());
             }
         }
-        return hurt;
+        return hit;
     };
     /**
      * 检测英雄是否超出范围(Y轴)

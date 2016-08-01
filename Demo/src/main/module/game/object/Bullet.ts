@@ -10,20 +10,23 @@ class Bullet extends BaseGameObject{
     private speed: number;
     private moveData: MoveData;
     private damage: number;
+    private creater: Hero;
     
     public constructor($controller: BaseController) {
         super($controller);
     }
 
-    public init(id: number,side: Side, moveData: MoveData): void {
-        super.init(side);
+    public init(id: number,creater: Hero, moveData: MoveData): void {
+        super.init(creater.side);
         this.id = id;
+        this.creater = creater;
         if(this.side == Side.Own) {
             this.scaleX = 1;
         } else if(this.side == Side.Enemy) {
             this.scaleX = -1;
         }
         this.moveData = moveData;
+        this.rotation = moveData.direction;
         var bulletData = GameManager.GetBulletData(id);
         this.setImg(bulletData.img);
         this.speed = bulletData.speed;
@@ -43,8 +46,8 @@ class Bullet extends BaseGameObject{
     public update(time: number) {
         super.update(time);
         var t = time / 1000;
-        this.x += this.speed * t * this.scaleX;
-    
+        this.x += this.speed * t * Math.cos(this.rotation / 180 * Math.PI) * this.scaleX;
+        this.y += this.speed * t * Math.sin(this.rotation / 180 * Math.PI) * this.scaleX;
 //        var bm = new egret.Bitmap(this.img.texture);
 //        bm.scaleX = bm.scaleY = this.img.scaleX;
 //        bm.scaleX *= this.scaleX;
@@ -55,7 +58,7 @@ class Bullet extends BaseGameObject{
 //        this.parent.addChild(bm);
 //        egret.Tween.get(bm).to({scaleX: this.scaleX * 0.01, scaleY: 0.01, alpha: 0.01}, 200).call(()=>bm.parent.removeChild(bm), this);
         
-        if(this.gameController.CheckHurt(this) || this.gameController.CheckOutScreen(this)){
+        if(this.gameController.CheckHit(this) || this.gameController.CheckOutScreen(this)){
             App.ControllerManager.applyFunc(ControllerConst.Game,GameConst.RemoveBullet,this);
         }
     }
@@ -64,5 +67,9 @@ class Bullet extends BaseGameObject{
     
     public GetDamage(): number{
         return this.damage;
+    }
+    
+    public GetCreater(): Hero{
+        return this.creater;
     }
 }

@@ -9,9 +9,10 @@ var Bullet = (function (_super) {
         _super.call(this, $controller);
     }
     var d = __define,c=Bullet,p=c.prototype;
-    p.init = function (id, side, moveData) {
-        _super.prototype.init.call(this, side);
+    p.init = function (id, creater, moveData) {
+        _super.prototype.init.call(this, creater.side);
         this.id = id;
+        this.creater = creater;
         if (this.side == Side.Own) {
             this.scaleX = 1;
         }
@@ -19,6 +20,7 @@ var Bullet = (function (_super) {
             this.scaleX = -1;
         }
         this.moveData = moveData;
+        this.rotation = moveData.direction;
         var bulletData = GameManager.GetBulletData(id);
         this.setImg(bulletData.img);
         this.speed = bulletData.speed;
@@ -36,7 +38,8 @@ var Bullet = (function (_super) {
     p.update = function (time) {
         _super.prototype.update.call(this, time);
         var t = time / 1000;
-        this.x += this.speed * t * this.scaleX;
+        this.x += this.speed * t * Math.cos(this.rotation / 180 * Math.PI) * this.scaleX;
+        this.y += this.speed * t * Math.sin(this.rotation / 180 * Math.PI) * this.scaleX;
         //        var bm = new egret.Bitmap(this.img.texture);
         //        bm.scaleX = bm.scaleY = this.img.scaleX;
         //        bm.scaleX *= this.scaleX;
@@ -46,12 +49,15 @@ var Bullet = (function (_super) {
         //        bm.y = this.y + bm.anchorOffsetY;
         //        this.parent.addChild(bm);
         //        egret.Tween.get(bm).to({scaleX: this.scaleX * 0.01, scaleY: 0.01, alpha: 0.01}, 200).call(()=>bm.parent.removeChild(bm), this);
-        if (this.gameController.CheckHurt(this) || this.gameController.CheckOutScreen(this)) {
+        if (this.gameController.CheckHit(this) || this.gameController.CheckOutScreen(this)) {
             App.ControllerManager.applyFunc(ControllerConst.Game, GameConst.RemoveBullet, this);
         }
     };
     p.GetDamage = function () {
         return this.damage;
+    };
+    p.GetCreater = function () {
+        return this.creater;
     };
     return Bullet;
 }(BaseGameObject));

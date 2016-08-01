@@ -48,4 +48,12 @@ class MathUtils extends BaseClass {
         var disQ:number = disX * disX + disY * disY;
         return Math.sqrt(disQ);
     }
+    
+    /**
+     * 两数中间随机
+     */ 
+    public Random(min: number,max: number): number {
+        var range: number = max - min;
+        return Math.random() * range + min;
+    }
 }

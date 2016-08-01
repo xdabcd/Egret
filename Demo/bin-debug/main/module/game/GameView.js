@@ -10,6 +10,9 @@ var GameView = (function (_super) {
         this.ownBullets = [];
         this.enemies = [];
         this.enemyBullets = [];
+        this.items = [];
+        this.itemInterval = 5;
+        this.itemCd = 0;
         this.controller = $controller;
     }
     var d = __define,c=GameView,p=c.prototype;
@@ -19,14 +22,23 @@ var GameView = (function (_super) {
         this.height = App.StageUtils.getHeight();
         this.createHero();
         this.createEnemy(AiType.Follow);
+        App.TimerManager.doFrame(1, 0, this.update, this);
     };
     p.initData = function () {
         _super.prototype.initData.call(this);
     };
+    p.update = function (time) {
+        var t = time / 1000;
+        this.itemCd -= t;
+        if (this.itemCd <= 0) {
+            this.createItem(2);
+            this.itemCd = this.itemInterval;
+        }
+    };
     p.createHero = function () {
         this.hero = ObjectPool.pop("Hero", this.controller);
         this.hero.init(1, Side.Own);
-        var heroPos = this.getPerPos(0.1, 0.3);
+        var heroPos = this.getPerPos(0.18, 0.3);
         this.hero.x = heroPos.x;
         this.hero.y = heroPos.y;
         this.addChild(this.hero);
@@ -35,21 +47,21 @@ var GameView = (function (_super) {
         var enemy = ObjectPool.pop("Hero", this.controller);
         enemy.init(1, Side.Enemy);
         enemy.SetAI(ai);
-        var pos = this.getPerPos(0.9, 0.3);
+        var pos = this.getPerPos(0.82, 0.3);
         enemy.x = pos.x;
         enemy.y = pos.y;
         this.addChild(enemy);
         this.enemies.push(enemy);
     };
-    p.CreateBullet = function (id, side, x, y, moveData) {
+    p.CreateBullet = function (id, creater, x, y, moveData) {
         var bullet = ObjectPool.pop("Bullet", this.controller);
-        bullet.init(id, side, moveData);
+        bullet.init(id, creater, moveData);
         bullet.x = x;
         bullet.y = y;
-        if (side == Side.Own) {
+        if (creater.side == Side.Own) {
             this.ownBullets.push(bullet);
         }
-        else if (side == Side.Enemy) {
+        else if (creater.side == Side.Enemy) {
             this.enemyBullets.push(bullet);
         }
         this.addChild(bullet);
@@ -65,6 +77,20 @@ var GameView = (function (_super) {
         }
         bullet.destory();
     };
+    p.createItem = function (id) {
+        var item = ObjectPool.pop("Item", this.controller);
+        item.init(id, Side.Middle);
+        var pos = this.getPerPos(App.MathUtils.Random(0.4, 0.6), 0);
+        item.x = pos.x;
+        item.y = pos.y;
+        this.addChild(item);
+        this.items.push(item);
+    };
+    p.RemoveItem = function (item) {
+        var index = this.items.indexOf(item);
+        this.items.splice(index, 1);
+        item.destory();
+    };
     p.Jump = function (up) {
         this.hero.IsUp = up;
     };
@@ -76,6 +102,9 @@ var GameView = (function (_super) {
     };
     p.GetEnemies = function () {
         return this.enemies;
+    };
+    p.GetItems = function () {
+        return this.items;
     };
     d(p, "min_x"
         ,function () {

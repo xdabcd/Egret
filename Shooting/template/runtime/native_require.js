@@ -28,15 +28,16 @@ var game_file_list = [
 	"bin-debug/game/model/data/GameManager.js",
 	"bin-debug/game/model/data/GunData.js",
 	"bin-debug/game/model/data/HeroData.js",
+	"bin-debug/game/model/item/Hero.js",
 	"bin-debug/game/utils/AnchorUtils.js",
+	"bin-debug/game/utils/DeviceUtils.js",
 	"bin-debug/game/utils/DisplayUtils.js",
 	"bin-debug/game/utils/KeyboardUtils.js",
 	"bin-debug/game/utils/StageUtils.js",
+	"bin-debug/game/utils/UtilsManager.js",
 	"bin-debug/game/view/AppMediator.js",
 	"bin-debug/game/view/GameScene.js",
 	"bin-debug/game/view/GameSceneMediator.js",
-	"bin-debug/game/utils/DeviceUtils.js",
-	"bin-debug/game/utils/UtilsManager.js",
 	//----auto game_file_list end----
 ];
 

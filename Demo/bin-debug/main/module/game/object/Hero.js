@@ -19,29 +19,31 @@ var Hero = (function (_super) {
         else if (this.side == Side.Enemy) {
             this.scaleX = -1;
         }
-        var heroData = GameManager.GetHeroData(id);
-        this.width = heroData.width;
-        this.height = heroData.height;
+        this.heroData = GameManager.GetHeroData(id);
+        this.width = this.heroData.width;
+        this.height = this.heroData.height;
         //设置动画，并装上枪
-        this.setAnim(heroData.anim);
-        this.setGun(heroData.gun, heroData.gunX, heroData.gunY);
-        this.upAs = heroData.upAs;
-        this.downAs = heroData.downAs;
+        this.setAnim(this.heroData.anim);
+        this.setGun(this.heroData.gun);
         this.isUp = false;
         this.speed = 0;
         //血条
         this.hp = 0;
-        this.addHp(heroData.hp);
+        this.addHp(this.heroData.hp);
         this.state = HeroState.Idle;
     };
     p.SetAI = function (aiType) {
         this.aiType = aiType;
     };
+    p.ChangeGun = function (id) {
+        this.setGun(id);
+    };
     p.setAnim = function (anim) {
         if (this.anim == null) {
             this.anim = new egret.MovieClip();
-            this.anim.anchorOffsetX = -this.width / 2;
-            this.anim.anchorOffsetY = -this.height;
+            this.anim.scaleX = this.anim.scaleY = 0.8;
+            this.anim.anchorOffsetX = -this.width / 2 / 0.8;
+            this.anim.anchorOffsetY = -this.height / 0.8;
             this.addChild(this.anim);
         }
         var mcData = RES.getRes("hero_json");
@@ -50,20 +52,17 @@ var Hero = (function (_super) {
         this.anim.movieClipData = mcDataFactory.generateMovieClipData(anim);
         this.anim.gotoAndPlay(1, -1);
     };
-    p.setGun = function (id, x, y) {
+    p.setGun = function (id) {
         if (this.gun == null) {
             this.gun = new egret.Bitmap;
-            this.gun.x = x;
-            this.gun.y = y;
+            this.gun.x = this.heroData.gunX;
+            this.gun.y = this.heroData.gunY;
             this.addChild(this.gun);
         }
-        var gunData = GameManager.GetGunData(id);
-        this.gun.texture = RES.getRes(gunData.img);
-        this.shootInterval = gunData.interval;
+        this.gunData = GameManager.GetGunData(id);
+        this.gun.texture = RES.getRes(this.gunData.img);
         this.shootCd = 0;
-        this.bulletId = gunData.bullet;
-        this.bulletX = gunData.bulletX;
-        this.bulletY = gunData.bulletY;
+        this.gunLeft = this.gunData.times;
     };
     p.addHp = function (value) {
         var _loop_1 = function(i) {
@@ -110,12 +109,47 @@ var Hero = (function (_super) {
         this.hp = Math.max(0, this.hp - value);
     };
     p.Shoot = function () {
+        var _this = this;
         if (this.shootCd <= 0) {
-            this.shootCd = this.shootInterval;
-            var x = this.x + (this.gun.x + this.bulletX) * this.scaleX;
-            var y = this.y + this.gun.y + this.bulletY;
-            var moveData = new MoveData(0);
-            App.ControllerManager.applyFunc(ControllerConst.Game, GameConst.CeateBullet, this.bulletId, this.side, x, y, moveData);
+            var bulletId = this.gunData.bullet;
+            var createFunc = function (direction) {
+                if (direction === void 0) { direction = 0; }
+                var x = _this.x + (_this.gun.x + _this.gunData.bulletX) * _this.scaleX;
+                var y = _this.y + _this.gun.y + _this.gunData.bulletY;
+                var moveData = new MoveData(direction);
+                App.ControllerManager.applyFunc(ControllerConst.Game, GameConst.CeateBullet, bulletId, _this, x, y, moveData);
+            };
+            switch (this.gunData.type) {
+                case GunType.Narmal:
+                    createFunc();
+                    break;
+                case GunType.Running:
+                    var info = this.gunData.info;
+                    var count = info.count;
+                    var interval = info.interval * 1000;
+                    App.TimerManager.doTimer(interval, count, createFunc, this);
+                    break;
+                case GunType.Shot:
+                    var info = this.gunData.info;
+                    var count = info.count;
+                    var angle = info.angle;
+                    var ini_angle = -(count - 1) / 2 * angle;
+                    for (var i = 0; i < count; i++) {
+                        createFunc(ini_angle + i * angle);
+                    }
+                    break;
+                default:
+                    break;
+            }
+            if (this.gunData.times == 0) {
+                this.shootCd = this.gunData.interval;
+            }
+            else {
+                this.gunLeft -= 1;
+                if (this.gunLeft <= 0) {
+                    this.ChangeGun(this.heroData.gun);
+                }
+            }
         }
     };
     p.Hurt = function (damage) {
@@ -148,12 +182,13 @@ var Hero = (function (_super) {
                     break;
             }
         }
-        var as = -this.downAs;
+        var as = this.heroData.downAs;
         if (this.isUp) {
-            as += this.upAs;
+            as = this.heroData.upAs;
         }
-        this.y -= this.speed * t + as * t * t / 2;
-        this.speed += as + t;
+        var s = this.speed;
+        this.speed = Math.max(Math.min(this.speed + as * t, this.heroData.maxSpeed), this.heroData.minSpeed);
+        this.y -= (s + this.speed) / 2 * t;
         if (this.gameController.CheckHeroOut(this)) {
             this.speed = 0;
         }

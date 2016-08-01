@@ -42,5 +42,6 @@ class BaseGameObject extends egret.DisplayObjectContainer {
 
 enum Side{
     Own,
-    Enemy
+    Enemy,
+    Middle
 }

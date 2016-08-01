@@ -1,16 +1,18 @@
 {
-    "ui_h" : 110,
+    "ui_h" : 150,
     "heroes" : [
 		{
 			"id" : 1,
 			"gun" : 1,
-			"gunX" : 50,
-			"gunY" : 80,
+			"gunX" : 25,
+			"gunY" : 55,
 			"anim" : "dog",
-			"width" : 150,
-			"height" : 150,
-			"upAs" : 55,
-			"downAs" : 20,
+			"width" : 90,
+			"height" : 115,
+			"upAs" : 1800,
+			"downAs" : -1500,
+			"maxSpeed" : 800,
+			"minSpeed" : -600,
 			"hp" : 5,
 			"areas" : [
 				{
@@ -33,20 +35,78 @@
     		"bulletX" : 20,
     		"bulletY" : 0,
     		"img" : "bullet01",
-    		"interval" : 0.8
+    		"interval" : 1,
+    		"times" : 0,
+    		"type" : 1
+    	},
+    	{
+    		"id" : 2,
+    		"bullet" : 2,
+    		"bulletX" : 20,
+    		"bulletY" : 0,
+    		"img" : "bullet02",
+    		"interval" : 1,
+    		"times" : 1,
+    		"type" : 2,
+    		"info" : {
+    			"count" : 5,
+    			"interval" : 0.1
+    		}
+    	}
+    	,
+    	{
+    		"id" : 3,
+    		"bullet" : 3,
+    		"bulletX" : 20,
+    		"bulletY" : 0,
+    		"img" : "bullet02",
+    		"interval" : 1,
+    		"times" : 1,
+    		"type" : 3,
+    		"info" : {
+    			"count" : 5,
+    			"angle" : 10
+    		}
     	}
     ],
     "bullets" : [
     	{
     		"id" : 1,
+    		"img" : "bullet01",
+    		"speed" : 1000,
+    		"width" : 50,
+    		"height" : 40,
+    		"damage" : 1
+    	},
+    	{
+    		"id" : 2,
     		"img" : "bullet02",
     		"speed" : 1100,
     		"width" : 63,
     		"height" : 52,
     		"damage" : 1
-    	}
-    
-    ]
+		},
+    	{
+    		"id" : 3,
+    		"img" : "bullet02",
+    		"speed" : 1100,
+    		"width" : 63,
+    		"height" : 52,
+    		"damage" : 1
+		}
+    ],
+ 	"items" : [
+ 		{
+ 			"id" : 1,
+ 			"speed" : 80,
+ 			"awardGun" : 2
+ 		},
+ 		{
+ 			"id" : 2,
+ 			"speed" : 80,
+ 			"awardGun" : 3
+ 		}
+ 	]
     
     
 }

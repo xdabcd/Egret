@@ -1,38 +1,38 @@
 {
-  "native": {
-    "path_ignore": []
-  },
-  "publish": {
-    "web": 0,
-    "native": 1,
-    "path": "bin-release"
-  },
-  "egret_version": "3.1.4",
-  "modules": [
-    {
-		"name": "egret"
+	"native": {
+		"path_ignore": []
 	},
-	{
-		"name": "game"
+	"publish": {
+		"web": 0,
+		"native": 1,
+		"path": "bin-release"
 	},
-	{
-		"name": "res"
-	},
-	{
-		"name": "eui"
-	},
-	{
-		"name": "dragonBones"
-	},
-	{
-		"name": "socket"
-	},
-	{
-		"name": "tween"
-	},
-	{
-		"name": "protobuf",
-		"path": "../libsrc/protobuf"
-	}
-  ]
+	"egret_version": "3.1.5",
+	"modules": [
+		{
+			"name": "egret"
+		},
+		{
+			"name": "game"
+		},
+		{
+			"name": "res"
+		},
+		{
+			"name": "eui"
+		},
+		{
+			"name": "dragonBones"
+		},
+		{
+			"name": "socket"
+		},
+		{
+			"name": "tween"
+		},
+		{
+			"name": "protobuf",
+			"path": "../libsrc/protobuf"
+		}
+	]
 }

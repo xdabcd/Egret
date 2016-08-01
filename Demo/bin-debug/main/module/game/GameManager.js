@@ -16,6 +16,7 @@ var GameManager = (function () {
         var heroes = data["heroes"];
         var guns = data["guns"];
         var bullets = data["bullets"];
+        var items = data["items"];
         for (var i = 0; i < heroes.length; i++) {
             var h = heroes[i];
             this.heroDic[h.id] = h;
@@ -27,6 +28,10 @@ var GameManager = (function () {
         for (var i = 0; i < bullets.length; i++) {
             var b = bullets[i];
             this.bulletDic[b.id] = b;
+        }
+        for (var i = 0; i < items.length; i++) {
+            var item = items[i];
+            this.itemDic[item.id] = item;
         }
     };
     /**
@@ -47,6 +52,12 @@ var GameManager = (function () {
     GameManager.GetBulletData = function (id) {
         return this.bulletDic[id];
     };
+    /**
+     * 获取道具数据
+     */
+    GameManager.GetItemData = function (id) {
+        return this.itemDic[id];
+    };
     d(GameManager, "UI_H"
         /**
          * 底部UI高度
@@ -58,6 +69,7 @@ var GameManager = (function () {
     GameManager.heroDic = {};
     GameManager.gunDic = {};
     GameManager.bulletDic = {};
+    GameManager.itemDic = {};
     return GameManager;
 }());
 egret.registerClass(GameManager,'GameManager');

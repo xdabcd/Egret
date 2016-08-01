@@ -70,6 +70,11 @@
 					"isFolder":false,
 					"key":"hero_png",
 					"name":"hero_png"
+				},
+				{
+					"isFolder":false,
+					"key":"1_jpg",
+					"name":"1_jpg"
 				}
 			]
 		}

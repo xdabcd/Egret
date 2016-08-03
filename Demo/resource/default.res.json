@@ -5,7 +5,7 @@
 			"name":"preload"
 		},
 		{
-			"keys":"bullets_json,hero_json,hero_png,btn_switch_jpg,btn_shoot_png,btn_jump_png,bottom_jpg,game_json,global_json,1_jpg",
+			"keys":"bullets_json,hero_json,hero_png,btn_switch_jpg,btn_shoot_png,btn_jump_png,game_json,global_json,bg_png,bottom_png,bullet_1_png,bullet_2_png,bullet_3_png,bullet_4_png,bullet_5_ready_png,bullet_5_png",
 			"name":"loading"
 		}
 	],
@@ -42,11 +42,6 @@
 			"url":"assets/btn_jump.png"
 		},
 		{
-			"name":"bottom_jpg",
-			"type":"image",
-			"url":"assets/bottom.jpg"
-		},
-		{
 			"name":"game_json",
 			"type":"json",
 			"url":"config/game.json"
@@ -62,9 +57,44 @@
 			"url":"assets/load_Reel.png"
 		},
 		{
-			"name":"1_jpg",
+			"name":"bg_png",
 			"type":"image",
-			"url":"assets/1.jpg"
+			"url":"assets/bg.png"
+		},
+		{
+			"name":"bottom_png",
+			"type":"image",
+			"url":"assets/bottom.png"
+		},
+		{
+			"name":"bullet_1_png",
+			"type":"image",
+			"url":"assets/bullets/bullet_1.png"
+		},
+		{
+			"name":"bullet_2_png",
+			"type":"image",
+			"url":"assets/bullets/bullet_2.png"
+		},
+		{
+			"name":"bullet_3_png",
+			"type":"image",
+			"url":"assets/bullets/bullet_3.png"
+		},
+		{
+			"name":"bullet_4_png",
+			"type":"image",
+			"url":"assets/bullets/bullet_4.png"
+		},
+		{
+			"name":"bullet_5_ready_png",
+			"type":"image",
+			"url":"assets/bullets/bullet_5_ready.png"
+		},
+		{
+			"name":"bullet_5_png",
+			"type":"image",
+			"url":"assets/bullets/bullet_5.png"
 		}
 	]
 }

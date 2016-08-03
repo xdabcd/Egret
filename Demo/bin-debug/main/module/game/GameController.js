@@ -36,19 +36,10 @@ var GameController = (function (_super) {
         return 0;
     };
     /**
-     * 检测子弹是否击中
+     * 检测子弹是否击中英雄
      */
-    p.CheckHit = function (bullet) {
-        var hit = false;
-        var items = this.gameView.GetItems();
-        for (var i = 0; i < items.length; i++) {
-            var item = items[i];
-            if (this.hitTest(new egret.Rectangle(bullet.x - ((bullet.scaleX == -1) ? bullet.width : 0), bullet.y, bullet.width, bullet.height), new egret.Rectangle(item.x, item.y, item.width, item.height))) {
-                hit = true;
-                App.ControllerManager.applyFunc(ControllerConst.Game, GameConst.RemoveItem, item);
-                bullet.GetCreater().ChangeGun(item.GetAward());
-            }
-        }
+    p.CheckHitHero = function (bullet) {
+        var hitHeroes = [];
         var arr = [];
         if (bullet.side == Side.Own) {
             arr = this.gameView.GetEnemies();
@@ -58,9 +49,25 @@ var GameController = (function (_super) {
         }
         for (var i = 0; i < arr.length; i++) {
             var hero = arr[i];
-            if (this.hitTest(new egret.Rectangle(bullet.x - ((bullet.scaleX == -1) ? bullet.width : 0), bullet.y, bullet.width, bullet.height), new egret.Rectangle(hero.x - ((hero.scaleX == -1) ? hero.width : 0), hero.y, hero.width, hero.height))) {
-                hit = true;
+            if (this.hitTest(bullet.rect, hero.rect) && !bullet.CheckIgnore(hero)) {
+                hitHeroes.push(hero);
                 hero.Hurt(bullet.GetDamage());
+            }
+        }
+        return hitHeroes;
+    };
+    /**
+     * 检查是否击中道具
+     */
+    p.CheckHitItem = function (bullet) {
+        var hit = false;
+        var items = this.gameView.GetItems();
+        for (var i = 0; i < items.length; i++) {
+            var item = items[i];
+            if (this.hitTest(bullet.rect, item.rect)) {
+                hit = true;
+                App.ControllerManager.applyFunc(ControllerConst.Game, GameConst.RemoveItem, item);
+                bullet.GetCreater().ChangeGun(item.GetAward());
             }
         }
         return hit;

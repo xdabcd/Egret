@@ -10,13 +10,14 @@ class GunData {
 	public bulletY: number;
 	public img: string;
 	public interval: number;
-	public times : number;
 	public type : GunType;
 	public info: any;
 }
 
 enum GunType{
-    Narmal = 1,
+    Normal = 1,
     Running = 2,
-    Shot = 3
+    Shot = 3,
+    Boomerang = 4,
+    Laser = 5
 }

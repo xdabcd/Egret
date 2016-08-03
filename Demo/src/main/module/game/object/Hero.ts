@@ -20,7 +20,6 @@ class Hero extends BaseGameObject{
     private hpArr: Array<egret.Shape> = [];
     
     private shootCd: number;
-    private gunLeft: number;
     
     public constructor($controller: BaseController) {
         super($controller);
@@ -38,6 +37,8 @@ class Hero extends BaseGameObject{
         this.heroData = GameManager.GetHeroData(id);
         this.width = this.heroData.width;
         this.height = this.heroData.height;
+        this.anchorOffsetX = this.width / 2;
+        this.anchorOffsetY = this.height / 2
         //设置动画，并装上枪
         this.setAnim(this.heroData.anim);
         this.setGun(this.heroData.gun);
@@ -75,16 +76,16 @@ class Hero extends BaseGameObject{
 	}
 	
 	private setGun(id: number){
-    	  if(this.gun == null){
-    	      this.gun = new egret.Bitmap;
-    	      this.gun.x = this.heroData.gunX;
-              this.gun.y = this.heroData.gunY;
-    	      this.addChild(this.gun);
-    	  }
+	    if(this.gun == null){
+	        this.gun = new egret.Bitmap;
+	        this.gun.x = this.heroData.gunX;
+            this.gun.y = this.heroData.gunY;
+	        this.addChild(this.gun);
+	    }
+	    this.gun.visible = true;
         this.gunData = GameManager.GetGunData(id);
         this.gun.texture = RES.getRes(this.gunData.img);
-        this.shootCd = 0;
-        this.gunLeft = this.gunData.times;
+        this.shootCd = this.gunData.interval;
 	}
 	
 	private addHp(value: number){
@@ -128,20 +129,22 @@ class Hero extends BaseGameObject{
 	    if(this.shootCd <= 0){
             var bulletId = this.gunData.bullet
 	        var createFunc = (direction = 0)=>{
-                let x = this.x + (this.gun.x + this.gunData.bulletX) * this.scaleX;
-                let y = this.y + this.gun.y + this.gunData.bulletY;
+                let x = this.x - this.anchorOffsetX + (this.gun.x + this.gunData.bulletX) * this.scaleX;
+                let y = this.y - this.anchorOffsetY + this.gun.y + this.gunData.bulletY;
                 let moveData = new MoveData(direction);
                 App.ControllerManager.applyFunc(ControllerConst.Game,GameConst.CeateBullet,bulletId,this,x,y,moveData);
 	        };
 	        switch(this.gunData.type){
-	            case GunType.Narmal:
+	            case GunType.Normal:
                     createFunc();
+                    this.shootCd = this.gunData.interval;
                     break;
 	            case GunType.Running:
 	                var info = this.gunData.info;
                     var count = info.count;
                     var interval = info.interval * 1000;
-	                App.TimerManager.doTimer(interval, count, createFunc, this);
+	                App.TimerManager.doTimer(interval, count, ()=>createFunc(0), this);
+                    this.ChangeGun(this.heroData.gun);
                     break;
                 case GunType.Shot:
                     var info = this.gunData.info;
@@ -151,26 +154,32 @@ class Hero extends BaseGameObject{
 	                for(let i = 0; i < count; i++){
 	                    createFunc(ini_angle + i * angle);
 	                }
+                    this.ChangeGun(this.heroData.gun);
                     break;
-	            default:
+                case GunType.Boomerang:
+                    this.gun.visible = false;
+                    createFunc();
+                    this.shootCd = 100;
+                    break;
+                case GunType.Laser:
+                    createFunc();
+                    this.shootCd = 100;
+                    break
+                default:
 	                break;
-	        }    
-	        if(this.gunData.times == 0){
-                this.shootCd = this.gunData.interval;
-	        }else{
-	            this.gunLeft -= 1;
-	            if(this.gunLeft <= 0){
-	                this.ChangeGun(this.heroData.gun);
-	            }
 	        }
-            
 	    }
+	}
+	
+	public GunReturn(){
+	    this.gun.visible = true;
+	    this.shootCd = this.gunData.interval;
 	}
 	
 	public Hurt(damage: number) {
 	    App.ShockUtils.shock(App.ShockUtils.SPRITE, this, 1);
 	    this.state = HeroState.Hurt;
-	    this.hurtTime = 0.1;
+	    this.hurtTime = 0;
 	    this.subHp(damage);
 	}
 	
@@ -186,8 +195,6 @@ class Hero extends BaseGameObject{
             this.hurtTime -= t;
             if(this.hurtTime <= 0) {
                 this.state = HeroState.Idle;
-            } else {
-                return;
             }
         }
         
@@ -229,6 +236,10 @@ class Hero extends BaseGameObject{
                 this.Shoot();
             }
         }
+	}
+	
+	public GetState(): HeroState{
+	    return this.state;
 	}
 }
 

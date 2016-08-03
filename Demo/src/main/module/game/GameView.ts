@@ -22,6 +22,9 @@ class GameView extends BaseSpriteView {
     public initUI(): void {
         super.initUI();
         
+        var bg = App.DisplayUtils.createBitmap("bg_png");
+        this.addChild(bg);
+        
         this.width = App.StageUtils.getWidth();
         this.height = App.StageUtils.getHeight();
         
@@ -40,7 +43,7 @@ class GameView extends BaseSpriteView {
         this.itemCd -= t;
         
         if(this.itemCd <= 0){
-            this.createItem(2);
+            this.createItem(App.RandomUtils.limitInteger(4,4));
             this.itemCd = this.itemInterval;
         }
     }
@@ -92,8 +95,9 @@ class GameView extends BaseSpriteView {
     
     private createItem(id: number){
         var item: Item = ObjectPool.pop("Item",this.controller);
-        item.init(id,Side.Middle);
-        var pos = this.getPerPos(App.MathUtils.Random(0.4, 0.6), 0);
+        var direction = App.RandomUtils.limitInteger(0,1);
+        item.init(id,Side.Middle, direction);
+        var pos = this.getPerPos(App.RandomUtils.limit(0.4, 0.6), direction);
         item.x = pos.x;
         item.y = pos.y;
         this.addChild(item);

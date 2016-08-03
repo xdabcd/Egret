@@ -8,14 +8,16 @@ class Item extends BaseGameObject{
     private id: number;
     private speed: number;
     private awardGun: number;
+    private direction: number;
     
     public constructor($controller: BaseController) {
         super($controller);
     }
 
-    public init(id: number,side: Side): void {
+    public init(id: number,side: Side, direction: number): void {
         super.init(side);
         this.id = id;
+        this.direction = direction;
         
         var itemData = GameManager.GetItemData(id);
         this.speed = itemData.speed;
@@ -34,7 +36,12 @@ class Item extends BaseGameObject{
     public update(time: number) {
         super.update(time);
         var t = time / 1000;
-        this.y += this.speed * t;
+        if(this.direction == 0){
+            this.y += this.speed * t;
+        }else{
+            this.y -= this.speed * t;
+        }
+       
         
         if(this.gameController.CheckOutScreen(this)) {
             App.ControllerManager.applyFunc(ControllerConst.Game,GameConst.RemoveItem,this);

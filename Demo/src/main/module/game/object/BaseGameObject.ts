@@ -14,6 +14,7 @@ class BaseGameObject extends egret.DisplayObjectContainer {
 
     public init(side: Side, ...args: any[]): void {
         this._side = side;
+        AnchorUtil.setAnchor(this, 0.5);
         App.TimerManager.doFrame(1,0,this.onFrame,this);
     }
 
@@ -37,6 +38,10 @@ class BaseGameObject extends egret.DisplayObjectContainer {
     
     public get side(): Side{
         return this._side;
+    }
+    
+    public get rect(): egret.Rectangle{
+        return new egret.Rectangle(this.x - this.width / 2, this.y - this.width / 2, this.width, this.height);
     }
 }
 

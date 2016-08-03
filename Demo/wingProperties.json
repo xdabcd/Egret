@@ -16,11 +16,6 @@
 				},
 				{
 					"isFolder":false,
-					"key":"bottom_jpg",
-					"name":"bottom_jpg"
-				},
-				{
-					"isFolder":false,
 					"key":"btn_jump_png",
 					"name":"btn_jump_png"
 				},
@@ -73,8 +68,43 @@
 				},
 				{
 					"isFolder":false,
-					"key":"1_jpg",
-					"name":"1_jpg"
+					"key":"bg_png",
+					"name":"bg_png"
+				},
+				{
+					"isFolder":false,
+					"key":"bottom_png",
+					"name":"bottom_png"
+				},
+				{
+					"isFolder":false,
+					"key":"bullet_1_png",
+					"name":"bullet_1_png"
+				},
+				{
+					"isFolder":false,
+					"key":"bullet_2_png",
+					"name":"bullet_2_png"
+				},
+				{
+					"isFolder":false,
+					"key":"bullet_3_png",
+					"name":"bullet_3_png"
+				},
+				{
+					"isFolder":false,
+					"key":"bullet_4_png",
+					"name":"bullet_4_png"
+				},
+				{
+					"isFolder":false,
+					"key":"bullet_5_png",
+					"name":"bullet_5_png"
+				},
+				{
+					"isFolder":false,
+					"key":"bullet_5_ready_png",
+					"name":"bullet_5_ready_png"
 				}
 			]
 		}

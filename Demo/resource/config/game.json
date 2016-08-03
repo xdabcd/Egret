@@ -1,5 +1,5 @@
 {
-    "ui_h" : 150,
+    "ui_h" : 130,
     "heroes" : [
 		{
 			"id" : 1,
@@ -9,10 +9,10 @@
 			"anim" : "dog",
 			"width" : 90,
 			"height" : 115,
-			"upAs" : 1800,
-			"downAs" : -1500,
-			"maxSpeed" : 800,
-			"minSpeed" : -600,
+			"upAs" : 3000,
+			"downAs" : -2500,
+			"maxSpeed" : 1000,
+			"minSpeed" : -800,
 			"hp" : 5,
 			"areas" : [
 				{
@@ -34,9 +34,8 @@
     		"bullet" : 1,
     		"bulletX" : 20,
     		"bulletY" : 0,
-    		"img" : "bullet01",
-    		"interval" : 1,
-    		"times" : 0,
+    		"img" : "bullet_1_png",
+    		"interval" : 0.8,
     		"type" : 1
     	},
     	{
@@ -44,55 +43,107 @@
     		"bullet" : 2,
     		"bulletX" : 20,
     		"bulletY" : 0,
-    		"img" : "bullet02",
-    		"interval" : 1,
-    		"times" : 1,
+    		"img" : "bullet_2_png",
+    		"interval" : 0.2,
     		"type" : 2,
     		"info" : {
     			"count" : 5,
-    			"interval" : 0.1
+    			"interval" : 0.12
     		}
-    	}
-    	,
+    	},
     	{
     		"id" : 3,
     		"bullet" : 3,
     		"bulletX" : 20,
     		"bulletY" : 0,
-    		"img" : "bullet02",
-    		"interval" : 1,
-    		"times" : 1,
+    		"img" : "bullet_3_png",
+    		"interval" : 0.2,
     		"type" : 3,
     		"info" : {
     			"count" : 5,
-    			"angle" : 10
+    			"angle" : 15
     		}
+    	},
+    	{
+    		"id" : 4,
+    		"bullet" : 4,
+    		"bulletX" : 20,
+    		"bulletY" : 0,
+    		"img" : "bullet_4_png",
+    		"interval" : 0.2,
+    		"type" : 4,
+    		"info" : {}
+    	},
+    	{
+    		"id" : 5,
+    		"bullet" : 5,
+    		"bulletX" : 20,
+    		"bulletY" : 0,
+    		"img" : "gun_4_png",
+    		"interval" : 0.2,
+    		"type" : 5,
+    		"info" : {}
     	}
     ],
     "bullets" : [
     	{
     		"id" : 1,
-    		"img" : "bullet01",
+    		"img" : "bullet_1_png",
     		"speed" : 1000,
     		"width" : 50,
     		"height" : 40,
-    		"damage" : 1
+    		"damage" : 1,
+    		"type" : 1,
+    		"pri" : 1,
+    		"trail" : "0xffffff"
     	},
     	{
     		"id" : 2,
-    		"img" : "bullet02",
-    		"speed" : 1100,
+    		"img" : "bullet_2_png",
+    		"speed" : 1200,
     		"width" : 63,
     		"height" : 52,
-    		"damage" : 1
+    		"damage" : 1,
+    		"type" : 1,
+    		"pri" : 1,
+    		"trail" : "0xffffff"
 		},
     	{
     		"id" : 3,
-    		"img" : "bullet02",
-    		"speed" : 1100,
+    		"img" : "bullet_3_png",
+    		"speed" : 1200,
     		"width" : 63,
     		"height" : 52,
-    		"damage" : 1
+    		"damage" : 1,
+    		"type" : 2,
+    		"pri" : 1,
+    		"trail" : "0xffffff"
+		},
+    	{
+    		"id" : 4,
+    		"img" : "bullet_4_png",
+    		"speed" : 1500,
+    		"width" : 55,
+    		"height" : 78,
+    		"damage" : 1,
+    		"type" : 3,
+    		"pri" : 4,
+    		"trail" : "0xffffff"
+		},
+    	{
+    		"id" : 5,
+    		"img" : "bullet_5_png",
+    		"speed" : 10000,
+    		"width" : 2000,
+    		"height" : 100,
+    		"damage" : 5,
+    		"type" : 4,
+    		"pri" : 4,
+    		"info" : {
+    			"ready" : "bullet_5_ready_png",
+    			"readyTime" : 3,
+    			"releaseTime" : 1
+    		}
 		}
     ],
  	"items" : [
@@ -105,6 +156,16 @@
  			"id" : 2,
  			"speed" : 80,
  			"awardGun" : 3
+ 		},
+ 		{
+ 			"id" : 3,
+ 			"speed" : 80,
+ 			"awardGun" : 4
+ 		},
+ 		{
+ 			"id" : 4,
+ 			"speed" : 80,
+ 			"awardGun" : 5
  		}
  	]
     

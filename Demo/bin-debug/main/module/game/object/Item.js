@@ -9,9 +9,10 @@ var Item = (function (_super) {
         _super.call(this, $controller);
     }
     var d = __define,c=Item,p=c.prototype;
-    p.init = function (id, side) {
+    p.init = function (id, side, direction) {
         _super.prototype.init.call(this, side);
         this.id = id;
+        this.direction = direction;
         var itemData = GameManager.GetItemData(id);
         this.speed = itemData.speed;
         this.awardGun = itemData.awardGun;
@@ -26,7 +27,12 @@ var Item = (function (_super) {
     p.update = function (time) {
         _super.prototype.update.call(this, time);
         var t = time / 1000;
-        this.y += this.speed * t;
+        if (this.direction == 0) {
+            this.y += this.speed * t;
+        }
+        else {
+            this.y -= this.speed * t;
+        }
         if (this.gameController.CheckOutScreen(this)) {
             App.ControllerManager.applyFunc(ControllerConst.Game, GameConst.RemoveItem, this);
         }

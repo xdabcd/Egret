@@ -17,9 +17,7 @@ class GameUIView extends BaseSpriteView {
     public initUI(): void {
         super.initUI();
         
-        this.bg = App.DisplayUtils.createBitmap("bottom_jpg");
-        this.bg.width = this.width;
-        this.bg.height = GameManager.UI_H;
+        this.bg = App.DisplayUtils.createBitmap("bottom_png");
         AnchorUtil.setAnchorY(this.bg, 1);
         this.bg.name = "bg";
         this.addChild(this.bg);

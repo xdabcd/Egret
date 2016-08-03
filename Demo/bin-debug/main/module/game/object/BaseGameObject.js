@@ -16,6 +16,7 @@ var BaseGameObject = (function (_super) {
             args[_i - 1] = arguments[_i];
         }
         this._side = side;
+        AnchorUtil.setAnchor(this, 0.5);
         App.TimerManager.doFrame(1, 0, this.onFrame, this);
     };
     p.destory = function () {
@@ -36,6 +37,11 @@ var BaseGameObject = (function (_super) {
     d(p, "side"
         ,function () {
             return this._side;
+        }
+    );
+    d(p, "rect"
+        ,function () {
+            return new egret.Rectangle(this.x - this.width / 2, this.y - this.width / 2, this.width, this.height);
         }
     );
     return BaseGameObject;

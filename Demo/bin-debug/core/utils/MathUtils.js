@@ -50,13 +50,6 @@ var MathUtils = (function (_super) {
         var disQ = disX * disX + disY * disY;
         return Math.sqrt(disQ);
     };
-    /**
-     * 两数中间随机
-     */
-    p.Random = function (min, max) {
-        var range = max - min;
-        return Math.random() * range + min;
-    };
     return MathUtils;
 }(BaseClass));
 egret.registerClass(MathUtils,'MathUtils');

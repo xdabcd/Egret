@@ -22,6 +22,8 @@ var Hero = (function (_super) {
         this.heroData = GameManager.GetHeroData(id);
         this.width = this.heroData.width;
         this.height = this.heroData.height;
+        this.anchorOffsetX = this.width / 2;
+        this.anchorOffsetY = this.height / 2;
         //设置动画，并装上枪
         this.setAnim(this.heroData.anim);
         this.setGun(this.heroData.gun);
@@ -59,10 +61,10 @@ var Hero = (function (_super) {
             this.gun.y = this.heroData.gunY;
             this.addChild(this.gun);
         }
+        this.gun.visible = true;
         this.gunData = GameManager.GetGunData(id);
         this.gun.texture = RES.getRes(this.gunData.img);
-        this.shootCd = 0;
-        this.gunLeft = this.gunData.times;
+        this.shootCd = this.gunData.interval;
     };
     p.addHp = function (value) {
         var _loop_1 = function(i) {
@@ -114,20 +116,22 @@ var Hero = (function (_super) {
             var bulletId = this.gunData.bullet;
             var createFunc = function (direction) {
                 if (direction === void 0) { direction = 0; }
-                var x = _this.x + (_this.gun.x + _this.gunData.bulletX) * _this.scaleX;
-                var y = _this.y + _this.gun.y + _this.gunData.bulletY;
+                var x = _this.x - _this.anchorOffsetX + (_this.gun.x + _this.gunData.bulletX) * _this.scaleX;
+                var y = _this.y - _this.anchorOffsetY + _this.gun.y + _this.gunData.bulletY;
                 var moveData = new MoveData(direction);
                 App.ControllerManager.applyFunc(ControllerConst.Game, GameConst.CeateBullet, bulletId, _this, x, y, moveData);
             };
             switch (this.gunData.type) {
-                case GunType.Narmal:
+                case GunType.Normal:
                     createFunc();
+                    this.shootCd = this.gunData.interval;
                     break;
                 case GunType.Running:
                     var info = this.gunData.info;
                     var count = info.count;
                     var interval = info.interval * 1000;
-                    App.TimerManager.doTimer(interval, count, createFunc, this);
+                    App.TimerManager.doTimer(interval, count, function () { return createFunc(0); }, this);
+                    this.ChangeGun(this.heroData.gun);
                     break;
                 case GunType.Shot:
                     var info = this.gunData.info;
@@ -137,25 +141,30 @@ var Hero = (function (_super) {
                     for (var i = 0; i < count; i++) {
                         createFunc(ini_angle + i * angle);
                     }
+                    this.ChangeGun(this.heroData.gun);
+                    break;
+                case GunType.Boomerang:
+                    this.gun.visible = false;
+                    createFunc();
+                    this.shootCd = 100;
+                    break;
+                case GunType.Laser:
+                    createFunc();
+                    this.shootCd = 100;
                     break;
                 default:
                     break;
             }
-            if (this.gunData.times == 0) {
-                this.shootCd = this.gunData.interval;
-            }
-            else {
-                this.gunLeft -= 1;
-                if (this.gunLeft <= 0) {
-                    this.ChangeGun(this.heroData.gun);
-                }
-            }
         }
+    };
+    p.GunReturn = function () {
+        this.gun.visible = true;
+        this.shootCd = this.gunData.interval;
     };
     p.Hurt = function (damage) {
         App.ShockUtils.shock(App.ShockUtils.SPRITE, this, 1);
         this.state = HeroState.Hurt;
-        this.hurtTime = 0.1;
+        this.hurtTime = 0;
         this.subHp(damage);
     };
     p.update = function (time) {
@@ -168,9 +177,6 @@ var Hero = (function (_super) {
             this.hurtTime -= t;
             if (this.hurtTime <= 0) {
                 this.state = HeroState.Idle;
-            }
-            else {
-                return;
             }
         }
         if (this.side == Side.Enemy) {
@@ -209,6 +215,9 @@ var Hero = (function (_super) {
                 this.Shoot();
             }
         }
+    };
+    p.GetState = function () {
+        return this.state;
     };
     return Hero;
 }(BaseGameObject));

@@ -42,23 +42,11 @@ class GameController extends BaseController {
     }
     
     /**
-     * 检测子弹是否击中
+     * 检测子弹是否击中英雄
      */ 
-    public CheckHit(bullet: Bullet): Boolean{
-        var hit = false;
-        
-        var items = this.gameView.GetItems();
-        for(let i = 0;i < items.length;i++) {
-            let item: Item = items[i];
-            if(this.hitTest(new egret.Rectangle(bullet.x - ((bullet.scaleX == -1) ? bullet.width : 0),bullet.y,bullet.width,bullet.height),
-                new egret.Rectangle(item.x,item.y,item.width,item.height))) {
-                hit = true;
-                App.ControllerManager.applyFunc(ControllerConst.Game,GameConst.RemoveItem,item);
-                bullet.GetCreater().ChangeGun(item.GetAward());
-            }
-        }  
-        
-        var arr: Array<Hero> = []
+    public CheckHitHero(bullet: Bullet): Array<Hero>{
+        var hitHeroes = [];
+        var arr: Array<Hero> = [];
         if(bullet.side == Side.Own){
             arr = this.gameView.GetEnemies();
         }else{
@@ -66,15 +54,31 @@ class GameController extends BaseController {
         }
         for(let i = 0;i < arr.length;i++) {
             let hero: Hero = arr[i];
-            if(this.hitTest(new egret.Rectangle(bullet.x - ((bullet.scaleX == -1) ? bullet.width : 0),bullet.y,bullet.width,bullet.height),
-                new egret.Rectangle(hero.x - ((hero.scaleX == -1) ? hero.width : 0),hero.y,hero.width,hero.height))) {
-                hit = true;
+            if(this.hitTest(bullet.rect, hero.rect) && !bullet.CheckIgnore(hero)) {
+                hitHeroes.push(hero);
                 hero.Hurt(bullet.GetDamage());
             }
         }        
+        return hitHeroes;
+    }
+    
+    /**
+     * 检查是否击中道具
+     */ 
+    public CheckHitItem(bullet: Bullet): Boolean {
+        var hit = false;
+        var items = this.gameView.GetItems();
+        for(let i = 0;i < items.length;i++) {
+            let item: Item = items[i];
+            if(this.hitTest(bullet.rect,item.rect)) {
+                hit = true;
+                App.ControllerManager.applyFunc(ControllerConst.Game,GameConst.RemoveItem,item);
+                bullet.GetCreater().ChangeGun(item.GetAward());
+            }
+        }
         return hit;
     }
-     
+    
     /**
      * 检测英雄是否超出范围(Y轴)
      */ 

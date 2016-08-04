@@ -19,5 +19,6 @@ enum GunType{
     Running = 2,
     Shot = 3,
     Boomerang = 4,
-    Laser = 5
+    Laser = 5,
+    Freez = 6
 }

@@ -43,7 +43,7 @@ class GameView extends BaseSpriteView {
         this.itemCd -= t;
         
         if(this.itemCd <= 0){
-            this.createItem(App.RandomUtils.limitInteger(4,4));
+            this.createItem(App.RandomUtils.limitInteger(1,5));
             this.itemCd = this.itemInterval;
         }
     }
@@ -68,8 +68,8 @@ class GameView extends BaseSpriteView {
         this.enemies.push(enemy);
     }
     
-    public CreateBullet(id:number, creater: Hero, x:number, y:number, moveData: MoveData){
-        var bullet: Bullet = ObjectPool.pop("Bullet",this.controller);
+    public CreateBullet(id:number, type: string, creater: Hero, x:number, y:number, moveData: MoveData){
+        var bullet: Bullet = ObjectPool.pop(type,this.controller);
         bullet.init(id,creater, moveData);
         bullet.x = x;
         bullet.y = y;

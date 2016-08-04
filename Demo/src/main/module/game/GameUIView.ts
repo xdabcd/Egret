@@ -67,6 +67,12 @@ class GameUIView extends BaseSpriteView {
             case Keyboard.K:
                 this.shootBtnDown();
                 break;
+            case Keyboard.SPACE:
+                App.TimerManager.setTimeScale(0.01);
+                break;
+            case Keyboard.J:
+                App.TimerManager.setTimeScale(1);
+                break;
             default:
                 break;
         }
@@ -89,13 +95,29 @@ class GameUIView extends BaseSpriteView {
         var bitmap: egret.Bitmap = App.DisplayUtils.createBitmap(img);
         bitmap.touchEnabled = true;
         AnchorUtil.setAnchor(bitmap,0.5);
-        bitmap.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function(): void {
+        
+        var touch = new egret.Sprite;
+        touch.width = bitmap.width * 10;
+        touch.height = App.StageUtils.getHeight();
+        touch.x = $x;
+        touch.y = -touch.height / 2;
+        touch.touchEnabled = true;
+        AnchorUtil.setAnchor(touch,0.5);
+        var sh = new egret.Shape();
+        sh.graphics.beginFill(0xffffff, 0);
+        sh.graphics.drawRect(0,0,touch.width,touch.height);
+        sh.graphics.endFill();
+        touch.addChild(sh);
+        this.addChild(touch);
+        bitmap.touchEnabled = false;
+        
+        touch.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function(): void {
             downFunc.call(thisObj);
         },this);
-        bitmap.addEventListener(egret.TouchEvent.TOUCH_END,function(): void {
+        touch.addEventListener(egret.TouchEvent.TOUCH_END,function(): void {
             upFunc.call(thisObj);
         },this);
-        bitmap.addEventListener(egret.TouchEvent.TOUCH_RELEASE_OUTSIDE,function(): void {
+        touch.addEventListener(egret.TouchEvent.TOUCH_RELEASE_OUTSIDE,function(): void {
             upFunc.call(thisObj);
         },this);
         

@@ -33,7 +33,7 @@ var GameView = (function (_super) {
         var t = time / 1000;
         this.itemCd -= t;
         if (this.itemCd <= 0) {
-            this.createItem(App.RandomUtils.limitInteger(4, 4));
+            this.createItem(App.RandomUtils.limitInteger(1, 5));
             this.itemCd = this.itemInterval;
         }
     };
@@ -55,8 +55,8 @@ var GameView = (function (_super) {
         this.addChild(enemy);
         this.enemies.push(enemy);
     };
-    p.CreateBullet = function (id, creater, x, y, moveData) {
-        var bullet = ObjectPool.pop("Bullet", this.controller);
+    p.CreateBullet = function (id, type, creater, x, y, moveData) {
+        var bullet = ObjectPool.pop(type, this.controller);
         bullet.init(id, creater, moveData);
         bullet.x = x;
         bullet.y = y;

@@ -3,24 +3,15 @@
  * @author 
  *
  */
-enum BulletState{
-    Shoot,
-    Go,
-    Return,
-    Fall,
-    Ready
-}
-
 class Bullet extends BaseGameObject{
     
-    private id: number;
-    private bulletData: BulletData;
-    private speed: number;
-    private img: egret.Bitmap;
-    private moveData: MoveData;
-    private creater: Hero;
-    private state: BulletState;
-    private ignoreHeroes: Array<Hero>;
+    protected id: number;
+    protected bulletData: BulletData;
+    protected speed: number;
+    protected img: egret.Bitmap;
+    protected moveData: MoveData;
+    protected creater: Hero;
+    protected ignoreHeroes: Array<Hero>;
     
     private sh: egret.Shape;
     private mg: egret.Graphics;
@@ -28,7 +19,6 @@ class Bullet extends BaseGameObject{
     
     public constructor($controller: BaseController) {
         super($controller);
-        
     }
 
     public init(id: number,creater: Hero, moveData: MoveData): void {
@@ -43,25 +33,7 @@ class Bullet extends BaseGameObject{
         this.moveData = moveData;
         this.rotation = moveData.direction;
         this.bulletData = GameManager.GetBulletData(id);
-        this.setImg(this.bulletData.img);
-        this.width = this.bulletData.width;
-        this.height = this.bulletData.height;
         this.speed = this.bulletData.speed;
-        switch(this.bulletData.type) {
-            case BulletType.Normal:
-                this.state = BulletState.Shoot;
-                break;
-            case BulletType.Spin:
-                this.state = BulletState.Shoot;
-                break;
-            case BulletType.Boomerang:
-                this.state = BulletState.Go;
-                break;
-            case BulletType.Laser:
-                this.state = BulletState.Ready;
-                break;
-        }
-        
         this.ignoreHeroes = [];
         
         if(this.sh == null){
@@ -71,7 +43,7 @@ class Bullet extends BaseGameObject{
         }
     }
     
-    private setImg(img: string){
+    protected setImg(img: string){
         if(this.img == null){
             this.img = new egret.Bitmap;
             this.addChild(this.img);
@@ -94,91 +66,13 @@ class Bullet extends BaseGameObject{
         var t = time / 1000;
         this.x += this.speed * t * Math.cos(this.rotation / 180 * Math.PI) * this.scaleX;
         this.y += this.speed * t * Math.sin(this.rotation / 180 * Math.PI) * this.scaleX;        
-        
-        switch(this.state){
-            case BulletState.Shoot:
-                break;
-            case BulletState.Go:
-                this.speed -= time * 0.9;
-                if(this.speed <= 700){
-                    this.state = BulletState.Return;   
-                    this.ignoreHeroes = [];
-                }
-                break;
-            case BulletState.Return:
-                this.speed += time * 0.9;
-                var r = App.MathUtils.getRadian2(this.x,this.y,this.creater.x,this.creater.y);
-                if(this.scaleX == -1){
-                    r = App.MathUtils.getRadian2(this.creater.x,this.creater.y,this.x,this.y);
-                }
-                var a = App.MathUtils.getAngle(r);
-                this.rotation = a;
-                if(this.rect.intersects(this.creater.rect)){
-                    this.remove();
-                    this.creater.GunReturn();
-                }
-                break;
-            case BulletState.Fall:
-                this.speed += time;
-                var targetR = 90;
-                var curR = this.rotation;
-                if(this.rotation < 0){
-                    curR += 360;
-                }
-                if(this.scaleX == -1){
-                    targetR = -90;  
-                    if(curR > 180){
-                        targetR = 270;
-                    }
-                }
-                if(curR > targetR){
-                    this.rotation = Math.max(targetR, curR - time / 5);
-                }else{
-                    this.rotation = Math.min(targetR, curR + time / 5);
-                }
-                break;
-            case BulletState.Ready:
-            
-                this.speed = 0;
-                break;
-        }
-        
-        var hitHeroes: Array<Hero> = this.gameController.CheckHitHero(this);
-        var hitItem: Boolean = this.gameController.CheckHitItem(this);
-        var outScreen: Boolean = this.gameController.CheckOutScreen(this);
-        switch(this.bulletData.type) {
-            case BulletType.Normal:
-                if(hitHeroes.length > 0 || hitItem || outScreen){
-                    this.remove();
-                }
-                break;
-            case BulletType.Spin:
-                this.img.rotation += time;
-                if(hitHeroes.length > 0 || hitItem || outScreen) {
-                    this.remove();
-                }
-                break;
-            case BulletType.Boomerang:
-                this.img.rotation += time;
-                if(hitItem){
-                    this.state = BulletState.Fall;
-                }else if(outScreen){
-                    this.remove();                
-                }
-                if(hitHeroes.length > 0){                    
-                    for(var i = 0; i < hitHeroes.length; i++){
-                        this.ignoreHeroes.push(hitHeroes[i]);
-                    }
-                }
-                break;
-        }
     }  
     
-    private remove(){
+    protected remove(){
         App.ControllerManager.applyFunc(ControllerConst.Game,GameConst.RemoveBullet,this);
     }
     
-    private drawTrail(color: number){
+    protected drawTrail(color: number){
         var mPenSize = this.height * 0.5;
         var obj = { sx: this.x,sy: this.y,size: mPenSize };
         this.mPoints.push(obj);
@@ -189,7 +83,7 @@ class Bullet extends BaseGameObject{
         for(var i: number = 0;i < _count;i++) {
             var pt = this.mPoints[i];
             pt.size -= 1;
-            if(pt.size < 6) {
+            if(pt.size < this.height * 0.2) {
                 this.mPoints.splice(i,1);
                 i--;
                 _count = this.mPoints.length;
@@ -236,5 +130,9 @@ class Bullet extends BaseGameObject{
     
     public GetCreater(): Hero{
         return this.creater;
+    }
+    
+    public DoEffect(hero: Hero){
+    
     }
 }

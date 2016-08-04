@@ -3,14 +3,6 @@
  * @author
  *
  */
-var BulletState;
-(function (BulletState) {
-    BulletState[BulletState["Shoot"] = 0] = "Shoot";
-    BulletState[BulletState["Go"] = 1] = "Go";
-    BulletState[BulletState["Return"] = 2] = "Return";
-    BulletState[BulletState["Fall"] = 3] = "Fall";
-    BulletState[BulletState["Ready"] = 4] = "Ready";
-})(BulletState || (BulletState = {}));
 var Bullet = (function (_super) {
     __extends(Bullet, _super);
     function Bullet($controller) {
@@ -31,24 +23,7 @@ var Bullet = (function (_super) {
         this.moveData = moveData;
         this.rotation = moveData.direction;
         this.bulletData = GameManager.GetBulletData(id);
-        this.setImg(this.bulletData.img);
-        this.width = this.bulletData.width;
-        this.height = this.bulletData.height;
         this.speed = this.bulletData.speed;
-        switch (this.bulletData.type) {
-            case BulletType.Normal:
-                this.state = BulletState.Shoot;
-                break;
-            case BulletType.Spin:
-                this.state = BulletState.Shoot;
-                break;
-            case BulletType.Boomerang:
-                this.state = BulletState.Go;
-                break;
-            case BulletType.Laser:
-                this.state = BulletState.Ready;
-                break;
-        }
         this.ignoreHeroes = [];
         if (this.sh == null) {
             this.sh = new egret.Shape();
@@ -76,83 +51,6 @@ var Bullet = (function (_super) {
         var t = time / 1000;
         this.x += this.speed * t * Math.cos(this.rotation / 180 * Math.PI) * this.scaleX;
         this.y += this.speed * t * Math.sin(this.rotation / 180 * Math.PI) * this.scaleX;
-        switch (this.state) {
-            case BulletState.Shoot:
-                break;
-            case BulletState.Go:
-                this.speed -= time * 0.9;
-                if (this.speed <= 700) {
-                    this.state = BulletState.Return;
-                    this.ignoreHeroes = [];
-                }
-                break;
-            case BulletState.Return:
-                this.speed += time * 0.9;
-                var r = App.MathUtils.getRadian2(this.x, this.y, this.creater.x, this.creater.y);
-                if (this.scaleX == -1) {
-                    r = App.MathUtils.getRadian2(this.creater.x, this.creater.y, this.x, this.y);
-                }
-                var a = App.MathUtils.getAngle(r);
-                this.rotation = a;
-                if (this.rect.intersects(this.creater.rect)) {
-                    this.remove();
-                    this.creater.GunReturn();
-                }
-                break;
-            case BulletState.Fall:
-                this.speed += time;
-                var targetR = 90;
-                var curR = this.rotation;
-                if (this.rotation < 0) {
-                    curR += 360;
-                }
-                if (this.scaleX == -1) {
-                    targetR = -90;
-                    if (curR > 180) {
-                        targetR = 270;
-                    }
-                }
-                if (curR > targetR) {
-                    this.rotation = Math.max(targetR, curR - time / 5);
-                }
-                else {
-                    this.rotation = Math.min(targetR, curR + time / 5);
-                }
-                break;
-            case BulletState.Ready:
-                this.speed = 0;
-                break;
-        }
-        var hitHeroes = this.gameController.CheckHitHero(this);
-        var hitItem = this.gameController.CheckHitItem(this);
-        var outScreen = this.gameController.CheckOutScreen(this);
-        switch (this.bulletData.type) {
-            case BulletType.Normal:
-                if (hitHeroes.length > 0 || hitItem || outScreen) {
-                    this.remove();
-                }
-                break;
-            case BulletType.Spin:
-                this.img.rotation += time;
-                if (hitHeroes.length > 0 || hitItem || outScreen) {
-                    this.remove();
-                }
-                break;
-            case BulletType.Boomerang:
-                this.img.rotation += time;
-                if (hitItem) {
-                    this.state = BulletState.Fall;
-                }
-                else if (outScreen) {
-                    this.remove();
-                }
-                if (hitHeroes.length > 0) {
-                    for (var i = 0; i < hitHeroes.length; i++) {
-                        this.ignoreHeroes.push(hitHeroes[i]);
-                    }
-                }
-                break;
-        }
     };
     p.remove = function () {
         App.ControllerManager.applyFunc(ControllerConst.Game, GameConst.RemoveBullet, this);
@@ -168,7 +66,7 @@ var Bullet = (function (_super) {
         for (var i = 0; i < _count; i++) {
             var pt = this.mPoints[i];
             pt.size -= 1;
-            if (pt.size < 6) {
+            if (pt.size < this.height * 0.2) {
                 this.mPoints.splice(i, 1);
                 i--;
                 _count = this.mPoints.length;
@@ -209,6 +107,8 @@ var Bullet = (function (_super) {
     };
     p.GetCreater = function () {
         return this.creater;
+    };
+    p.DoEffect = function (hero) {
     };
     return Bullet;
 }(BaseGameObject));

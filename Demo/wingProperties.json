@@ -105,6 +105,26 @@
 					"isFolder":false,
 					"key":"bullet_5_ready_png",
 					"name":"bullet_5_ready_png"
+				},
+				{
+					"isFolder":false,
+					"key":"gun04_png",
+					"name":"gun04_png"
+				},
+				{
+					"isFolder":false,
+					"key":"bullet_6_png",
+					"name":"bullet_6_png"
+				},
+				{
+					"isFolder":false,
+					"key":"freez_png",
+					"name":"freez_png"
+				},
+				{
+					"isFolder":false,
+					"key":"bullet_7_png",
+					"name":"bullet_7_png"
 				}
 			]
 		}

@@ -141,8 +141,12 @@
 	<script egret="game" src="bin-debug/main/module/game/data/MoveData.js"></script>
 	<script egret="game" src="bin-debug/main/module/game/object/BaseGameObject.js"></script>
 	<script egret="game" src="bin-debug/main/module/game/object/Bullet.js"></script>
+	<script egret="game" src="bin-debug/main/module/game/object/BoomerangBullet.js"></script>
+	<script egret="game" src="bin-debug/main/module/game/object/NormalBullet.js"></script>
+	<script egret="game" src="bin-debug/main/module/game/object/FreezBullet.js"></script>
 	<script egret="game" src="bin-debug/main/module/game/object/Hero.js"></script>
 	<script egret="game" src="bin-debug/main/module/game/object/Item.js"></script>
+	<script egret="game" src="bin-debug/main/module/game/object/LaserBullet.js"></script>
 	<script egret="game" src="bin-debug/main/module/loading/LoadingConst.js"></script>
 	<script egret="game" src="bin-debug/main/module/loading/LoadingController.js"></script>
 	<script egret="game" src="bin-debug/main/module/loading/LoadingView.js"></script>
@@ -162,7 +166,7 @@
          data-content-height="750"
          data-show-paint-rect="false"
          data-multi-fingered="2"
-         data-show-fps="false" data-show-log="false"
+         data-show-fps="true" data-show-log="false"
          data-show-fps-style="x:0,y:0,size:12,textColor:0xffffff,bgAlpha:0.9">
     </div>
     <script>
@@ -172,7 +176,7 @@
          * "audioType": "" //使用的音频类型，0:默认，1:qq audio，2:web audio，3:audio
          * }
          **/
-        egret.runEgret({renderMode:"webgl", audioType:0});
+        egret.runEgret({renderMode:"canvas", audioType:0});
     </script>
 </body>
 </html>

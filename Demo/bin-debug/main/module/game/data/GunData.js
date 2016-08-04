@@ -17,4 +17,5 @@ var GunType;
     GunType[GunType["Shot"] = 3] = "Shot";
     GunType[GunType["Boomerang"] = 4] = "Boomerang";
     GunType[GunType["Laser"] = 5] = "Laser";
+    GunType[GunType["Freez"] = 6] = "Freez";
 })(GunType || (GunType = {}));

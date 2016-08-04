@@ -14,10 +14,12 @@ class Hero extends BaseGameObject{
     private aiType: AiType;
     private hp: number;
     private hurtTime: number;
+    private freezTime: number;
     
     private anim: egret.MovieClip;
     private gun: egret.Bitmap;
     private hpArr: Array<egret.Shape> = [];
+    private freezImg: egret.Bitmap;
     
     private shootCd: number;
     
@@ -125,26 +127,41 @@ class Hero extends BaseGameObject{
         this.hp = Math.max(0,this.hp - value); 
 	}
 	
+    private showFreez(v: boolean){
+	    if(this.freezImg == null){
+	        this.freezImg = App.DisplayUtils.createBitmap("freez_png");
+	        this.addChild(this.freezImg);
+	        this.freezImg.anchorOffsetX = this.freezImg.width / 2;
+	        this.freezImg.anchorOffsetY = this.freezImg.height / 2;
+	    }
+        this.freezImg.x = this.width / 2;
+        this.freezImg.y = this.height / 2;
+        this.freezImg.visible = v;
+	}
+	
     public Shoot() {
+        if(this.state != HeroState.Idle){
+            return;
+        }
 	    if(this.shootCd <= 0){
             var bulletId = this.gunData.bullet
-	        var createFunc = (direction = 0)=>{
-                let x = this.x - this.anchorOffsetX + (this.gun.x + this.gunData.bulletX) * this.scaleX;
+            var createFunc = (type, direction)=>{
+                let x = this.x + (this.gun.x + this.gunData.bulletX - this.anchorOffsetX) * this.scaleX;
                 let y = this.y - this.anchorOffsetY + this.gun.y + this.gunData.bulletY;
                 let moveData = new MoveData(direction);
-                App.ControllerManager.applyFunc(ControllerConst.Game,GameConst.CeateBullet,bulletId,this,x,y,moveData);
+                App.ControllerManager.applyFunc(ControllerConst.Game,GameConst.CeateBullet,bulletId,type,this,x,y,moveData);
 	        };
 	        switch(this.gunData.type){
 	            case GunType.Normal:
-                    createFunc();
+                    createFunc("NormalBullet", 0);
                     this.shootCd = this.gunData.interval;
                     break;
 	            case GunType.Running:
 	                var info = this.gunData.info;
                     var count = info.count;
                     var interval = info.interval * 1000;
-	                App.TimerManager.doTimer(interval, count, ()=>createFunc(0), this);
-                    this.ChangeGun(this.heroData.gun);
+                    App.TimerManager.doTimer(interval,count,() => createFunc("NormalBullet",0), this);
+                    this.ResetGun();
                     break;
                 case GunType.Shot:
                     var info = this.gunData.info;
@@ -152,19 +169,24 @@ class Hero extends BaseGameObject{
 	                var angle = info.angle;
                     var ini_angle = -(count - 1) / 2 * angle;
 	                for(let i = 0; i < count; i++){
-	                    createFunc(ini_angle + i * angle);
+                        createFunc("NormalBullet",ini_angle + i * angle);
 	                }
-                    this.ChangeGun(this.heroData.gun);
+                    this.ResetGun();
                     break;
                 case GunType.Boomerang:
                     this.gun.visible = false;
-                    createFunc();
+                    createFunc("BoomerangBullet", 0);
                     this.shootCd = 100;
                     break;
                 case GunType.Laser:
-                    createFunc();
+                    createFunc("LaserBullet",0);
                     this.shootCd = 100;
-                    break
+                    break;
+                case GunType.Freez:
+                    createFunc("FreezBullet",0);
+                    this.ResetGun();
+                    break;
+//                case GunType
                 default:
 	                break;
 	        }
@@ -176,11 +198,20 @@ class Hero extends BaseGameObject{
 	    this.shootCd = this.gunData.interval;
 	}
 	
+	public ResetGun(){
+	    this.ChangeGun(this.heroData.gun);
+	}
+	
 	public Hurt(damage: number) {
 	    App.ShockUtils.shock(App.ShockUtils.SPRITE, this, 1);
 	    this.state = HeroState.Hurt;
 	    this.hurtTime = 0;
 	    this.subHp(damage);
+	}
+	
+	public Freez(){
+	    this.state = HeroState.Freez;
+	    this.freezTime = 0.5;
 	}
 	
     public update(time: number){
@@ -196,6 +227,17 @@ class Hero extends BaseGameObject{
             if(this.hurtTime <= 0) {
                 this.state = HeroState.Idle;
             }
+        }
+        
+        if(this.state == HeroState.Freez){
+            this.isUp = false;
+            this.freezTime -= t;
+            this.showFreez(true);
+            this.speed = 0;
+            if(this.freezTime <= 0){
+                this.state = HeroState.Idle;
+                this.showFreez(false);
+            }              
         }
         
         if(this.side == Side.Enemy){
@@ -245,7 +287,8 @@ class Hero extends BaseGameObject{
 
 enum HeroState {
     Idle,
-    Hurt
+    Hurt,
+    Freez
 }
 
 enum AiType{

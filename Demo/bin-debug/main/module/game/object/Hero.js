@@ -110,28 +110,41 @@ var Hero = (function (_super) {
         }
         this.hp = Math.max(0, this.hp - value);
     };
+    p.showFreez = function (v) {
+        if (this.freezImg == null) {
+            this.freezImg = App.DisplayUtils.createBitmap("freez_png");
+            this.addChild(this.freezImg);
+            this.freezImg.anchorOffsetX = this.freezImg.width / 2;
+            this.freezImg.anchorOffsetY = this.freezImg.height / 2;
+        }
+        this.freezImg.x = this.width / 2;
+        this.freezImg.y = this.height / 2;
+        this.freezImg.visible = v;
+    };
     p.Shoot = function () {
         var _this = this;
+        if (this.state != HeroState.Idle) {
+            return;
+        }
         if (this.shootCd <= 0) {
             var bulletId = this.gunData.bullet;
-            var createFunc = function (direction) {
-                if (direction === void 0) { direction = 0; }
-                var x = _this.x - _this.anchorOffsetX + (_this.gun.x + _this.gunData.bulletX) * _this.scaleX;
+            var createFunc = function (type, direction) {
+                var x = _this.x + (_this.gun.x + _this.gunData.bulletX - _this.anchorOffsetX) * _this.scaleX;
                 var y = _this.y - _this.anchorOffsetY + _this.gun.y + _this.gunData.bulletY;
                 var moveData = new MoveData(direction);
-                App.ControllerManager.applyFunc(ControllerConst.Game, GameConst.CeateBullet, bulletId, _this, x, y, moveData);
+                App.ControllerManager.applyFunc(ControllerConst.Game, GameConst.CeateBullet, bulletId, type, _this, x, y, moveData);
             };
             switch (this.gunData.type) {
                 case GunType.Normal:
-                    createFunc();
+                    createFunc("NormalBullet", 0);
                     this.shootCd = this.gunData.interval;
                     break;
                 case GunType.Running:
                     var info = this.gunData.info;
                     var count = info.count;
                     var interval = info.interval * 1000;
-                    App.TimerManager.doTimer(interval, count, function () { return createFunc(0); }, this);
-                    this.ChangeGun(this.heroData.gun);
+                    App.TimerManager.doTimer(interval, count, function () { return createFunc("NormalBullet", 0); }, this);
+                    this.ResetGun();
                     break;
                 case GunType.Shot:
                     var info = this.gunData.info;
@@ -139,19 +152,24 @@ var Hero = (function (_super) {
                     var angle = info.angle;
                     var ini_angle = -(count - 1) / 2 * angle;
                     for (var i = 0; i < count; i++) {
-                        createFunc(ini_angle + i * angle);
+                        createFunc("NormalBullet", ini_angle + i * angle);
                     }
-                    this.ChangeGun(this.heroData.gun);
+                    this.ResetGun();
                     break;
                 case GunType.Boomerang:
                     this.gun.visible = false;
-                    createFunc();
+                    createFunc("BoomerangBullet", 0);
                     this.shootCd = 100;
                     break;
                 case GunType.Laser:
-                    createFunc();
+                    createFunc("LaserBullet", 0);
                     this.shootCd = 100;
                     break;
+                case GunType.Freez:
+                    createFunc("FreezBullet", 0);
+                    this.ResetGun();
+                    break;
+                //                case GunType
                 default:
                     break;
             }
@@ -161,11 +179,18 @@ var Hero = (function (_super) {
         this.gun.visible = true;
         this.shootCd = this.gunData.interval;
     };
+    p.ResetGun = function () {
+        this.ChangeGun(this.heroData.gun);
+    };
     p.Hurt = function (damage) {
         App.ShockUtils.shock(App.ShockUtils.SPRITE, this, 1);
         this.state = HeroState.Hurt;
         this.hurtTime = 0;
         this.subHp(damage);
+    };
+    p.Freez = function () {
+        this.state = HeroState.Freez;
+        this.freezTime = 0.5;
     };
     p.update = function (time) {
         _super.prototype.update.call(this, time);
@@ -177,6 +202,16 @@ var Hero = (function (_super) {
             this.hurtTime -= t;
             if (this.hurtTime <= 0) {
                 this.state = HeroState.Idle;
+            }
+        }
+        if (this.state == HeroState.Freez) {
+            this.isUp = false;
+            this.freezTime -= t;
+            this.showFreez(true);
+            this.speed = 0;
+            if (this.freezTime <= 0) {
+                this.state = HeroState.Idle;
+                this.showFreez(false);
             }
         }
         if (this.side == Side.Enemy) {
@@ -226,6 +261,7 @@ var HeroState;
 (function (HeroState) {
     HeroState[HeroState["Idle"] = 0] = "Idle";
     HeroState[HeroState["Hurt"] = 1] = "Hurt";
+    HeroState[HeroState["Freez"] = 2] = "Freez";
 })(HeroState || (HeroState = {}));
 var AiType;
 (function (AiType) {

@@ -52,6 +52,7 @@ var GameController = (function (_super) {
             if (this.hitTest(bullet.rect, hero.rect) && !bullet.CheckIgnore(hero)) {
                 hitHeroes.push(hero);
                 hero.Hurt(bullet.GetDamage());
+                bullet.DoEffect(hero);
             }
         }
         return hitHeroes;

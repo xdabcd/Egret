@@ -21,7 +21,7 @@ var Bullet = (function (_super) {
             this.scaleX = -1;
         }
         this.moveData = moveData;
-        this.rotation = moveData.direction;
+        this.rotation = moveData.direction * this.scaleX;
         this.bulletData = GameManager.GetBulletData(id);
         this.speed = this.bulletData.speed;
         this.ignoreHeroes = [];
@@ -51,6 +51,36 @@ var Bullet = (function (_super) {
         var t = time / 1000;
         this.x += this.speed * t * Math.cos(this.rotation / 180 * Math.PI) * this.scaleX;
         this.y += this.speed * t * Math.sin(this.rotation / 180 * Math.PI) * this.scaleX;
+        var hitHeroes = this.gameController.CheckHitHero(this);
+        var hitItems = this.gameController.CheckHitItem(this);
+        var outScreen = this.gameController.CheckOutScreen(this);
+        if (hitHeroes.length > 0) {
+            this.hitHero(hitHeroes);
+        }
+        if (hitItems.length > 0) {
+            this.hitItems(hitItems);
+        }
+        if (outScreen) {
+            this.outScreen();
+        }
+    };
+    p.hitHero = function (heroes) {
+        for (var i = 0; i < heroes.length; i++) {
+            var hero = heroes[i];
+            if (!this.checkIgnore(hero)) {
+                hero.Hurt(this.getDamage());
+                this.doEffect(hero);
+            }
+        }
+    };
+    p.hitItems = function (items) {
+        for (var i = 0; i < items.length; i++) {
+            var item = items[i];
+            item.ToHero(this.creater);
+        }
+    };
+    p.outScreen = function () {
+        this.remove();
     };
     p.remove = function () {
         App.ControllerManager.applyFunc(ControllerConst.Game, GameConst.RemoveBullet, this);
@@ -99,16 +129,13 @@ var Bullet = (function (_super) {
         _super.prototype.destory.call(this);
         this.clearMg();
     };
-    p.CheckIgnore = function (hero) {
+    p.checkIgnore = function (hero) {
         return this.ignoreHeroes.indexOf(hero) >= 0;
     };
-    p.GetDamage = function () {
+    p.getDamage = function () {
         return this.bulletData.damage;
     };
-    p.GetCreater = function () {
-        return this.creater;
-    };
-    p.DoEffect = function (hero) {
+    p.doEffect = function (hero) {
     };
     return Bullet;
 }(BaseGameObject));

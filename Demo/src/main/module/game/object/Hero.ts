@@ -15,6 +15,7 @@ class Hero extends BaseGameObject{
     private hp: number;
     private hurtTime: number;
     private freezTime: number;
+    private releaseTime: number;
     
     private anim: egret.MovieClip;
     private gun: egret.Bitmap;
@@ -186,7 +187,16 @@ class Hero extends BaseGameObject{
                     createFunc("FreezBullet",0);
                     this.ResetGun();
                     break;
-//                case GunType
+                case GunType.Grenade:
+                    var info = this.gunData.info;
+                    var direction = info.direction;
+                    createFunc("GrenadeBullet",direction);
+                    this.ResetGun();
+                    break;
+                case GunType.Wave:
+                    createFunc("WaveBullet",direction);
+                    this.ResetGun();
+                    break;
                 default:
 	                break;
 	        }
@@ -203,15 +213,23 @@ class Hero extends BaseGameObject{
 	}
 	
 	public Hurt(damage: number) {
+    	if(damage <= 0){
+    	    return;
+    	}
 	    App.ShockUtils.shock(App.ShockUtils.SPRITE, this, 1);
 	    this.state = HeroState.Hurt;
 	    this.hurtTime = 0;
 	    this.subHp(damage);
 	}
 	
-	public Freez(){
+	public Freez(duration: number){
 	    this.state = HeroState.Freez;
-	    this.freezTime = 0.5;
+        this.freezTime = duration;
+	}
+	
+	public Release(duration: number){
+	    this.state = HeroState.Release;
+	    this.releaseTime = duration;
 	}
 	
     public update(time: number){
@@ -222,24 +240,6 @@ class Hero extends BaseGameObject{
             this.shootCd -= t;
         }
         
-        if(this.state == HeroState.Hurt) {
-            this.hurtTime -= t;
-            if(this.hurtTime <= 0) {
-                this.state = HeroState.Idle;
-            }
-        }
-        
-        if(this.state == HeroState.Freez){
-            this.isUp = false;
-            this.freezTime -= t;
-            this.showFreez(true);
-            this.speed = 0;
-            if(this.freezTime <= 0){
-                this.state = HeroState.Idle;
-                this.showFreez(false);
-            }              
-        }
-        
         if(this.side == Side.Enemy){
             switch(this.aiType){
                 case AiType.Follow:
@@ -247,6 +247,33 @@ class Hero extends BaseGameObject{
                     break;
                 default:
                     break;
+            }
+        }
+        
+        if(this.state == HeroState.Hurt) {
+            this.hurtTime -= t;
+            if(this.hurtTime <= 0) {
+                this.state = HeroState.Idle;
+            }
+        }
+
+        if(this.state == HeroState.Freez) {
+            this.isUp = false;
+            this.freezTime -= t;
+            this.showFreez(true);
+            this.speed = 0;
+            if(this.freezTime <= 0) {
+                this.state = HeroState.Idle;
+                this.showFreez(false);
+            }
+        }
+
+        if(this.state == HeroState.Release) {
+            this.isUp = false;
+            this.releaseTime -= t;
+            this.speed = 0;
+            if(this.releaseTime <= 0) {
+                this.state = HeroState.Idle;
             }
         }
         
@@ -288,7 +315,8 @@ class Hero extends BaseGameObject{
 enum HeroState {
     Idle,
     Hurt,
-    Freez
+    Freez,
+    Release
 }
 
 enum AiType{

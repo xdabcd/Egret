@@ -1,6 +1,6 @@
 /**
  *
- * @author
+ * 激光
  *
  */
 var LaserBullet = (function (_super) {
@@ -17,6 +17,7 @@ var LaserBullet = (function (_super) {
         var info = this.bulletData.info;
         this.readyTime = info.readyTime;
         this.releaseTime = info.releaseTime;
+        this.displayTime = info.displayTime;
         this.readCd = this.readyTime;
         this.setReadyImg(info.ready);
         this.setImg(this.bulletData.img);
@@ -66,6 +67,7 @@ var LaserBullet = (function (_super) {
                     this.state = 1;
                     this.img.scaleY = this.readyImg.scaleX = this.readyImg.scaleY = 0.5;
                     this.img.x = this.readyImg.x + this.readyImg.width * this.readyImg.scaleX * 0.23 - 5;
+                    this.creater.Release(this.releaseTime);
                     this.creater.ResetGun();
                 }
                 break;
@@ -78,20 +80,18 @@ var LaserBullet = (function (_super) {
                 }
                 break;
             case 2:
-                this.img.scaleY = this.readyImg.scaleX = this.readyImg.scaleY -= 2 * t;
+                this.img.scaleY = this.readyImg.scaleX = this.readyImg.scaleY -= (0.9 / this.displayTime) * t;
                 this.img.x = this.readyImg.x + this.readyImg.width * this.readyImg.scaleX * 0.23 - 5;
                 if (this.img.scaleY <= 0.1) {
                     this.remove();
                 }
                 break;
         }
-        var hitHeroes = this.gameController.CheckHitHero(this);
-        var hitItem = this.gameController.CheckHitItem(this);
-        var outScreen = this.gameController.CheckOutScreen(this);
-        if (hitHeroes.length > 0) {
-            for (var i = 0; i < hitHeroes.length; i++) {
-                this.ignoreHeroes.push(hitHeroes[i]);
-            }
+    };
+    p.hitHero = function (heroes) {
+        _super.prototype.hitHero.call(this, heroes);
+        for (var i = 0; i < heroes.length; i++) {
+            this.ignoreHeroes.push(heroes[i]);
         }
     };
     d(p, "rect"

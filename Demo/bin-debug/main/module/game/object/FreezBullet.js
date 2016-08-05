@@ -1,6 +1,6 @@
 /**
  *
- * @author
+ * 冰冻弹
  *
  */
 var FreezBullet = (function (_super) {
@@ -9,8 +9,8 @@ var FreezBullet = (function (_super) {
         _super.apply(this, arguments);
     }
     var d = __define,c=FreezBullet,p=c.prototype;
-    p.DoEffect = function (hero) {
-        hero.Freez();
+    p.doEffect = function (hero) {
+        hero.Freez(0.5);
     };
     return FreezBullet;
 }(NormalBullet));

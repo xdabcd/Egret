@@ -49,10 +49,8 @@ var GameController = (function (_super) {
         }
         for (var i = 0; i < arr.length; i++) {
             var hero = arr[i];
-            if (this.hitTest(bullet.rect, hero.rect) && !bullet.CheckIgnore(hero)) {
+            if (this.hitTest(bullet.rect, hero.rect)) {
                 hitHeroes.push(hero);
-                hero.Hurt(bullet.GetDamage());
-                bullet.DoEffect(hero);
             }
         }
         return hitHeroes;
@@ -61,17 +59,15 @@ var GameController = (function (_super) {
      * 检查是否击中道具
      */
     p.CheckHitItem = function (bullet) {
-        var hit = false;
+        var hitItems = [];
         var items = this.gameView.GetItems();
         for (var i = 0; i < items.length; i++) {
             var item = items[i];
             if (this.hitTest(bullet.rect, item.rect)) {
-                hit = true;
-                App.ControllerManager.applyFunc(ControllerConst.Game, GameConst.RemoveItem, item);
-                bullet.GetCreater().ChangeGun(item.GetAward());
+                hitItems.push(item);
             }
         }
-        return hit;
+        return hitItems;
     };
     /**
      * 检测英雄是否超出范围(Y轴)
@@ -98,6 +94,12 @@ var GameController = (function (_super) {
      */
     p.hitTest = function (rect1, rect2) {
         return rect1.intersects(rect2);
+    };
+    /**
+     * 获取游戏横向百分比
+     */
+    p.GetPerX = function (per) {
+        return (this.gameView.max_x - this.gameView.min_x) * per + this.gameView.min_x;
     };
     return GameController;
 }(BaseController));

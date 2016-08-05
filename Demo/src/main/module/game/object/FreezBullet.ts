@@ -1,10 +1,10 @@
 /**
  *
- * @author 
+ * 冰冻弹
  *
  */
 class FreezBullet extends NormalBullet{    
-    public DoEffect(hero: Hero) {
-        hero.Freez();
+    protected doEffect(hero: Hero) {
+        hero.Freez(0.5);
     }
 }

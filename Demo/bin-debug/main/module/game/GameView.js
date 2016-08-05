@@ -33,7 +33,7 @@ var GameView = (function (_super) {
         var t = time / 1000;
         this.itemCd -= t;
         if (this.itemCd <= 0) {
-            this.createItem(App.RandomUtils.limitInteger(1, 5));
+            this.createItem(App.RandomUtils.limitInteger(2, 8));
             this.itemCd = this.itemInterval;
         }
     };

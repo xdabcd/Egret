@@ -41,7 +41,7 @@ var BaseGameObject = (function (_super) {
     );
     d(p, "rect"
         ,function () {
-            return new egret.Rectangle(this.x - this.width / 2, this.y - this.width / 2, this.width, this.height);
+            return new egret.Rectangle(this.x - this.width / 2, this.y - this.height / 2, this.width, this.height);
         }
     );
     return BaseGameObject;

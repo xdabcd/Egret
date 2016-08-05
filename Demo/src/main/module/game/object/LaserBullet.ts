@@ -1,6 +1,6 @@
 /**
  *
- * @author 
+ * 激光
  *
  */
 class LaserBullet extends Bullet{
@@ -9,6 +9,7 @@ class LaserBullet extends Bullet{
     private readyImg: egret.Bitmap;
     private readyTime: number;
     private releaseTime: number;
+    private displayTime: number;
     private readCd: number;
     
     private createrX: number;
@@ -26,6 +27,7 @@ class LaserBullet extends Bullet{
         var info = this.bulletData.info;
         this.readyTime = info.readyTime;
         this.releaseTime = info.releaseTime;
+        this.displayTime = info.displayTime;
         this.readCd = this.readyTime;
         this.setReadyImg(info.ready);
         this.setImg(this.bulletData.img);
@@ -77,6 +79,7 @@ class LaserBullet extends Bullet{
                     this.state = 1;
                     this.img.scaleY = this.readyImg.scaleX = this.readyImg.scaleY = 0.5;
                     this.img.x = this.readyImg.x + this.readyImg.width * this.readyImg.scaleX * 0.23 - 5;
+                    this.creater.Release(this.releaseTime);
                     this.creater.ResetGun();
                 }
                 break;
@@ -89,22 +92,20 @@ class LaserBullet extends Bullet{
                 }
                 break;
             case 2:
-                this.img.scaleY = this.readyImg.scaleX = this.readyImg.scaleY -= 2 * t;
+                this.img.scaleY = this.readyImg.scaleX = this.readyImg.scaleY -= (0.9 / this.displayTime) * t;
                 this.img.x = this.readyImg.x + this.readyImg.width * this.readyImg.scaleX * 0.23 - 5;
                 if(this.img.scaleY <= 0.1){
                     this.remove();
                 }
                 break;
         }
-        
-        var hitHeroes: Array<Hero> = this.gameController.CheckHitHero(this);
-        var hitItem: Boolean = this.gameController.CheckHitItem(this);
-        var outScreen: Boolean = this.gameController.CheckOutScreen(this);
+    }
+    
+    protected hitHero(heroes: Array<Hero>) {
+        super.hitHero(heroes);
 
-        if(hitHeroes.length > 0) {
-            for(var i = 0;i < hitHeroes.length;i++) {
-                this.ignoreHeroes.push(hitHeroes[i]);
-            }
+        for(var i = 0;i < heroes.length;i++) {
+            this.ignoreHeroes.push(heroes[i]);
         }
     }
     

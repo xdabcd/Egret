@@ -169,7 +169,16 @@ var Hero = (function (_super) {
                     createFunc("FreezBullet", 0);
                     this.ResetGun();
                     break;
-                //                case GunType
+                case GunType.Grenade:
+                    var info = this.gunData.info;
+                    var direction = info.direction;
+                    createFunc("GrenadeBullet", direction);
+                    this.ResetGun();
+                    break;
+                case GunType.Wave:
+                    createFunc("WaveBullet", direction);
+                    this.ResetGun();
+                    break;
                 default:
                     break;
             }
@@ -183,20 +192,36 @@ var Hero = (function (_super) {
         this.ChangeGun(this.heroData.gun);
     };
     p.Hurt = function (damage) {
+        if (damage <= 0) {
+            return;
+        }
         App.ShockUtils.shock(App.ShockUtils.SPRITE, this, 1);
         this.state = HeroState.Hurt;
         this.hurtTime = 0;
         this.subHp(damage);
     };
-    p.Freez = function () {
+    p.Freez = function (duration) {
         this.state = HeroState.Freez;
-        this.freezTime = 0.5;
+        this.freezTime = duration;
+    };
+    p.Release = function (duration) {
+        this.state = HeroState.Release;
+        this.releaseTime = duration;
     };
     p.update = function (time) {
         _super.prototype.update.call(this, time);
         var t = time / 1000;
         if (this.shootCd > 0) {
             this.shootCd -= t;
+        }
+        if (this.side == Side.Enemy) {
+            switch (this.aiType) {
+                case AiType.Follow:
+                    this.followAi();
+                    break;
+                default:
+                    break;
+            }
         }
         if (this.state == HeroState.Hurt) {
             this.hurtTime -= t;
@@ -214,13 +239,12 @@ var Hero = (function (_super) {
                 this.showFreez(false);
             }
         }
-        if (this.side == Side.Enemy) {
-            switch (this.aiType) {
-                case AiType.Follow:
-                    this.followAi();
-                    break;
-                default:
-                    break;
+        if (this.state == HeroState.Release) {
+            this.isUp = false;
+            this.releaseTime -= t;
+            this.speed = 0;
+            if (this.releaseTime <= 0) {
+                this.state = HeroState.Idle;
             }
         }
         var as = this.heroData.downAs;
@@ -262,6 +286,7 @@ var HeroState;
     HeroState[HeroState["Idle"] = 0] = "Idle";
     HeroState[HeroState["Hurt"] = 1] = "Hurt";
     HeroState[HeroState["Freez"] = 2] = "Freez";
+    HeroState[HeroState["Release"] = 3] = "Release";
 })(HeroState || (HeroState = {}));
 var AiType;
 (function (AiType) {

@@ -1,6 +1,6 @@
 /**
- *
- * @author 
+ *  
+ * 回旋镖
  *
  */
 class BoomerangBullet extends Bullet{
@@ -22,6 +22,8 @@ class BoomerangBullet extends Bullet{
     
     public update(time: number) {
         super.update(time);
+        
+        this.img.rotation += time;
         switch(this.state){
             case 0:
                 this.speed -= time * 0.9;
@@ -63,22 +65,22 @@ class BoomerangBullet extends Bullet{
                 }
                 break;
         }
-
-        var hitHeroes: Array<Hero> = this.gameController.CheckHitHero(this);
-        var hitItem: Boolean = this.gameController.CheckHitItem(this);
-        var outScreen: Boolean = this.gameController.CheckOutScreen(this);
-       
-        this.img.rotation += time;
-        if(hitItem) {
-            this.state = 2;
-        } else if(outScreen) {
-            this.remove();
-        }
-        if(hitHeroes.length > 0) {
-            for(var i = 0;i < hitHeroes.length;i++) {
-                this.ignoreHeroes.push(hitHeroes[i]);
-            }
-        }
     }  
 	
+    protected hitHero(heroes: Array<Hero>) {
+        super.hitHero(heroes);
+        
+        for(var i = 0;i < heroes.length;i++) {
+            this.ignoreHeroes.push(heroes[i]);
+        }
+    }
+
+    protected hitItems(items: Array<Item>) {
+        super.hitItems(items);
+        this.state = 2;
+    }
+
+    protected outScreen() {
+        super.outScreen();
+    }
 }

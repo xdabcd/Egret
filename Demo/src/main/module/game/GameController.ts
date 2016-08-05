@@ -54,10 +54,8 @@ class GameController extends BaseController {
         }
         for(let i = 0;i < arr.length;i++) {
             let hero: Hero = arr[i];
-            if(this.hitTest(bullet.rect, hero.rect) && !bullet.CheckIgnore(hero)) {
+            if(this.hitTest(bullet.rect, hero.rect)) {
                 hitHeroes.push(hero);
-                hero.Hurt(bullet.GetDamage());
-                bullet.DoEffect(hero);
             }
         }        
         return hitHeroes;
@@ -66,18 +64,16 @@ class GameController extends BaseController {
     /**
      * 检查是否击中道具
      */ 
-    public CheckHitItem(bullet: Bullet): Boolean {
-        var hit = false;
+    public CheckHitItem(bullet: Bullet): Array<Item> {
+        var hitItems = [];
         var items = this.gameView.GetItems();
         for(let i = 0;i < items.length;i++) {
             let item: Item = items[i];
             if(this.hitTest(bullet.rect,item.rect)) {
-                hit = true;
-                App.ControllerManager.applyFunc(ControllerConst.Game,GameConst.RemoveItem,item);
-                bullet.GetCreater().ChangeGun(item.GetAward());
+                hitItems.push(item);
             }
         }
-        return hit;
+        return hitItems;
     }
     
     /**
@@ -107,5 +103,12 @@ class GameController extends BaseController {
      */ 
     private hitTest(rect1: egret.Rectangle,rect2: egret.Rectangle): boolean {
         return rect1.intersects(rect2);
+    }
+    
+    /**
+     * 获取游戏横向百分比
+     */ 
+    public GetPerX(per: number){
+        return (this.gameView.max_x - this.gameView.min_x) * per + this.gameView.min_x;
     }
 }

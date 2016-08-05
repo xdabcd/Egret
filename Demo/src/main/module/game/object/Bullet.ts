@@ -31,7 +31,7 @@ class Bullet extends BaseGameObject{
             this.scaleX = -1;
         }
         this.moveData = moveData;
-        this.rotation = moveData.direction;
+        this.rotation = moveData.direction * this.scaleX;
         this.bulletData = GameManager.GetBulletData(id);
         this.speed = this.bulletData.speed;
         this.ignoreHeroes = [];
@@ -65,8 +65,41 @@ class Bullet extends BaseGameObject{
                 
         var t = time / 1000;
         this.x += this.speed * t * Math.cos(this.rotation / 180 * Math.PI) * this.scaleX;
-        this.y += this.speed * t * Math.sin(this.rotation / 180 * Math.PI) * this.scaleX;        
+        this.y += this.speed * t * Math.sin(this.rotation / 180 * Math.PI) * this.scaleX;      
+        var hitHeroes: Array<Hero> = this.gameController.CheckHitHero(this);
+        var hitItems: Array<Item> = this.gameController.CheckHitItem(this);
+        var outScreen: Boolean = this.gameController.CheckOutScreen(this);
+        if(hitHeroes.length > 0){
+            this.hitHero(hitHeroes);
+        }
+        if(hitItems.length > 0){
+            this.hitItems(hitItems);
+        }
+        if(outScreen){
+            this.outScreen();
+        }
     }  
+    
+    protected hitHero(heroes: Array<Hero>){
+        for(var i = 0; i < heroes.length; i++){
+            var hero = heroes[i];
+            if(!this.checkIgnore(hero)){
+                hero.Hurt(this.getDamage());
+                this.doEffect(hero);
+            }
+        }
+    }
+    
+    protected hitItems(items: Array<Item>) {
+        for(var i = 0;i < items.length;i++) {
+            var item = items[i];
+            item.ToHero(this.creater);
+        }
+    }
+    
+    protected outScreen(){
+        this.remove();
+    }
     
     protected remove(){
         App.ControllerManager.applyFunc(ControllerConst.Game,GameConst.RemoveBullet,this);
@@ -120,19 +153,14 @@ class Bullet extends BaseGameObject{
         this.clearMg();
     }
 
-    public CheckIgnore(hero: Hero): Boolean{
+    private checkIgnore(hero: Hero): Boolean{
         return this.ignoreHeroes.indexOf(hero) >= 0;
     }
     
-    public GetDamage(): number{
+    protected getDamage(): number{
         return this.bulletData.damage;
     }
     
-    public GetCreater(): Hero{
-        return this.creater;
-    }
-    
-    public DoEffect(hero: Hero){
-    
+    protected doEffect(hero: Hero){
     }
 }

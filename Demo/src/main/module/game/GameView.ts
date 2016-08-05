@@ -43,7 +43,7 @@ class GameView extends BaseSpriteView {
         this.itemCd -= t;
         
         if(this.itemCd <= 0){
-            this.createItem(App.RandomUtils.limitInteger(1,5));
+            this.createItem(App.RandomUtils.limitInteger(2,8));
             this.itemCd = this.itemInterval;
         }
     }

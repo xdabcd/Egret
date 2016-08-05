@@ -41,7 +41,7 @@ class BaseGameObject extends egret.DisplayObjectContainer {
     }
     
     public get rect(): egret.Rectangle{
-        return new egret.Rectangle(this.x - this.width / 2, this.y - this.width / 2, this.width, this.height);
+        return new egret.Rectangle(this.x - this.width / 2, this.y - this.height / 2, this.width, this.height);
     }
 }
 

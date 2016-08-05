@@ -1,6 +1,6 @@
 /**
  *
- * @author
+ * 回旋镖
  *
  */
 var BoomerangBullet = (function (_super) {
@@ -18,6 +18,7 @@ var BoomerangBullet = (function (_super) {
     };
     p.update = function (time) {
         _super.prototype.update.call(this, time);
+        this.img.rotation += time;
         switch (this.state) {
             case 0:
                 this.speed -= time * 0.9;
@@ -60,21 +61,19 @@ var BoomerangBullet = (function (_super) {
                 }
                 break;
         }
-        var hitHeroes = this.gameController.CheckHitHero(this);
-        var hitItem = this.gameController.CheckHitItem(this);
-        var outScreen = this.gameController.CheckOutScreen(this);
-        this.img.rotation += time;
-        if (hitItem) {
-            this.state = 2;
+    };
+    p.hitHero = function (heroes) {
+        _super.prototype.hitHero.call(this, heroes);
+        for (var i = 0; i < heroes.length; i++) {
+            this.ignoreHeroes.push(heroes[i]);
         }
-        else if (outScreen) {
-            this.remove();
-        }
-        if (hitHeroes.length > 0) {
-            for (var i = 0; i < hitHeroes.length; i++) {
-                this.ignoreHeroes.push(hitHeroes[i]);
-            }
-        }
+    };
+    p.hitItems = function (items) {
+        _super.prototype.hitItems.call(this, items);
+        this.state = 2;
+    };
+    p.outScreen = function () {
+        _super.prototype.outScreen.call(this);
     };
     return BoomerangBullet;
 }(Bullet));

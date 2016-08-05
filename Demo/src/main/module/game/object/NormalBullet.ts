@@ -17,13 +17,20 @@ class NormalBullet extends Bullet {
 
     public update(time: number) {
         super.update(time);
-        
-        var hitHeroes: Array<Hero> = this.gameController.CheckHitHero(this);
-        var hitItem: Boolean = this.gameController.CheckHitItem(this);
-        var outScreen: Boolean = this.gameController.CheckOutScreen(this);
-        if(hitHeroes.length > 0 || hitItem || outScreen) {
-            this.remove();
-        }
+    }
+    
+    protected hitHero(heroes: Array<Hero>) {
+        super.hitHero(heroes);
+        this.remove();
+    }
+
+    protected hitItems(items: Array<Item>) {
+        super.hitItems(items);
+        this.remove();
+    }
+
+    protected outScreen() {
+        super.outScreen();
     }
 
 }

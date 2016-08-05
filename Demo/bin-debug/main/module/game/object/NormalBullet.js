@@ -17,12 +17,17 @@ var NormalBullet = (function (_super) {
     };
     p.update = function (time) {
         _super.prototype.update.call(this, time);
-        var hitHeroes = this.gameController.CheckHitHero(this);
-        var hitItem = this.gameController.CheckHitItem(this);
-        var outScreen = this.gameController.CheckOutScreen(this);
-        if (hitHeroes.length > 0 || hitItem || outScreen) {
-            this.remove();
-        }
+    };
+    p.hitHero = function (heroes) {
+        _super.prototype.hitHero.call(this, heroes);
+        this.remove();
+    };
+    p.hitItems = function (items) {
+        _super.prototype.hitItems.call(this, items);
+        this.remove();
+    };
+    p.outScreen = function () {
+        _super.prototype.outScreen.call(this);
     };
     return NormalBullet;
 }(Bullet));

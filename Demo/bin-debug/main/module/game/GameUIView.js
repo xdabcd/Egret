@@ -23,12 +23,24 @@ var GameUIView = (function (_super) {
         this.shootBtn = this.createBtn("btn_shoot_png", this.width - 180, -this.bg.height / 2, this.shootBtnUp, this.shootBtnDown, this);
         this.shootBtn.name = "shootBtn";
         this.addChild(this.shootBtn);
+        this.score = new egret.TextField;
+        this.score.width = 200;
+        this.score.x = this.bg.width / 2 - 100;
+        this.score.y = -100;
+        this.score.textAlign = "center";
+        this.score.size = 70;
+        this.score.bold = true;
+        this.score.text = "0";
+        this.addChild(this.score);
         //键盘控制
         App.KeyboardUtils.addKeyUp(this.onKeyUp, this);
         App.KeyboardUtils.addKeyDown(this.onKeyDown, this);
     };
     p.initData = function () {
         _super.prototype.initData.call(this);
+    };
+    p.AddScore = function () {
+        this.score.text = (parseInt(this.score.text) + 1).toString();
     };
     p.jumpBtnDown = function () {
         this.jumpBtn.scaleX = this.jumpBtn.scaleY = 0.9;

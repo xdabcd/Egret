@@ -8,5 +8,7 @@ enum GameConst {
     Shoot = 2,
     CeateBullet,
     RemoveBullet,
-    RemoveItem
+    RemoveItem,
+    HeroDie,
+    AddScore
 }

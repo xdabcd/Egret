@@ -19,6 +19,8 @@ var GameController = (function (_super) {
         this.registerFunc(GameConst.CeateBullet, this.gameView.CreateBullet, this.gameView);
         this.registerFunc(GameConst.RemoveBullet, this.gameView.RemoveBullet, this.gameView);
         this.registerFunc(GameConst.RemoveItem, this.gameView.RemoveItem, this.gameView);
+        this.registerFunc(GameConst.HeroDie, this.gameView.SetHeroDie, this.gameView);
+        this.registerFunc(GameConst.AddScore, this.gameUIView.AddScore, this.gameUIView);
     }
     var d = __define,c=GameController,p=c.prototype;
     /**

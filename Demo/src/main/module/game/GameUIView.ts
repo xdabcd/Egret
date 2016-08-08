@@ -13,6 +13,7 @@ class GameUIView extends BaseSpriteView {
     private bg: egret.Bitmap;
     private jumpBtn: egret.Bitmap;
     private shootBtn: egret.Bitmap;
+    private score: egret.TextField;
     
     public initUI(): void {
         super.initUI();
@@ -30,6 +31,16 @@ class GameUIView extends BaseSpriteView {
         this.shootBtn.name = "shootBtn";
         this.addChild(this.shootBtn);
         
+        this.score = new egret.TextField;
+        this.score.width = 200;
+        this.score.x = this.bg.width / 2 - 100;
+        this.score.y = -100;
+        this.score.textAlign = "center";
+        this.score.size = 70;
+        this.score.bold = true;
+        this.score.text = "0";
+        this.addChild(this.score);
+        
         //键盘控制
         App.KeyboardUtils.addKeyUp(this.onKeyUp,this);
         App.KeyboardUtils.addKeyDown(this.onKeyDown,this);
@@ -37,6 +48,10 @@ class GameUIView extends BaseSpriteView {
 
     public initData(): void {
         super.initData();
+    }
+    
+    public AddScore(){
+        this.score.text = (parseInt(this.score.text) + 1).toString();
     }
     
     private jumpBtnDown(){

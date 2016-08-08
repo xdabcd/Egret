@@ -135,7 +135,7 @@ var Item = (function (_super) {
             else {
                 return (new egret.Rectangle(-10000, -10000, 0, 0));
             }
-            return new egret.Rectangle(this.x - width / 2, this.y - width / 2, width, height);
+            return new egret.Rectangle(this.x - width / 2, this.y - height / 2, width, height);
         }
     );
     return Item;

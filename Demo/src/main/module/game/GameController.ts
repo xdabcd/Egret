@@ -25,6 +25,8 @@ class GameController extends BaseController {
         this.registerFunc(GameConst.CeateBullet, this.gameView.CreateBullet, this.gameView);
         this.registerFunc(GameConst.RemoveBullet, this.gameView.RemoveBullet, this.gameView);
         this.registerFunc(GameConst.RemoveItem,this.gameView.RemoveItem,this.gameView);
+        this.registerFunc(GameConst.HeroDie,this.gameView.SetHeroDie,this.gameView);
+        this.registerFunc(GameConst.AddScore,this.gameUIView.AddScore,this.gameUIView);
     }
     
     /**

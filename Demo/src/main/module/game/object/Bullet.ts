@@ -12,6 +12,7 @@ class Bullet extends BaseGameObject{
     protected moveData: MoveData;
     protected creater: Hero;
     protected ignoreHeroes: Array<Hero>;
+    protected ignoreItems: Array<Item>;
     
     private sh: egret.Shape;
     private mg: egret.Graphics;
@@ -35,6 +36,7 @@ class Bullet extends BaseGameObject{
         this.bulletData = GameManager.GetBulletData(id);
         this.speed = this.bulletData.speed;
         this.ignoreHeroes = [];
+        this.ignoreItems = [];
         
         if(this.sh == null){
             this.sh  = new egret.Shape();
@@ -65,7 +67,22 @@ class Bullet extends BaseGameObject{
                 
         var t = time / 1000;
         this.x += this.speed * t * Math.cos(this.rotation / 180 * Math.PI) * this.scaleX;
-        this.y += this.speed * t * Math.sin(this.rotation / 180 * Math.PI) * this.scaleX;      
+        this.y += this.speed * t * Math.sin(this.rotation / 180 * Math.PI) * this.scaleX;     
+        
+        if(this.priority == 1){
+            var hitBullets = this.gameController.CheckHitBullet(this);
+
+            if(hitBullets.length > 0){
+                this.remove();
+                for(var i = 0;i < hitBullets.length;i++) {
+                    var b = hitBullets[i];
+                    if(b.priority == 1){
+                        b.remove();
+                    }
+                }
+            }
+        }
+        
         var hitHeroes: Array<Hero> = this.gameController.CheckHitHero(this);
         var hitItems: Array<Item> = this.gameController.CheckHitItem(this);
         var outScreen: Boolean = this.gameController.CheckOutScreen(this);
@@ -84,7 +101,7 @@ class Bullet extends BaseGameObject{
         for(var i = 0; i < heroes.length; i++){
             var hero = heroes[i];
             if(!this.checkIgnore(hero)){
-                hero.Hurt(this.getDamage());
+                hero.Hurt(this.damage);
                 this.doEffect(hero);
             }
         }
@@ -106,7 +123,7 @@ class Bullet extends BaseGameObject{
     }
     
     protected drawTrail(color: number){
-        var mPenSize = this.height * 0.5;
+        var mPenSize = Math.sqrt(this.height) * 3.5;
         var obj = { sx: this.x,sy: this.y,size: mPenSize };
         this.mPoints.push(obj);
         if(this.mPoints.length == 0) return;
@@ -115,8 +132,8 @@ class Bullet extends BaseGameObject{
 
         for(var i: number = 0;i < _count;i++) {
             var pt = this.mPoints[i];
-            pt.size -= 1;
-            if(pt.size < this.height * 0.2) {
+            pt.size -= 2;
+            if(pt.size < 0) {
                 this.mPoints.splice(i,1);
                 i--;
                 _count = this.mPoints.length;
@@ -157,7 +174,11 @@ class Bullet extends BaseGameObject{
         return this.ignoreHeroes.indexOf(hero) >= 0;
     }
     
-    protected getDamage(): number{
+    protected get priority(): number{
+        return this.bulletData.priority;
+    }
+    
+    protected get damage(): number{
         return this.bulletData.damage;
     }
     

@@ -83,7 +83,7 @@ class GameUIView extends BaseSpriteView {
                 this.shootBtnDown();
                 break;
             case Keyboard.SPACE:
-                App.TimerManager.setTimeScale(0.01);
+                App.TimerManager.setTimeScale(0.02);
                 break;
             case Keyboard.J:
                 App.TimerManager.setTimeScale(1);

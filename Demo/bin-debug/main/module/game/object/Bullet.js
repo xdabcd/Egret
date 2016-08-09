@@ -25,6 +25,7 @@ var Bullet = (function (_super) {
         this.bulletData = GameManager.GetBulletData(id);
         this.speed = this.bulletData.speed;
         this.ignoreHeroes = [];
+        this.ignoreItems = [];
         if (this.sh == null) {
             this.sh = new egret.Shape();
             this.creater.parent.addChild(this.sh);
@@ -51,6 +52,18 @@ var Bullet = (function (_super) {
         var t = time / 1000;
         this.x += this.speed * t * Math.cos(this.rotation / 180 * Math.PI) * this.scaleX;
         this.y += this.speed * t * Math.sin(this.rotation / 180 * Math.PI) * this.scaleX;
+        if (this.priority == 1) {
+            var hitBullets = this.gameController.CheckHitBullet(this);
+            if (hitBullets.length > 0) {
+                this.remove();
+                for (var i = 0; i < hitBullets.length; i++) {
+                    var b = hitBullets[i];
+                    if (b.priority == 1) {
+                        b.remove();
+                    }
+                }
+            }
+        }
         var hitHeroes = this.gameController.CheckHitHero(this);
         var hitItems = this.gameController.CheckHitItem(this);
         var outScreen = this.gameController.CheckOutScreen(this);
@@ -68,7 +81,7 @@ var Bullet = (function (_super) {
         for (var i = 0; i < heroes.length; i++) {
             var hero = heroes[i];
             if (!this.checkIgnore(hero)) {
-                hero.Hurt(this.getDamage());
+                hero.Hurt(this.damage);
                 this.doEffect(hero);
             }
         }
@@ -86,7 +99,7 @@ var Bullet = (function (_super) {
         App.ControllerManager.applyFunc(ControllerConst.Game, GameConst.RemoveBullet, this);
     };
     p.drawTrail = function (color) {
-        var mPenSize = this.height * 0.5;
+        var mPenSize = Math.sqrt(this.height) * 3.5;
         var obj = { sx: this.x, sy: this.y, size: mPenSize };
         this.mPoints.push(obj);
         if (this.mPoints.length == 0)
@@ -95,8 +108,8 @@ var Bullet = (function (_super) {
         var _count = this.mPoints.length;
         for (var i = 0; i < _count; i++) {
             var pt = this.mPoints[i];
-            pt.size -= 1;
-            if (pt.size < this.height * 0.2) {
+            pt.size -= 2;
+            if (pt.size < 0) {
                 this.mPoints.splice(i, 1);
                 i--;
                 _count = this.mPoints.length;
@@ -132,9 +145,16 @@ var Bullet = (function (_super) {
     p.checkIgnore = function (hero) {
         return this.ignoreHeroes.indexOf(hero) >= 0;
     };
-    p.getDamage = function () {
-        return this.bulletData.damage;
-    };
+    d(p, "priority"
+        ,function () {
+            return this.bulletData.priority;
+        }
+    );
+    d(p, "damage"
+        ,function () {
+            return this.bulletData.damage;
+        }
+    );
     p.doEffect = function (hero) {
     };
     return Bullet;

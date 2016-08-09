@@ -44,6 +44,27 @@ class GameController extends BaseController {
     }
     
     /**
+     * 检测是否击中子弹
+     */ 
+    public CheckHitBullet(bullet: Bullet): Array<Bullet>{
+        var bullets = [];
+        var arr: Array<Bullet> = [];
+        if(bullet.side == Side.Own) {
+            arr = this.gameView.GetEnemyBullets();
+        } else {
+            arr = this.gameView.GetOwnBullets();
+        }
+
+        for(let i = 0;i < arr.length;i++) {
+            let b: Bullet = arr[i];
+            if(this.hitTest(bullet.rect,b.rect)) {
+                bullets.push(b);
+            }
+        }     
+        return bullets;
+    }
+    
+    /**
      * 检测子弹是否击中英雄
      */ 
     public CheckHitHero(bullet: Bullet): Array<Hero>{

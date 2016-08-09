@@ -78,7 +78,7 @@ var Item = (function (_super) {
         this.setImg(this.itemData.drop);
     };
     p.drawTrail = function (color) {
-        var mPenSize = this.height * 0.5;
+        var mPenSize = Math.sqrt(this.height) * 3.5;
         var obj = { sx: this.x, sy: this.y, size: mPenSize };
         this.mPoints.push(obj);
         if (this.mPoints.length == 0)
@@ -87,8 +87,8 @@ var Item = (function (_super) {
         var _count = this.mPoints.length;
         for (var i = 0; i < _count; i++) {
             var pt = this.mPoints[i];
-            pt.size -= 1;
-            if (pt.size < this.height * 0.2) {
+            pt.size -= 2;
+            if (pt.size < 0) {
                 this.mPoints.splice(i, 1);
                 i--;
                 _count = this.mPoints.length;
@@ -141,3 +141,8 @@ var Item = (function (_super) {
     return Item;
 }(BaseGameObject));
 egret.registerClass(Item,'Item');
+var ItemType;
+(function (ItemType) {
+    ItemType[ItemType["Stone"] = 0] = "Stone";
+    ItemType[ItemType["Gun"] = 1] = "Gun";
+})(ItemType || (ItemType = {}));

@@ -38,6 +38,26 @@ var GameController = (function (_super) {
         return 0;
     };
     /**
+     * 检测是否击中子弹
+     */
+    p.CheckHitBullet = function (bullet) {
+        var bullets = [];
+        var arr = [];
+        if (bullet.side == Side.Own) {
+            arr = this.gameView.GetEnemyBullets();
+        }
+        else {
+            arr = this.gameView.GetOwnBullets();
+        }
+        for (var i = 0; i < arr.length; i++) {
+            var b = arr[i];
+            if (this.hitTest(bullet.rect, b.rect)) {
+                bullets.push(b);
+            }
+        }
+        return bullets;
+    };
+    /**
      * 检测子弹是否击中英雄
      */
     p.CheckHitHero = function (bullet) {

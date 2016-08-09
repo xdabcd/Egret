@@ -12,4 +12,5 @@ class BulletData {
 	public damage: number;
     public trail: number;
 	public info: any;
+    public priority: number;
 }

@@ -126,7 +126,7 @@ class GrenadeBullet extends Bullet{
         }
     }
     
-    protected getDamage(): number {
+    protected get damage(): number {
         if(this.state == 1){
             return 0;
         }

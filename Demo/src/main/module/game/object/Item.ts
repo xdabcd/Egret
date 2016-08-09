@@ -97,7 +97,7 @@ class Item extends BaseGameObject{
     }
     
     private drawTrail(color: number) {
-        var mPenSize = this.height * 0.5;
+        var mPenSize = Math.sqrt(this.height) * 3.5;
         var obj = { sx: this.x,sy: this.y,size: mPenSize };
         this.mPoints.push(obj);
         if(this.mPoints.length == 0) return;
@@ -106,8 +106,8 @@ class Item extends BaseGameObject{
 
         for(var i: number = 0;i < _count;i++) {
             var pt = this.mPoints[i];
-            pt.size -= 1;
-            if(pt.size < this.height * 0.2) {
+            pt.size -= 2;
+            if(pt.size < 0) {
                 this.mPoints.splice(i,1);
                 i--;
                 _count = this.mPoints.length;
@@ -159,4 +159,9 @@ class Item extends BaseGameObject{
         }
         return new egret.Rectangle(this.x - width / 2,this.y - height / 2,width,height);
     }
+}
+
+enum ItemType{
+    Stone,
+    Gun
 }

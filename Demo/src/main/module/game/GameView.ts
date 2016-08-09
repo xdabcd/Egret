@@ -14,12 +14,13 @@ class GameView extends BaseSpriteView {
     private items: Array<Item> = [];
     private itemInterval = 5;
     private itemCd = 0;
-    /** 0: init 1: ready 2: fight 3: move 4: end*/
+    /** 0: init 1: ready 2: fight 3: trans 4: move 5: end*/
     private state: number;
     private bgSpeed: number;
     private bgDis: number;
     private round: number;
     private wave: number;
+    private transTime: number;
     
     private roundText: egret.TextField;
     private over: egret.TextField;
@@ -55,7 +56,7 @@ class GameView extends BaseSpriteView {
         this.addChild(this.roundText);  
         this.roundText.visible = false;
         
-        this.state = 0;
+        this.setState(0);
         this.round = 1;
         this.wave = 1;
         
@@ -79,11 +80,11 @@ class GameView extends BaseSpriteView {
                     .wait(500)
                     .to({alpha : 0.1}, 300).call(()=>{this.roundText.visible = false});
                 this.createHero();
-                this.state = 1;
+                this.setState(1);
                 break;
             case 1:
                 this.createEnemy(AiType.Follow);
-                this.state = 2;
+                this.setState(2);
                 break;
             case 2:
                 this.itemCd -= t;
@@ -94,15 +95,21 @@ class GameView extends BaseSpriteView {
                 }
                 break;
             case 3:
+                this.transTime -= t;
+                if(this.transTime <= 0){
+                    this.next();
+                }
+                break;
+            case 4:
                 if(this.hero != null && this.hero.GetState() == HeroState.Idle){
                     this.hero.destory();
                     this.hero = null;
                 }
-                if(this.bgDis > this.bgContainer.width * 6) {
+                if(this.bgDis > this.bgContainer.width * 4) {
                     if(this.bgSpeed <= 0.6){
                         this.bgSpeed = 0.6;
                         if(this.bgContainer.x >= -30){
-                            this.state = 0;
+                            this.setState(0);
                         }
                     }else{
                         this.bgSpeed -= t;
@@ -116,7 +123,7 @@ class GameView extends BaseSpriteView {
                 this.bgContainer.x = (this.bgContainer.x - this.bgSpeed * time) % (this.bgContainer.width / 2);
                 this.bgDis += this.bgSpeed * time;
                 break;
-            case 4:
+            case 5:
                 break;
         }
     }
@@ -135,29 +142,41 @@ class GameView extends BaseSpriteView {
             this.over.text = "GAME OVER!";
             this.addChild(this.over);        
         } 
-        this.state = 4;
+        this.setState(5);
         this.over.scaleX = this.roundText.scaleY = 0.1;
         this.over.visible = true;
         this.over.alpha = 1;
         egret.Tween.get(this.over).to({ scaleX: 1,scaleY: 1 },400,egret.Ease.elasticOut);
     }
 
+    private trans(){
+        this.state = 3; 
+        this.transTime = 1;
+    }
+    
     private next(){
         if(this.wave < this.round){
+            this.setState(2);
             this.createEnemy(AiType.Follow);
             this.wave += 1;
         }else{
             var targetPos = this.getPerPos(1.2,0.5);
             this.hero.Move(targetPos);
-            this.state = 3;
+            this.setState(4);
             this.round += 1;
             this.wave = 1;
             this.bgSpeed = 0;
             this.bgDis = 0;
         }
-        
 //        App.ControllerManager.applyFunc(ControllerConst.Game,GameConst.AddScore);
 //        egret.setTimeout(() => { this.createEnemy(AiType.Follow);}, this, 1000);
+    }
+    
+    private setState(state: number){
+        if(this.state == 5){
+            return;
+        }
+        this.state = state;
     }
     
     private createHero(){
@@ -205,7 +224,7 @@ class GameView extends BaseSpriteView {
             this.enemies.splice(index,1);
             App.ControllerManager.applyFunc(ControllerConst.Game,GameConst.AddScore,this);
             if(this.enemies.length == 0){
-                this.next();
+                this.trans();
             }
         }
     }
@@ -253,19 +272,31 @@ class GameView extends BaseSpriteView {
     }
     
     public Jump(up: Boolean){
-        this.hero.IsUp = up;
+        if(this.hero != null){
+            this.hero.IsUp = up;
+        }
     }
     
     public Shoot(){
-        this.hero.Shoot();
+        if(this.hero != null){
+            this.hero.Shoot();
+        }
     }
     
     public GetHero(): Hero{
         return this.hero;
     }
     
+    public GetOwnBullets(): Array<Bullet>{
+        return this.ownBullets;
+    }
+    
     public GetEnemies(): Array<Hero>{
         return this.enemies;
+    }
+    
+    public GetEnemyBullets(): Array<Bullet> {
+        return this.enemyBullets;
     }
     
     public GetItems(): Array<Item> {

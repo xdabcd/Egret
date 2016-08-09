@@ -38,7 +38,7 @@ var GameView = (function (_super) {
         this.roundText.bold = true;
         this.addChild(this.roundText);
         this.roundText.visible = false;
-        this.state = 0;
+        this.setState(0);
         this.round = 1;
         this.wave = 1;
         App.TimerManager.doFrame(1, 0, this.update, this);
@@ -59,11 +59,11 @@ var GameView = (function (_super) {
                     .wait(500)
                     .to({ alpha: 0.1 }, 300).call(function () { _this.roundText.visible = false; });
                 this.createHero();
-                this.state = 1;
+                this.setState(1);
                 break;
             case 1:
                 this.createEnemy(AiType.Follow);
-                this.state = 2;
+                this.setState(2);
                 break;
             case 2:
                 this.itemCd -= t;
@@ -73,15 +73,21 @@ var GameView = (function (_super) {
                 }
                 break;
             case 3:
+                this.transTime -= t;
+                if (this.transTime <= 0) {
+                    this.next();
+                }
+                break;
+            case 4:
                 if (this.hero != null && this.hero.GetState() == HeroState.Idle) {
                     this.hero.destory();
                     this.hero = null;
                 }
-                if (this.bgDis > this.bgContainer.width * 6) {
+                if (this.bgDis > this.bgContainer.width * 4) {
                     if (this.bgSpeed <= 0.6) {
                         this.bgSpeed = 0.6;
                         if (this.bgContainer.x >= -30) {
-                            this.state = 0;
+                            this.setState(0);
                         }
                     }
                     else {
@@ -97,7 +103,7 @@ var GameView = (function (_super) {
                 this.bgContainer.x = (this.bgContainer.x - this.bgSpeed * time) % (this.bgContainer.width / 2);
                 this.bgDis += this.bgSpeed * time;
                 break;
-            case 4:
+            case 5:
                 break;
         }
     };
@@ -115,21 +121,26 @@ var GameView = (function (_super) {
             this.over.text = "GAME OVER!";
             this.addChild(this.over);
         }
-        this.state = 4;
+        this.setState(5);
         this.over.scaleX = this.roundText.scaleY = 0.1;
         this.over.visible = true;
         this.over.alpha = 1;
         egret.Tween.get(this.over).to({ scaleX: 1, scaleY: 1 }, 400, egret.Ease.elasticOut);
     };
+    p.trans = function () {
+        this.state = 3;
+        this.transTime = 1;
+    };
     p.next = function () {
         if (this.wave < this.round) {
+            this.setState(2);
             this.createEnemy(AiType.Follow);
             this.wave += 1;
         }
         else {
             var targetPos = this.getPerPos(1.2, 0.5);
             this.hero.Move(targetPos);
-            this.state = 3;
+            this.setState(4);
             this.round += 1;
             this.wave = 1;
             this.bgSpeed = 0;
@@ -137,6 +148,12 @@ var GameView = (function (_super) {
         }
         //        App.ControllerManager.applyFunc(ControllerConst.Game,GameConst.AddScore);
         //        egret.setTimeout(() => { this.createEnemy(AiType.Follow);}, this, 1000);
+    };
+    p.setState = function (state) {
+        if (this.state == 5) {
+            return;
+        }
+        this.state = state;
     };
     p.createHero = function () {
         this.hero = ObjectPool.pop("Hero", this.controller);
@@ -183,7 +200,7 @@ var GameView = (function (_super) {
             this.enemies.splice(index, 1);
             App.ControllerManager.applyFunc(ControllerConst.Game, GameConst.AddScore, this);
             if (this.enemies.length == 0) {
-                this.next();
+                this.trans();
             }
         }
     };
@@ -227,16 +244,26 @@ var GameView = (function (_super) {
         item.destory();
     };
     p.Jump = function (up) {
-        this.hero.IsUp = up;
+        if (this.hero != null) {
+            this.hero.IsUp = up;
+        }
     };
     p.Shoot = function () {
-        this.hero.Shoot();
+        if (this.hero != null) {
+            this.hero.Shoot();
+        }
     };
     p.GetHero = function () {
         return this.hero;
     };
+    p.GetOwnBullets = function () {
+        return this.ownBullets;
+    };
     p.GetEnemies = function () {
         return this.enemies;
+    };
+    p.GetEnemyBullets = function () {
+        return this.enemyBullets;
     };
     p.GetItems = function () {
         return this.items;

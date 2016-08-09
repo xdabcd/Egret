@@ -105,12 +105,14 @@ var GrenadeBullet = (function (_super) {
             _super.prototype.outScreen.call(this);
         }
     };
-    p.getDamage = function () {
-        if (this.state == 1) {
-            return 0;
+    d(p, "damage"
+        ,function () {
+            if (this.state == 1) {
+                return 0;
+            }
+            return this.bulletData.damage;
         }
-        return this.bulletData.damage;
-    };
+    );
     d(p, "rect"
         ,function () {
             var width;

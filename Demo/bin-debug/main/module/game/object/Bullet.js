@@ -25,7 +25,7 @@ var Bullet = (function (_super) {
         this.bulletData = GameManager.GetBulletData(id);
         this.speed = this.bulletData.speed;
         this.ignoreHeroes = [];
-        this.ignoreItems = [];
+        this.ignoreStones = [];
         if (this.sh == null) {
             this.sh = new egret.Shape();
             this.creater.parent.addChild(this.sh);
@@ -67,6 +67,7 @@ var Bullet = (function (_super) {
         var hitHeroes = this.gameController.CheckHitHero(this);
         var hitItems = this.gameController.CheckHitItem(this);
         var outScreen = this.gameController.CheckOutScreen(this);
+        var hitStones = this.gameController.CheckHitStone(this);
         if (hitHeroes.length > 0) {
             this.hitHero(hitHeroes);
         }
@@ -76,11 +77,14 @@ var Bullet = (function (_super) {
         if (outScreen) {
             this.outScreen();
         }
+        if (this.hitStones.length > 0) {
+            this.hitStones(hitStones);
+        }
     };
     p.hitHero = function (heroes) {
         for (var i = 0; i < heroes.length; i++) {
             var hero = heroes[i];
-            if (!this.checkIgnore(hero)) {
+            if (!this.checkIgnoreHero(hero)) {
                 hero.Hurt(this.damage);
                 this.doEffect(hero);
             }
@@ -90,6 +94,19 @@ var Bullet = (function (_super) {
         for (var i = 0; i < items.length; i++) {
             var item = items[i];
             item.ToHero(this.creater);
+        }
+    };
+    p.hitStones = function (stones) {
+        for (var i = 0; i < stones.length; i++) {
+            var stone = stones[i];
+            if (!this.checkIgnoreStone(stone)) {
+                if (this.priority == 1) {
+                    this.remove();
+                }
+                var direction = App.MathUtils.getAngle(App.MathUtils.getRadian2(this.x, this.y, stone.x, stone.y));
+                stone.Hit(Math.sqrt(this.damage) * 50, direction);
+                this.ignoreStones.push(stone);
+            }
         }
     };
     p.outScreen = function () {
@@ -142,8 +159,11 @@ var Bullet = (function (_super) {
         _super.prototype.destory.call(this);
         this.clearMg();
     };
-    p.checkIgnore = function (hero) {
+    p.checkIgnoreHero = function (hero) {
         return this.ignoreHeroes.indexOf(hero) >= 0;
+    };
+    p.checkIgnoreStone = function (stone) {
+        return this.ignoreStones.indexOf(stone) >= 0;
     };
     d(p, "priority"
         ,function () {

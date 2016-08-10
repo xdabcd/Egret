@@ -24,7 +24,8 @@ class GameController extends BaseController {
         this.registerFunc(GameConst.Shoot, this.gameView.Shoot, this.gameView);
         this.registerFunc(GameConst.CeateBullet, this.gameView.CreateBullet, this.gameView);
         this.registerFunc(GameConst.RemoveBullet, this.gameView.RemoveBullet, this.gameView);
-        this.registerFunc(GameConst.RemoveItem,this.gameView.RemoveItem,this.gameView);
+        this.registerFunc(GameConst.RemoveItem,this.gameView.RemoveItem,this.gameView); 
+        this.registerFunc(GameConst.RemoveStone,this.gameView.RemoveStone,this.gameView);
         this.registerFunc(GameConst.HeroDie,this.gameView.SetHeroDie,this.gameView);
         this.registerFunc(GameConst.AddScore,this.gameUIView.AddScore,this.gameUIView);
     }
@@ -77,7 +78,7 @@ class GameController extends BaseController {
         }
         for(let i = 0;i < arr.length;i++) {
             let hero: Hero = arr[i];
-            if(this.hitTest(bullet.rect, hero.rect)) {
+            if(hero != null && this.hitTest(bullet.rect, hero.rect)) {
                 hitHeroes.push(hero);
             }
         }        
@@ -100,6 +101,21 @@ class GameController extends BaseController {
     }
     
     /**
+     * 检查是否击中石头
+     */
+    public CheckHitStone(bullet: Bullet): Array<Stone> {
+        var hitStones = [];
+        var stones = this.gameView.GetStones();
+        for(let i = 0;i < stones.length;i++) {
+            let stone: Stone = stones[i];
+            if(this.hitTest(bullet.rect,stone.rect)) {
+                hitStones.push(stone);
+            }
+        }
+        return hitStones;
+    }
+    
+    /**
      * 检测英雄是否超出范围(Y轴)
      */ 
     public CheckHeroOut(hero: Hero): Boolean{
@@ -118,7 +134,7 @@ class GameController extends BaseController {
      */
     public CheckOutScreen(object: BaseGameObject): Boolean {
         return !this.hitTest(new egret.Rectangle(object.x, object.y, object.width, object.height), 
-                            new egret.Rectangle(0, 0, App.StageUtils.getWidth(), App.StageUtils.getHeight()));
+                            new egret.Rectangle(0, -100, App.StageUtils.getWidth(), App.StageUtils.getHeight() + 200));
     }
     
     /**

@@ -25,7 +25,7 @@ var BoomerangBullet = (function (_super) {
                 if (this.speed <= 700) {
                     this.state = 1;
                     this.ignoreHeroes = [];
-                    this.ignoreItems = [];
+                    this.ignoreStones = [];
                 }
                 break;
             case 1:

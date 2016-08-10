@@ -12,8 +12,11 @@ class GameView extends BaseSpriteView {
     private enemies: Array<Hero> = [];
     private enemyBullets: Array<Bullet> = [];
     private items: Array<Item> = [];
+    private stones: Array<Stone> = [];
     private itemInterval = 5;
     private itemCd = 0;
+    private stoneInterval = 6;
+    private stoneCd = 0;
     /** 0: init 1: ready 2: fight 3: trans 4: move 5: end*/
     private state: number;
     private bgSpeed: number;
@@ -93,6 +96,12 @@ class GameView extends BaseSpriteView {
                     this.createItem(App.RandomUtils.limitInteger(2,8));
                     this.itemCd = this.itemInterval;
                 }
+                
+                this.stoneCd -= t;
+                if(this.stoneCd <= 0){
+                    this.createStone(App.RandomUtils.limitInteger(1, 2));
+                    this.stoneCd = this.stoneInterval;
+                }
                 break;
             case 3:
                 this.transTime -= t;
@@ -105,6 +114,10 @@ class GameView extends BaseSpriteView {
                     this.hero.destory();
                     this.hero = null;
                 }
+                if(this.bgDis > this.bgContainer.width / 3){
+                    this.clearItems();
+                    this.clearStones();
+                }
                 if(this.bgDis > this.bgContainer.width * 4) {
                     if(this.bgSpeed <= 0.6){
                         this.bgSpeed = 0.6;
@@ -114,11 +127,8 @@ class GameView extends BaseSpriteView {
                     }else{
                         this.bgSpeed -= t;
                     }
-                }else if(this.bgSpeed < 5){
+                }else if(this.bgSpeed < 6){
                     this.bgSpeed += t;
-                }
-                for(var i = 0; i < this.items.length; i++){
-                    this.items[i].x -= this.bgSpeed * time;
                 }
                 this.bgContainer.x = (this.bgContainer.x - this.bgSpeed * time) % (this.bgContainer.width / 2);
                 this.bgDis += this.bgSpeed * time;
@@ -261,7 +271,12 @@ class GameView extends BaseSpriteView {
         var pos = this.getPerPos(App.RandomUtils.limit(0.4, 0.6), direction);
         item.x = pos.x;
         item.y = pos.y;
-        this.addChild(item);
+        if(direction == 0) {
+            item.y -= 50;
+        } else {
+            item.y += 50;
+        }
+        this.bgContainer.addChild(item);
         this.items.push(item);
     }
     
@@ -269,6 +284,46 @@ class GameView extends BaseSpriteView {
         let index = this.items.indexOf(item);
         this.items.splice(index,1);
         item.destory();
+    }
+    
+    private createStone(id: number) {
+        var stone: Stone = ObjectPool.pop("Stone",this.controller);
+        var direction = App.RandomUtils.limitInteger(0,1);
+        stone.init(id,Side.Middle,direction);
+        var pos = this.getPerPos(App.RandomUtils.limit(0.4,0.6),direction);
+        stone.x = pos.x;
+        stone.y = pos.y;
+        if(direction == 0){
+            stone.y -= 100;
+        }else{
+            stone.y += 100;
+        }
+        this.bgContainer.addChild(stone);
+        this.stones.push(stone);
+    }
+
+    private clearItems(){
+        if(this.items.length > 0){
+            for(var i = 0; i < this.items.length; i++){
+                this.items[i].destory();
+            }
+            this.items = [];
+        }
+    }
+    
+    private clearStones() {
+        if(this.stones.length > 0) {
+            for(var i = 0;i < this.stones.length;i++) {
+                this.stones[i].destory();
+            }
+            this.stones = [];
+        }
+    }
+    
+    public RemoveStone(stone: Stone) {
+        let index = this.stones.indexOf(stone);
+        this.stones.splice(index,1);
+        stone.destory();
     }
     
     public Jump(up: Boolean){
@@ -301,6 +356,10 @@ class GameView extends BaseSpriteView {
     
     public GetItems(): Array<Item> {
         return this.items;
+    }
+    
+    public GetStones(): Array<Stone> {
+        return this.stones;
     }
     
     public get min_x(): number{

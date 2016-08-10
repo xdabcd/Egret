@@ -11,8 +11,11 @@ var GameView = (function (_super) {
         this.enemies = [];
         this.enemyBullets = [];
         this.items = [];
+        this.stones = [];
         this.itemInterval = 5;
         this.itemCd = 0;
+        this.stoneInterval = 6;
+        this.stoneCd = 0;
         this.controller = $controller;
     }
     var d = __define,c=GameView,p=c.prototype;
@@ -71,6 +74,11 @@ var GameView = (function (_super) {
                     this.createItem(App.RandomUtils.limitInteger(2, 8));
                     this.itemCd = this.itemInterval;
                 }
+                this.stoneCd -= t;
+                if (this.stoneCd <= 0) {
+                    this.createStone(App.RandomUtils.limitInteger(1, 2));
+                    this.stoneCd = this.stoneInterval;
+                }
                 break;
             case 3:
                 this.transTime -= t;
@@ -83,6 +91,10 @@ var GameView = (function (_super) {
                     this.hero.destory();
                     this.hero = null;
                 }
+                if (this.bgDis > this.bgContainer.width / 3) {
+                    this.clearItems();
+                    this.clearStones();
+                }
                 if (this.bgDis > this.bgContainer.width * 4) {
                     if (this.bgSpeed <= 0.6) {
                         this.bgSpeed = 0.6;
@@ -94,11 +106,8 @@ var GameView = (function (_super) {
                         this.bgSpeed -= t;
                     }
                 }
-                else if (this.bgSpeed < 5) {
+                else if (this.bgSpeed < 6) {
                     this.bgSpeed += t;
-                }
-                for (var i = 0; i < this.items.length; i++) {
-                    this.items[i].x -= this.bgSpeed * time;
                 }
                 this.bgContainer.x = (this.bgContainer.x - this.bgSpeed * time) % (this.bgContainer.width / 2);
                 this.bgDis += this.bgSpeed * time;
@@ -235,13 +244,56 @@ var GameView = (function (_super) {
         var pos = this.getPerPos(App.RandomUtils.limit(0.4, 0.6), direction);
         item.x = pos.x;
         item.y = pos.y;
-        this.addChild(item);
+        if (direction == 0) {
+            item.y -= 50;
+        }
+        else {
+            item.y += 50;
+        }
+        this.bgContainer.addChild(item);
         this.items.push(item);
     };
     p.RemoveItem = function (item) {
         var index = this.items.indexOf(item);
         this.items.splice(index, 1);
         item.destory();
+    };
+    p.createStone = function (id) {
+        var stone = ObjectPool.pop("Stone", this.controller);
+        var direction = App.RandomUtils.limitInteger(0, 1);
+        stone.init(id, Side.Middle, direction);
+        var pos = this.getPerPos(App.RandomUtils.limit(0.4, 0.6), direction);
+        stone.x = pos.x;
+        stone.y = pos.y;
+        if (direction == 0) {
+            stone.y -= 100;
+        }
+        else {
+            stone.y += 100;
+        }
+        this.bgContainer.addChild(stone);
+        this.stones.push(stone);
+    };
+    p.clearItems = function () {
+        if (this.items.length > 0) {
+            for (var i = 0; i < this.items.length; i++) {
+                this.items[i].destory();
+            }
+            this.items = [];
+        }
+    };
+    p.clearStones = function () {
+        if (this.stones.length > 0) {
+            for (var i = 0; i < this.stones.length; i++) {
+                this.stones[i].destory();
+            }
+            this.stones = [];
+        }
+    };
+    p.RemoveStone = function (stone) {
+        var index = this.stones.indexOf(stone);
+        this.stones.splice(index, 1);
+        stone.destory();
     };
     p.Jump = function (up) {
         if (this.hero != null) {
@@ -267,6 +319,9 @@ var GameView = (function (_super) {
     };
     p.GetItems = function () {
         return this.items;
+    };
+    p.GetStones = function () {
+        return this.stones;
     };
     d(p, "min_x"
         ,function () {

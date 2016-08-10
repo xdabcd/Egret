@@ -13,6 +13,7 @@ class GameUIView extends BaseSpriteView {
     private bg: egret.Bitmap;
     private jumpBtn: egret.Bitmap;
     private shootBtn: egret.Bitmap;
+    private dodgeBtn: egret.Bitmap;
     private score: egret.TextField;
     
     public initUI(): void {
@@ -23,11 +24,15 @@ class GameUIView extends BaseSpriteView {
         this.bg.name = "bg";
         this.addChild(this.bg);
         
-        this.jumpBtn = this.createBtn("btn_jump_png", 180, -this.bg.height / 2, this.jumpBtnUp, this.jumpBtnDown, this);
+        this.jumpBtn = this.createBtn("btn_jump_png", this.bg.width / 8, -this.bg.height / 2, 0, this.bg.width / 3, this.jumpBtnUp, this.jumpBtnDown, this);
         this.jumpBtn.name = "jumpBtn";
         this.addChild(this.jumpBtn);           
         
-        this.shootBtn = this.createBtn("btn_shoot_png", this.width - 180, -this.bg.height / 2, this.shootBtnUp, this.shootBtnDown, this);
+        this.dodgeBtn = this.createBtn("btn_dodge_png",this.bg.width * 6 / 8,-this.bg.height / 2,this.bg.width * 4 / 6,this.bg.width * 5/ 6,this.dodgeBtnUp,this.dodgeBtnDown,this);
+        this.dodgeBtn.name = "dodgeBtn";
+        this.addChild(this.dodgeBtn);
+        
+        this.shootBtn = this.createBtn("btn_shoot_png", this.bg.width * 7 / 8,-this.bg.height / 2, this.bg.width * 5 / 6, this.bg.width, this.shootBtnUp, this.shootBtnDown, this);
         this.shootBtn.name = "shootBtn";
         this.addChild(this.shootBtn);
         
@@ -63,6 +68,15 @@ class GameUIView extends BaseSpriteView {
     private jumpBtnUp(){
         this.jumpBtn.scaleX = this.jumpBtn.scaleY = 1;
         App.ControllerManager.applyFunc(ControllerConst.Game, GameConst.Jump, false);
+    }
+    
+    private dodgeBtnDown() {
+        this.dodgeBtn.scaleX = this.dodgeBtn.scaleY = 0.9;
+        App.ControllerManager.applyFunc(ControllerConst.Game,GameConst.Dodge);
+    }
+
+    private dodgeBtnUp() {
+        this.dodgeBtn.scaleX = this.dodgeBtn.scaleY = 1;
     }
     
     private shootBtnDown(){
@@ -106,15 +120,15 @@ class GameUIView extends BaseSpriteView {
         }
     }
     
-    private createBtn(img: string, $x: number, $y: number, upFunc: Function, downFunc: Function, thisObj: any): egret.Bitmap{
+    private createBtn(img: string, $x: number, $y: number, start: number, end: number, upFunc: Function, downFunc: Function, thisObj: any): egret.Bitmap{
         var bitmap: egret.Bitmap = App.DisplayUtils.createBitmap(img);
         bitmap.touchEnabled = true;
         AnchorUtil.setAnchor(bitmap,0.5);
         
         var touch = new egret.Sprite;
-        touch.width = bitmap.width * 10;
+        touch.width = end - start;
         touch.height = App.StageUtils.getHeight();
-        touch.x = $x;
+        touch.x = (start + end) / 2;
         touch.y = -touch.height / 2;
         touch.touchEnabled = true;
         AnchorUtil.setAnchor(touch,0.5);

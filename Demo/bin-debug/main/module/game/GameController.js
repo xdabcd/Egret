@@ -19,6 +19,7 @@ var GameController = (function (_super) {
         this.registerFunc(GameConst.CeateBullet, this.gameView.CreateBullet, this.gameView);
         this.registerFunc(GameConst.RemoveBullet, this.gameView.RemoveBullet, this.gameView);
         this.registerFunc(GameConst.RemoveItem, this.gameView.RemoveItem, this.gameView);
+        this.registerFunc(GameConst.RemoveStone, this.gameView.RemoveStone, this.gameView);
         this.registerFunc(GameConst.HeroDie, this.gameView.SetHeroDie, this.gameView);
         this.registerFunc(GameConst.AddScore, this.gameUIView.AddScore, this.gameUIView);
     }
@@ -71,7 +72,7 @@ var GameController = (function (_super) {
         }
         for (var i = 0; i < arr.length; i++) {
             var hero = arr[i];
-            if (this.hitTest(bullet.rect, hero.rect)) {
+            if (hero != null && this.hitTest(bullet.rect, hero.rect)) {
                 hitHeroes.push(hero);
             }
         }
@@ -92,6 +93,20 @@ var GameController = (function (_super) {
         return hitItems;
     };
     /**
+     * 检查是否击中石头
+     */
+    p.CheckHitStone = function (bullet) {
+        var hitStones = [];
+        var stones = this.gameView.GetStones();
+        for (var i = 0; i < stones.length; i++) {
+            var stone = stones[i];
+            if (this.hitTest(bullet.rect, stone.rect)) {
+                hitStones.push(stone);
+            }
+        }
+        return hitStones;
+    };
+    /**
      * 检测英雄是否超出范围(Y轴)
      */
     p.CheckHeroOut = function (hero) {
@@ -109,7 +124,7 @@ var GameController = (function (_super) {
      * 检测是否超出屏幕
      */
     p.CheckOutScreen = function (object) {
-        return !this.hitTest(new egret.Rectangle(object.x, object.y, object.width, object.height), new egret.Rectangle(0, 0, App.StageUtils.getWidth(), App.StageUtils.getHeight()));
+        return !this.hitTest(new egret.Rectangle(object.x, object.y, object.width, object.height), new egret.Rectangle(0, -100, App.StageUtils.getWidth(), App.StageUtils.getHeight() + 200));
     };
     /**
      * 碰撞检测

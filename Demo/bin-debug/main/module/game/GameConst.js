@@ -7,9 +7,11 @@ var GameConst;
 (function (GameConst) {
     GameConst[GameConst["Jump"] = 1] = "Jump";
     GameConst[GameConst["Shoot"] = 2] = "Shoot";
-    GameConst[GameConst["CeateBullet"] = 3] = "CeateBullet";
-    GameConst[GameConst["RemoveBullet"] = 4] = "RemoveBullet";
-    GameConst[GameConst["RemoveItem"] = 5] = "RemoveItem";
-    GameConst[GameConst["HeroDie"] = 6] = "HeroDie";
-    GameConst[GameConst["AddScore"] = 7] = "AddScore";
+    GameConst[GameConst["Dodge"] = 3] = "Dodge";
+    GameConst[GameConst["CeateBullet"] = 4] = "CeateBullet";
+    GameConst[GameConst["RemoveBullet"] = 5] = "RemoveBullet";
+    GameConst[GameConst["RemoveItem"] = 6] = "RemoveItem";
+    GameConst[GameConst["RemoveStone"] = 7] = "RemoveStone";
+    GameConst[GameConst["HeroDie"] = 8] = "HeroDie";
+    GameConst[GameConst["AddScore"] = 9] = "AddScore";
 })(GameConst || (GameConst = {}));

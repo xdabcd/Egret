@@ -205,6 +205,21 @@
 					"isFolder":false,
 					"key":"item_8_png",
 					"name":"item_8_png"
+				},
+				{
+					"isFolder":false,
+					"key":"stone_1_png",
+					"name":"stone_1_png"
+				},
+				{
+					"isFolder":false,
+					"key":"stone_2_png",
+					"name":"stone_2_png"
+				},
+				{
+					"isFolder":false,
+					"key":"btn_dodge_png",
+					"name":"btn_dodge_png"
 				}
 			]
 		}

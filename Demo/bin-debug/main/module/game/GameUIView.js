@@ -17,10 +17,13 @@ var GameUIView = (function (_super) {
         AnchorUtil.setAnchorY(this.bg, 1);
         this.bg.name = "bg";
         this.addChild(this.bg);
-        this.jumpBtn = this.createBtn("btn_jump_png", 180, -this.bg.height / 2, this.jumpBtnUp, this.jumpBtnDown, this);
+        this.jumpBtn = this.createBtn("btn_jump_png", this.bg.width / 8, -this.bg.height / 2, 0, this.bg.width / 3, this.jumpBtnUp, this.jumpBtnDown, this);
         this.jumpBtn.name = "jumpBtn";
         this.addChild(this.jumpBtn);
-        this.shootBtn = this.createBtn("btn_shoot_png", this.width - 180, -this.bg.height / 2, this.shootBtnUp, this.shootBtnDown, this);
+        this.dodgeBtn = this.createBtn("btn_dodge_png", this.bg.width * 6 / 8, -this.bg.height / 2, this.bg.width * 4 / 6, this.bg.width * 5 / 6, this.dodgeBtnUp, this.dodgeBtnDown, this);
+        this.dodgeBtn.name = "dodgeBtn";
+        this.addChild(this.dodgeBtn);
+        this.shootBtn = this.createBtn("btn_shoot_png", this.bg.width * 7 / 8, -this.bg.height / 2, this.bg.width * 5 / 6, this.bg.width, this.shootBtnUp, this.shootBtnDown, this);
         this.shootBtn.name = "shootBtn";
         this.addChild(this.shootBtn);
         this.score = new egret.TextField;
@@ -49,6 +52,13 @@ var GameUIView = (function (_super) {
     p.jumpBtnUp = function () {
         this.jumpBtn.scaleX = this.jumpBtn.scaleY = 1;
         App.ControllerManager.applyFunc(ControllerConst.Game, GameConst.Jump, false);
+    };
+    p.dodgeBtnDown = function () {
+        this.dodgeBtn.scaleX = this.dodgeBtn.scaleY = 0.9;
+        App.ControllerManager.applyFunc(ControllerConst.Game, GameConst.Dodge);
+    };
+    p.dodgeBtnUp = function () {
+        this.dodgeBtn.scaleX = this.dodgeBtn.scaleY = 1;
     };
     p.shootBtnDown = function () {
         this.shootBtn.scaleX = this.shootBtn.scaleY = 0.9;
@@ -87,14 +97,14 @@ var GameUIView = (function (_super) {
                 break;
         }
     };
-    p.createBtn = function (img, $x, $y, upFunc, downFunc, thisObj) {
+    p.createBtn = function (img, $x, $y, start, end, upFunc, downFunc, thisObj) {
         var bitmap = App.DisplayUtils.createBitmap(img);
         bitmap.touchEnabled = true;
         AnchorUtil.setAnchor(bitmap, 0.5);
         var touch = new egret.Sprite;
-        touch.width = bitmap.width * 10;
+        touch.width = end - start;
         touch.height = App.StageUtils.getHeight();
-        touch.x = $x;
+        touch.x = (start + end) / 2;
         touch.y = -touch.height / 2;
         touch.touchEnabled = true;
         AnchorUtil.setAnchor(touch, 0.5);

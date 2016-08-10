@@ -150,6 +150,11 @@ var Hero = (function (_super) {
         this.freezImg.y = this.height / 2;
         this.freezImg.visible = v;
     };
+    p.Dodge = function () {
+        if (this.state != HeroState.Idle) {
+            return;
+        }
+    };
     p.Shoot = function () {
         var _this = this;
         if (this.state != HeroState.Idle) {

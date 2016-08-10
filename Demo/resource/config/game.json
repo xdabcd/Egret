@@ -214,11 +214,6 @@
 		}
     ],
  	"items" : [
-     	{
- 			"id" : 1,
- 			"speed" : 40,
- 			"img" : "item_1_png"
- 		},
  		{
  			"id" : 2,
  			"speed" : 80,
@@ -268,7 +263,22 @@
  			"img" : "item_8_png",
  			"drop" : "item_8_drop_png"
  		}
- 	]
-    
+ 	],
+    "stones" : [
+       	{
+ 			"id" : 1,
+ 			"speed" : 40,
+ 			"width" : 48,
+ 			"height" : 90,
+ 			"img" : "stone_1_png"
+ 		},
+ 		{
+ 			"id" : 2,
+ 			"speed" : 60,
+ 			"width" : 72,
+ 			"height" : 136,
+ 			"img" : "stone_2_png"
+ 		}
+    ]
     
 }

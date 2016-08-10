@@ -175,6 +175,13 @@ class Hero extends BaseGameObject{
         this.freezImg.visible = v;
 	}
 	
+	public Dodge() {
+	    if(this.state != HeroState.Idle){
+	        return;
+	    }
+    	    
+	}
+	
     public Shoot() {
         if(this.state != HeroState.Idle){
             return;

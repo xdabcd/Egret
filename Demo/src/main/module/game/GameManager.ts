@@ -9,7 +9,8 @@ class GameManager {
     private static gunDic: { [id: number]: GunData } = {};
     private static bulletDic: { [id: number]: BulletData } = {};
     private static itemDic: { [id: number]: ItemData } = {};
-
+    private static stoneDic: { [id: number]: StoneData } = {};
+    
     /**
      * 初始化游戏数据
      */
@@ -20,6 +21,7 @@ class GameManager {
         var guns: Array<GunData> = data["guns"];
         var bullets: Array<BulletData> = data["bullets"];
         var items: Array<ItemData> = data["items"];
+        var stones: Array<StoneData> = data["stones"];
         
         for(let i = 0;i < heroes.length;i++) {
             let h = heroes[i];
@@ -39,6 +41,11 @@ class GameManager {
         for(let i = 0;i < items.length;i++) {
             let item = items[i];
             this.itemDic[item.id] = item;
+        }
+        
+        for(let i = 0;i < stones.length;i++) {
+            let stone = stones[i];
+            this.stoneDic[stone.id] = stone;
         }
     }
 
@@ -68,6 +75,13 @@ class GameManager {
      */
     public static GetItemData(id: number) {
         return this.itemDic[id];
+    }
+    
+    /**
+     * 获取石头数据
+     */
+    public static GetStoneData(id: number) {
+        return this.stoneDic[id];
     }
 
     /**

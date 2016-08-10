@@ -68,7 +68,7 @@ var Item = (function (_super) {
                 break;
         }
         if (this.gameController.CheckOutScreen(this)) {
-            App.ControllerManager.applyFunc(ControllerConst.Game, GameConst.RemoveItem, this);
+            this.remove();
         }
     };
     p.ToHero = function (hero) {
@@ -141,8 +141,3 @@ var Item = (function (_super) {
     return Item;
 }(BaseGameObject));
 egret.registerClass(Item,'Item');
-var ItemType;
-(function (ItemType) {
-    ItemType[ItemType["Stone"] = 0] = "Stone";
-    ItemType[ItemType["Gun"] = 1] = "Gun";
-})(ItemType || (ItemType = {}));

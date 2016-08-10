@@ -85,7 +85,7 @@ class Item extends BaseGameObject{
         }       
         
         if(this.gameController.CheckOutScreen(this)) {
-            App.ControllerManager.applyFunc(ControllerConst.Game,GameConst.RemoveItem,this);
+            this.remove();
         }
     }
     
@@ -159,9 +159,4 @@ class Item extends BaseGameObject{
         }
         return new egret.Rectangle(this.x - width / 2,this.y - height / 2,width,height);
     }
-}
-
-enum ItemType{
-    Stone,
-    Gun
 }

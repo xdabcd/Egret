@@ -16,6 +16,7 @@ var GameController = (function (_super) {
         App.ViewManager.register(ViewConst.GameUI, this.gameUIView);
         this.registerFunc(GameConst.Jump, this.gameView.Jump, this.gameView);
         this.registerFunc(GameConst.Shoot, this.gameView.Shoot, this.gameView);
+        this.registerFunc(GameConst.Dodge, this.gameView.Dodge, this.gameView);
         this.registerFunc(GameConst.CeateBullet, this.gameView.CreateBullet, this.gameView);
         this.registerFunc(GameConst.RemoveBullet, this.gameView.RemoveBullet, this.gameView);
         this.registerFunc(GameConst.RemoveItem, this.gameView.RemoveItem, this.gameView);
@@ -37,6 +38,22 @@ var GameController = (function (_super) {
             return -1;
         }
         return 0;
+    };
+    /**
+     * 检查是否与英雄相撞
+     */
+    p.CheckHitHeroByRect = function (rect) {
+        var hitHeroes = [];
+        var arr = this.gameView.GetEnemies();
+        arr.push(this.gameView.GetHero());
+        arr = [this.gameView.GetHero()];
+        for (var i = 0; i < arr.length; i++) {
+            var hero = arr[i];
+            if (hero != null && this.hitTest(rect, hero.rect)) {
+                hitHeroes.push(hero);
+            }
+        }
+        return hitHeroes;
     };
     /**
      * 检测是否击中子弹

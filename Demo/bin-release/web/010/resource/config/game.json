@@ -1,5 +1,6 @@
 {
     "ui_h" : 130,
+    "posArr" : [0.15, 0.35, 0.65, 0.85],
     "heroes" : [
 		{
 			"id" : 1,
@@ -35,7 +36,7 @@
     		"bulletX" : 20,
     		"bulletY" : 0,
     		"img" : "bullet_1_png",
-    		"interval" : 0.8,
+    		"interval" : 0.5,
     		"type" : 1
     	},
     	{
@@ -47,8 +48,8 @@
     		"interval" : 0.1,
     		"type" : 2,
     		"info" : {
-    			"count" : 5,
-    			"interval" : 0.12
+    			"count" : 8,
+    			"interval" : 0.08
     		}
     	},
     	{
@@ -61,7 +62,7 @@
     		"type" : 3,
     		"info" : {
     			"count" : 5,
-    			"angle" : 15
+    			"angle" : 8
     		}
     	},
     	{
@@ -123,7 +124,8 @@
     		"width" : 50,
     		"height" : 40,
     		"damage" : 1,
-    		"trail" : "0xffffff"
+    		"trail" : "0xffffff",
+    		"priority" : 1
     	},
     	{
     		"id" : 2,
@@ -132,7 +134,8 @@
     		"width" : 63,
     		"height" : 52,
     		"damage" : 1,
-    		"trail" : "0xffffff"
+    		"trail" : "0xffffff",
+    		"priority" : 1
 		},
     	{
     		"id" : 3,
@@ -141,7 +144,8 @@
     		"width" : 63,
     		"height" : 52,
     		"damage" : 1,
-    		"trail" : "0xffffff"
+    		"trail" : "0xffffff",
+    		"priority" : 1
 		},
     	{
     		"id" : 4,
@@ -150,7 +154,8 @@
     		"width" : 55,
     		"height" : 78,
     		"damage" : 1,
-    		"trail" : "0xffffff"
+    		"trail" : "0xffffff",
+    		"priority" : 2
 		},
     	{
     		"id" : 5,
@@ -159,11 +164,12 @@
     		"width" : 1500,
     		"height" : 100,
     		"damage" : 5,
+    		"priority" : 2,
     		"info" : {
     			"ready" : "bullet_5_ready_png",
     			"readyTime" : 2,
-    			"releaseTime" : 0.3,
-    			"displayTime" : 0.2
+    			"releaseTime" : 0.2,
+    			"displayTime" : 0.1
     		}
 		},
     	{
@@ -173,7 +179,8 @@
     		"width" : 160,
     		"height" : 60,
     		"damage" : 1,
-    		"trail" : "0xffffff"
+    		"trail" : "0xffffff",
+    		"priority" : 2
 		},
     	{
     		"id" : 7,
@@ -183,6 +190,7 @@
     		"height" : 40,
     		"damage" : 2,
     		"trail" : "0xffffff",
+    		"priority" : 2,
     		"info" : {
     			"bombImg" : "bullet_7_bomb_png",
     			"releaseTime" : 0.2,
@@ -193,10 +201,11 @@
     	{
     		"id" : 8,
     		"img" : "bullet_8_png",
-    		"speed" : 500,
+    		"speed" : 600,
     		"width" : 150,
     		"height" : 210,
     		"damage" : 2,
+    		"priority" : 2,
     		"info" : {
     			"bombImg" : "bullet_7_bomb_png",
     			"releaseTime" : 0.2,
@@ -255,7 +264,22 @@
  			"img" : "item_8_png",
  			"drop" : "item_8_drop_png"
  		}
- 	]
-    
+ 	],
+    "stones" : [
+       	{
+ 			"id" : 1,
+ 			"speed" : 40,
+ 			"width" : 48,
+ 			"height" : 90,
+ 			"img" : "stone_1_png"
+ 		},
+ 		{
+ 			"id" : 2,
+ 			"speed" : 60,
+ 			"width" : 72,
+ 			"height" : 136,
+ 			"img" : "stone_2_png"
+ 		}
+    ]
     
 }

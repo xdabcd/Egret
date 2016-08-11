@@ -18,6 +18,7 @@ var GameManager = (function () {
         var bullets = data["bullets"];
         var items = data["items"];
         var stones = data["stones"];
+        this.heroPosArr = data["posArr"];
         for (var i = 0; i < heroes.length; i++) {
             var h = heroes[i];
             this.heroDic[h.id] = h;
@@ -77,11 +78,15 @@ var GameManager = (function () {
             return this.ui_h;
         }
     );
+    GameManager.GetHeroPos = function (idx) {
+        return this.heroPosArr[idx];
+    };
     GameManager.heroDic = {};
     GameManager.gunDic = {};
     GameManager.bulletDic = {};
     GameManager.itemDic = {};
     GameManager.stoneDic = {};
+    GameManager.heroPosArr = [];
     return GameManager;
 }());
 egret.registerClass(GameManager,'GameManager');

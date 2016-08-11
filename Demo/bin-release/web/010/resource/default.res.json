@@ -5,7 +5,7 @@
 			"name":"preload"
 		},
 		{
-			"keys":"bullets_json,hero_json,hero_png,btn_switch_jpg,btn_shoot_png,btn_jump_png,game_json,global_json,bg_png,bottom_png,bullet_1_png,bullet_2_png,bullet_3_png,bullet_4_png,bullet_5_ready_png,bullet_5_png,bullet_6_png,freez_png,bullet_7_png,bullet_7_bomb_png,bullet_8_png,item_2_png,item_2_drop_png,item_3_png,item_3_drop_png,item_4_png,item_4_drop_png,item_5_png,item_5_drop_png,item_6_png,item_6_drop_png,item_7_png,item_7_drop_png,item_8_png,item_8_drop_png",
+			"keys":"bullets_json,hero_json,hero_png,btn_switch_jpg,btn_shoot_png,btn_jump_png,game_json,global_json,bg_png,bottom_png,bullet_1_png,bullet_2_png,bullet_3_png,bullet_4_png,bullet_5_ready_png,bullet_5_png,bullet_6_png,freez_png,bullet_7_png,bullet_7_bomb_png,bullet_8_png,item_2_png,item_2_drop_png,item_3_png,item_3_drop_png,item_4_png,item_4_drop_png,item_5_png,item_5_drop_png,item_6_png,item_6_drop_png,item_7_png,item_7_drop_png,item_8_png,item_8_drop_png,stone_1_png,stone_2_png,btn_dodge_png,se_bullet_png,se_rail_png,se_shadow_png",
 			"name":"loading"
 		}
 	],
@@ -195,6 +195,36 @@
 			"name":"item_8_drop_png",
 			"type":"image",
 			"url":"assets/item/item_8_drop.png"
+		},
+		{
+			"name":"stone_1_png",
+			"type":"image",
+			"url":"assets/stone/stone_1.png"
+		},
+		{
+			"name":"stone_2_png",
+			"type":"image",
+			"url":"assets/stone/stone_2.png"
+		},
+		{
+			"name":"btn_dodge_png",
+			"type":"image",
+			"url":"assets/btn_dodge.png"
+		},
+		{
+			"name":"se_bullet_png",
+			"type":"image",
+			"url":"assets/se_bullet.png"
+		},
+		{
+			"name":"se_rail_png",
+			"type":"image",
+			"url":"assets/se_rail.png"
+		},
+		{
+			"name":"se_shadow_png",
+			"type":"image",
+			"url":"assets/se_shadow.png"
 		}
 	]
 }

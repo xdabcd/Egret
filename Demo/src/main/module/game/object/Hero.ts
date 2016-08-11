@@ -25,6 +25,9 @@ class Hero extends BaseGameObject{
     
     private shootCd: number;
     
+    private posArr: Array<number> = [];
+    private curPosIndex: number;
+    
     public constructor($controller: BaseController) {
         super($controller);
     }
@@ -55,13 +58,104 @@ class Hero extends BaseGameObject{
         this.showFreez(false);
         this.rotation = 0;
     }
-	
+    
+    private setAnim(anim: string) {
+        if(this.anim == null) {
+            this.anim = new egret.MovieClip();
+            this.anim.scaleX = this.anim.scaleY = 0.8;
+            this.anim.anchorOffsetX = -this.width / 2 / 0.8;
+            this.anim.anchorOffsetY = -this.height / 0.8;
+            this.addChild(this.anim);
+        }
+
+        var mcData = RES.getRes("hero_json");
+        var mcTexture = RES.getRes("hero_png");
+        var mcDataFactory: egret.MovieClipDataFactory = new egret.MovieClipDataFactory(mcData,mcTexture);
+        this.anim.movieClipData = mcDataFactory.generateMovieClipData(anim);
+        this.anim.gotoAndPlay(1,-1);
+    }
+
+    private setGun(id: number) {
+        if(this.gun == null) {
+            this.gun = new egret.Bitmap;
+            this.gun.x = this.heroData.gunX;
+            this.gun.y = this.heroData.gunY;
+            this.addChild(this.gun);
+        }
+        this.gun.visible = true;
+        this.gunData = GameManager.GetGunData(id);
+        this.gun.texture = RES.getRes(this.gunData.img);
+        this.shootCd = this.gunData.interval;
+    }
+
+    private addHp(value: number) {
+        for(let i = this.hp;i < this.hp + value;i++) {
+            let bar: egret.Shape;
+            if(this.hpArr.length > i) {
+                bar = this.hpArr[i];
+            } else {
+                bar = new egret.Shape();
+                bar.graphics.beginFill(0xff00ff);
+                bar.graphics.drawRect(0,0,20,15);
+                bar.graphics.endFill();
+                bar.x = -40;
+                bar.y = i * 25;
+                this.addChild(bar);
+                this.hpArr.push(bar);
+            }
+            bar.visible = true;
+            bar.scaleX = bar.scaleY = 0.01;
+            egret.setTimeout(() => {
+                egret.Tween.get(bar).to({ scaleX: 1,scaleY: 1 },300,egret.Ease.elasticOut)
+            },this,200 * i);
+        }
+        this.hp += value;
+    }
+
+    private subHp(value: number) {
+        for(let i = this.hp - 1;i >= Math.max(0,this.hp - value);i--) {
+            let bar = this.hpArr[i];
+            egret.setTimeout(() => {
+                egret.Tween.get(bar).to({ scaleX: 0.01,scaleY: 0.01 },300,egret.Ease.elasticOut)
+                    .call(() => {
+                        bar.visible = false;
+                    });
+            },this,200 * (this.hp - 1 - i));
+        }
+        this.hp = Math.max(0,this.hp - value);
+        if(this.hp <= 0) {
+            this.state = HeroState.Die;
+            App.ControllerManager.applyFunc(ControllerConst.Game,GameConst.HeroDie,this);
+        }
+    }
+
+    private showFreez(v: boolean) {
+        if(this.freezImg == null) {
+            this.freezImg = App.DisplayUtils.createBitmap("freez_png");
+            this.addChild(this.freezImg);
+            this.freezImg.anchorOffsetX = this.freezImg.width / 2;
+            this.freezImg.anchorOffsetY = this.freezImg.height / 2;
+        }
+        this.freezImg.x = this.width / 2;
+        this.freezImg.y = this.height / 2;
+        this.freezImg.visible = v;
+    }
+    
     public SetAI(aiType: AiType){
         this.aiType = aiType;
     }
     
+    public SetPosArr(posX_1: number, posX_2: number){
+        this.posArr = [posX_1, posX_2];
+    }
+    
     public ChangeGun(id: number){
         this.setGun(id);
+    }
+    
+    public Entrance(){
+        this.Move(new egret.Point(this.posArr[0], this.y));
+        this.curPosIndex = 0;
     }
     
     public Move(pos: egret.Point){
@@ -92,94 +186,18 @@ class Hero extends BaseGameObject{
         this.state = HeroState.Release;
         this.releaseTime = duration;
     }
-    
-	private setAnim(anim: string){
-    	  if(this.anim == null){
-            this.anim = new egret.MovieClip();
-            this.anim.scaleX = this.anim.scaleY = 0.8;
-            this.anim.anchorOffsetX = -this.width / 2 / 0.8;
-            this.anim.anchorOffsetY = -this.height / 0.8;
-            this.addChild(this.anim);
-    	  }
-    
-        var mcData = RES.getRes("hero_json");
-        var mcTexture = RES.getRes("hero_png");
-        var mcDataFactory: egret.MovieClipDataFactory = new egret.MovieClipDataFactory(mcData,mcTexture);
-        this.anim.movieClipData = mcDataFactory.generateMovieClipData(anim);
-        this.anim.gotoAndPlay(1,-1);  
-	}
-	
-	private setGun(id: number){
-	    if(this.gun == null){
-	        this.gun = new egret.Bitmap;
-	        this.gun.x = this.heroData.gunX;
-            this.gun.y = this.heroData.gunY;
-	        this.addChild(this.gun);
-	    }
-	    this.gun.visible = true;
-        this.gunData = GameManager.GetGunData(id);
-        this.gun.texture = RES.getRes(this.gunData.img);
-        this.shootCd = this.gunData.interval;
-	}
-	
-	private addHp(value: number){
-        for(let i = this.hp;i < this.hp + value; i++){
-	        let bar: egret.Shape;
-    	    if(this.hpArr.length > i){
-	            bar = this.hpArr[i];
-	        }else{
-                bar = new egret.Shape();
-                bar.graphics.beginFill(0xff00ff);
-                bar.graphics.drawRect(0,0,20,15);
-                bar.graphics.endFill();
-                bar.x = -40;
-                bar.y = i * 25;
-                this.addChild(bar);
-                this.hpArr.push(bar);
-	        }
-	        bar.visible = true;
-            bar.scaleX = bar.scaleY = 0.01;
-            egret.setTimeout(() => {
-                egret.Tween.get(bar).to({ scaleX: 1,scaleY: 1 },300,egret.Ease.elasticOut)
-            },this, 200 * i);
-		}
-        this.hp += value;
-    }
-	
-    private subHp(value: number){
-        for(let i = this.hp - 1;i >= Math.max(0,this.hp - value);i--) {
-            let bar = this.hpArr[i];
-            egret.setTimeout(() => {
-                egret.Tween.get(bar).to({ scaleX: 0.01,scaleY: 0.01 },300,egret.Ease.elasticOut)
-                    .call(()=>{
-                        bar.visible = false;
-                        });
-            },this,200 * (this.hp - 1 - i));
-        }
-        this.hp = Math.max(0,this.hp - value); 
-        if(this.hp <= 0) {
-            this.state = HeroState.Die;
-            App.ControllerManager.applyFunc(ControllerConst.Game,GameConst.HeroDie,this);
-        }
-	}
-	
-    private showFreez(v: boolean){
-	    if(this.freezImg == null){
-	        this.freezImg = App.DisplayUtils.createBitmap("freez_png");
-	        this.addChild(this.freezImg);
-	        this.freezImg.anchorOffsetX = this.freezImg.width / 2;
-	        this.freezImg.anchorOffsetY = this.freezImg.height / 2;
-	    }
-        this.freezImg.x = this.width / 2;
-        this.freezImg.y = this.height / 2;
-        this.freezImg.visible = v;
-	}
 	
 	public Dodge() {
 	    if(this.state != HeroState.Idle){
 	        return;
 	    }
-    	    
+    	this.state = HeroState.Dodge; 
+    	if(this.curPosIndex == 0){
+            this.curPosIndex = 1;
+    	}else{
+    	    this.curPosIndex = 0;
+    	}
+        this.targetPos = new egret.Point(this.posArr[this.curPosIndex], this.y);
 	}
 	
     public Shoot() {
@@ -295,6 +313,31 @@ class Hero extends BaseGameObject{
                 }
 
                 return;
+            case HeroState.Dodge:
+                var xa = time * 1.5;
+                var ra = time * 1.5;
+                
+                var r = 45;
+                if(this.x > this.targetPos.x){
+                    this.x = Math.max(this.targetPos.x,this.x - xa);
+                    if(this.rotation > -r) {
+                        this.rotation = Math.max(-r,this.rotation - ra);
+                    }
+                }else if(this.x < this.targetPos.x){
+                    this.x = Math.min(this.targetPos.x,this.x + xa);
+                    if(this.rotation < r) {
+                        this.rotation = Math.min(r,this.rotation + ra);
+                    }
+                }else{
+                    if(this.rotation > 0){
+                        this.rotation = Math.max(0,this.rotation - ra);
+                    }else if(this.rotation < 0){
+                        this.rotation = Math.min(0,this.rotation + ra);
+                    }else{
+                        this.state = HeroState.Idle;
+                    }
+                }
+                return; 
             case HeroState.Idle:
                 if(this.side == Side.Enemy) {
                     switch(this.aiType) {
@@ -370,7 +413,7 @@ class Hero extends BaseGameObject{
 	}
 	
     public get rect(): egret.Rectangle {
-        if(this.state == HeroState.Move || this.state == HeroState.Die){
+        if(this.state == HeroState.Move || this.state == HeroState.Die || this.state == HeroState.Dodge){
             return (new egret.Rectangle(-10000,-10000,0,0));
         }
         return new egret.Rectangle(this.x -this.width / 2,this.y - this.height / 2,this.width,this.height);
@@ -380,6 +423,7 @@ class Hero extends BaseGameObject{
 enum HeroState {
     Move,
     Idle,
+    Dodge,
     Hurt,
     Freez,
     Release,

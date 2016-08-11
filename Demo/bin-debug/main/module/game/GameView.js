@@ -16,6 +16,8 @@ var GameView = (function (_super) {
         this.itemCd = 0;
         this.stoneInterval = 6;
         this.stoneCd = 0;
+        this.seInterval = 15;
+        this.seCd = 0;
         this.controller = $controller;
     }
     var d = __define,c=GameView,p=c.prototype;
@@ -44,6 +46,7 @@ var GameView = (function (_super) {
         this.setState(0);
         this.round = 1;
         this.wave = 1;
+        this.seCd = App.RandomUtils.limit(this.seInterval / 2, this.seInterval);
         App.TimerManager.doFrame(1, 0, this.update, this);
     };
     p.initData = function () {
@@ -78,6 +81,11 @@ var GameView = (function (_super) {
                 if (this.stoneCd <= 0) {
                     this.createStone(App.RandomUtils.limitInteger(1, 2));
                     this.stoneCd = this.stoneInterval;
+                }
+                this.seCd -= t;
+                if (this.seCd <= 0) {
+                    this.addSceneEffect();
+                    this.seCd = this.seInterval;
                 }
                 break;
             case 3:
@@ -155,8 +163,6 @@ var GameView = (function (_super) {
             this.bgSpeed = 0;
             this.bgDis = 0;
         }
-        //        App.ControllerManager.applyFunc(ControllerConst.Game,GameConst.AddScore);
-        //        egret.setTimeout(() => { this.createEnemy(AiType.Follow);}, this, 1000);
     };
     p.setState = function (state) {
         if (this.state == 5) {
@@ -164,15 +170,23 @@ var GameView = (function (_super) {
         }
         this.state = state;
     };
+    p.addSceneEffect = function () {
+        var se = ObjectPool.pop("SceneEffect", this.controller);
+        var arr = [0, 180, 25, 155, -25, -155];
+        se.init(Side.Middle, arr[App.RandomUtils.limitInteger(0, arr.length - 1)]);
+        se.x = this.getPerXPos(0.5);
+        se.y = this.getPerYPos(0.5);
+        this.bgContainer.addChild(se);
+    };
     p.createHero = function () {
         this.hero = ObjectPool.pop("Hero", this.controller);
         this.hero.init(1, Side.Own);
         var heroPos = this.getPerPos(-0.1, 0.5);
         this.hero.x = heroPos.x;
         this.hero.y = heroPos.y;
+        this.hero.SetPosArr(this.getHeroPos(0), this.getHeroPos(1));
         this.addChild(this.hero);
-        var targetPos = this.getPerPos(0.2, 0.5);
-        this.hero.Move(targetPos);
+        this.hero.Entrance();
     };
     p.createEnemy = function (ai) {
         var enemy = ObjectPool.pop("Hero", this.controller);
@@ -181,10 +195,10 @@ var GameView = (function (_super) {
         var pos = this.getPerPos(1.1, 0.4);
         enemy.x = pos.x;
         enemy.y = pos.y;
+        enemy.SetPosArr(this.getHeroPos(3), this.getHeroPos(2));
         this.addChild(enemy);
         this.enemies.push(enemy);
-        var targetPos = this.getPerPos(0.8, 0.4);
-        enemy.Move(targetPos);
+        enemy.Entrance();
     };
     p.SetHeroDie = function (hero) {
         var _this = this;
@@ -305,6 +319,11 @@ var GameView = (function (_super) {
             this.hero.Shoot();
         }
     };
+    p.Dodge = function () {
+        if (this.hero != null) {
+            this.hero.Dodge();
+        }
+    };
     p.GetHero = function () {
         return this.hero;
     };
@@ -343,11 +362,17 @@ var GameView = (function (_super) {
             return App.StageUtils.getHeight() - GameManager.UI_H;
         }
     );
+    p.getHeroPos = function (idx) {
+        return this.getPerXPos(GameManager.GetHeroPos(idx));
+    };
+    p.getPerXPos = function (perX) {
+        return (this.max_x - this.min_x) * perX + this.min_x;
+    };
+    p.getPerYPos = function (perY) {
+        return (this.max_y - this.min_y) * perY + this.min_y;
+    };
     p.getPerPos = function (perX, perY) {
-        var point = new egret.Point;
-        point.x = (this.max_x - this.min_x) * perX + this.min_x;
-        point.y = (this.max_y - this.min_y) * perY + this.min_y;
-        return point;
+        return new egret.Point(this.getPerXPos(perX), this.getPerYPos(perY));
     };
     return GameView;
 }(BaseSpriteView));

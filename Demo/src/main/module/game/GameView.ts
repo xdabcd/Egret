@@ -17,6 +17,8 @@ class GameView extends BaseSpriteView {
     private itemCd = 0;
     private stoneInterval = 6;
     private stoneCd = 0;
+    private seInterval = 15;
+    private seCd = 0;
     /** 0: init 1: ready 2: fight 3: trans 4: move 5: end*/
     private state: number;
     private bgSpeed: number;
@@ -63,6 +65,7 @@ class GameView extends BaseSpriteView {
         this.round = 1;
         this.wave = 1;
         
+        this.seCd = App.RandomUtils.limit(this.seInterval / 2, this.seInterval);
         App.TimerManager.doFrame(1,0,this.update,this);
     }
 
@@ -101,6 +104,12 @@ class GameView extends BaseSpriteView {
                 if(this.stoneCd <= 0){
                     this.createStone(App.RandomUtils.limitInteger(1, 2));
                     this.stoneCd = this.stoneInterval;
+                }
+                
+                this.seCd -= t;
+                if(this.seCd <= 0) {
+                    this.addSceneEffect();
+                    this.seCd = this.seInterval;
                 }
                 break;
             case 3:
@@ -178,8 +187,6 @@ class GameView extends BaseSpriteView {
             this.bgSpeed = 0;
             this.bgDis = 0;
         }
-//        App.ControllerManager.applyFunc(ControllerConst.Game,GameConst.AddScore);
-//        egret.setTimeout(() => { this.createEnemy(AiType.Follow);}, this, 1000);
     }
     
     private setState(state: number){
@@ -189,15 +196,24 @@ class GameView extends BaseSpriteView {
         this.state = state;
     }
     
+    private addSceneEffect(){
+        var se: SceneEffect = ObjectPool.pop("SceneEffect",this.controller);
+        var arr = [0, 180, 25, 155, -25, -155];
+        se.init(Side.Middle,arr[App.RandomUtils.limitInteger(0,arr.length - 1)]);
+        se.x = this.getPerXPos(0.5);
+        se.y = this.getPerYPos(0.5);
+        this.bgContainer.addChild(se);
+    }
+    
     private createHero(){
         this.hero = ObjectPool.pop("Hero",this.controller);
         this.hero.init(1,Side.Own);
         var heroPos = this.getPerPos(-0.1,0.5);
         this.hero.x = heroPos.x;
         this.hero.y = heroPos.y;
+        this.hero.SetPosArr(this.getHeroPos(0),this.getHeroPos(1));
         this.addChild(this.hero);
-        var targetPos = this.getPerPos(0.2,0.5);
-        this.hero.Move(targetPos);
+        this.hero.Entrance();
     }
     
     private createEnemy(ai: AiType){
@@ -207,10 +223,10 @@ class GameView extends BaseSpriteView {
         var pos = this.getPerPos(1.1, 0.4);
         enemy.x = pos.x;
         enemy.y = pos.y;
+        enemy.SetPosArr(this.getHeroPos(3),this.getHeroPos(2));
         this.addChild(enemy);
         this.enemies.push(enemy);
-        var targetPos = this.getPerPos(0.8,0.4);
-        enemy.Move(targetPos);
+        enemy.Entrance();
     }
     
     public SetHeroDie(hero: Hero){
@@ -338,6 +354,12 @@ class GameView extends BaseSpriteView {
         }
     }
     
+    public Dodge(){
+        if(this.hero != null){
+            this.hero.Dodge();
+        }
+    }
+    
     public GetHero(): Hero{
         return this.hero;
     }
@@ -378,10 +400,19 @@ class GameView extends BaseSpriteView {
         return App.StageUtils.getHeight() - GameManager.UI_H;
     }
     
+    private getHeroPos(idx: number){
+        return this.getPerXPos(GameManager.GetHeroPos(idx));
+    }
+    
+    private getPerXPos(perX: number): number{
+        return (this.max_x - this.min_x) * perX + this.min_x;
+    }
+    
+    private getPerYPos(perY: number): number {
+        return (this.max_y - this.min_y) * perY + this.min_y;
+    }
+    
     private getPerPos(perX: number, perY: number): egret.Point{
-        var point = new egret.Point;
-        point.x = (this.max_x - this.min_x) * perX + this.min_x;
-        point.y = (this.max_y - this.min_y) * perY + this.min_y;
-        return point;
+        return new egret.Point(this.getPerXPos(perX), this.getPerYPos(perY));
     }
 }

@@ -220,6 +220,21 @@
 					"isFolder":false,
 					"key":"btn_dodge_png",
 					"name":"btn_dodge_png"
+				},
+				{
+					"isFolder":false,
+					"key":"se_bullet_png",
+					"name":"se_bullet_png"
+				},
+				{
+					"isFolder":false,
+					"key":"se_rail_png",
+					"name":"se_rail_png"
+				},
+				{
+					"isFolder":false,
+					"key":"se_shadow_png",
+					"name":"se_shadow_png"
 				}
 			]
 		}

@@ -121,6 +121,7 @@ var game_file_list = [
 	"bin-debug/main/module/game/object/Hero.js",
 	"bin-debug/main/module/game/object/Item.js",
 	"bin-debug/main/module/game/object/LaserBullet.js",
+	"bin-debug/main/module/game/object/SceneEffect.js",
 	"bin-debug/main/module/game/object/Stone.js",
 	"bin-debug/main/module/game/object/WaveBullet.js",
 	"bin-debug/main/module/loading/LoadingConst.js",

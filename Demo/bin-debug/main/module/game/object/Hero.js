@@ -8,6 +8,7 @@ var Hero = (function (_super) {
     function Hero($controller) {
         _super.call(this, $controller);
         this.hpArr = [];
+        this.posArr = [];
     }
     var d = __define,c=Hero,p=c.prototype;
     p.init = function (id, side) {
@@ -34,36 +35,6 @@ var Hero = (function (_super) {
         this.addHp(this.heroData.hp);
         this.showFreez(false);
         this.rotation = 0;
-    };
-    p.SetAI = function (aiType) {
-        this.aiType = aiType;
-    };
-    p.ChangeGun = function (id) {
-        this.setGun(id);
-    };
-    p.Move = function (pos) {
-        this.state = HeroState.Move;
-        this.targetPos = pos;
-    };
-    p.ToIdle = function () {
-        this.state = HeroState.Idle;
-    };
-    p.Hurt = function (damage) {
-        if (damage <= 0) {
-            return;
-        }
-        App.ShockUtils.shock(App.ShockUtils.SPRITE, this, 1);
-        this.state = HeroState.Hurt;
-        this.hurtTime = 0;
-        this.subHp(damage);
-    };
-    p.Freez = function (duration) {
-        this.state = HeroState.Freez;
-        this.freezTime = duration;
-    };
-    p.Release = function (duration) {
-        this.state = HeroState.Release;
-        this.releaseTime = duration;
     };
     p.setAnim = function (anim) {
         if (this.anim == null) {
@@ -150,10 +121,55 @@ var Hero = (function (_super) {
         this.freezImg.y = this.height / 2;
         this.freezImg.visible = v;
     };
+    p.SetAI = function (aiType) {
+        this.aiType = aiType;
+    };
+    p.SetPosArr = function (posX_1, posX_2) {
+        this.posArr = [posX_1, posX_2];
+    };
+    p.ChangeGun = function (id) {
+        this.setGun(id);
+    };
+    p.Entrance = function () {
+        this.Move(new egret.Point(this.posArr[0], this.y));
+        this.curPosIndex = 0;
+    };
+    p.Move = function (pos) {
+        this.state = HeroState.Move;
+        this.targetPos = pos;
+    };
+    p.ToIdle = function () {
+        this.state = HeroState.Idle;
+    };
+    p.Hurt = function (damage) {
+        if (damage <= 0) {
+            return;
+        }
+        App.ShockUtils.shock(App.ShockUtils.SPRITE, this, 1);
+        this.state = HeroState.Hurt;
+        this.hurtTime = 0;
+        this.subHp(damage);
+    };
+    p.Freez = function (duration) {
+        this.state = HeroState.Freez;
+        this.freezTime = duration;
+    };
+    p.Release = function (duration) {
+        this.state = HeroState.Release;
+        this.releaseTime = duration;
+    };
     p.Dodge = function () {
         if (this.state != HeroState.Idle) {
             return;
         }
+        this.state = HeroState.Dodge;
+        if (this.curPosIndex == 0) {
+            this.curPosIndex = 1;
+        }
+        else {
+            this.curPosIndex = 0;
+        }
+        this.targetPos = new egret.Point(this.posArr[this.curPosIndex], this.y);
     };
     p.Shoot = function () {
         var _this = this;
@@ -269,6 +285,34 @@ var Hero = (function (_super) {
                     this.y = Math.max(this.y - Math.abs(ya), this.targetPos.y);
                 }
                 return;
+            case HeroState.Dodge:
+                var xa = time * 1.5;
+                var ra = time * 1.5;
+                var r = 45;
+                if (this.x > this.targetPos.x) {
+                    this.x = Math.max(this.targetPos.x, this.x - xa);
+                    if (this.rotation > -r) {
+                        this.rotation = Math.max(-r, this.rotation - ra);
+                    }
+                }
+                else if (this.x < this.targetPos.x) {
+                    this.x = Math.min(this.targetPos.x, this.x + xa);
+                    if (this.rotation < r) {
+                        this.rotation = Math.min(r, this.rotation + ra);
+                    }
+                }
+                else {
+                    if (this.rotation > 0) {
+                        this.rotation = Math.max(0, this.rotation - ra);
+                    }
+                    else if (this.rotation < 0) {
+                        this.rotation = Math.min(0, this.rotation + ra);
+                    }
+                    else {
+                        this.state = HeroState.Idle;
+                    }
+                }
+                return;
             case HeroState.Idle:
                 if (this.side == Side.Enemy) {
                     switch (this.aiType) {
@@ -341,7 +385,7 @@ var Hero = (function (_super) {
     };
     d(p, "rect"
         ,function () {
-            if (this.state == HeroState.Move || this.state == HeroState.Die) {
+            if (this.state == HeroState.Move || this.state == HeroState.Die || this.state == HeroState.Dodge) {
                 return (new egret.Rectangle(-10000, -10000, 0, 0));
             }
             return new egret.Rectangle(this.x - this.width / 2, this.y - this.height / 2, this.width, this.height);
@@ -354,10 +398,11 @@ var HeroState;
 (function (HeroState) {
     HeroState[HeroState["Move"] = 0] = "Move";
     HeroState[HeroState["Idle"] = 1] = "Idle";
-    HeroState[HeroState["Hurt"] = 2] = "Hurt";
-    HeroState[HeroState["Freez"] = 3] = "Freez";
-    HeroState[HeroState["Release"] = 4] = "Release";
-    HeroState[HeroState["Die"] = 5] = "Die";
+    HeroState[HeroState["Dodge"] = 2] = "Dodge";
+    HeroState[HeroState["Hurt"] = 3] = "Hurt";
+    HeroState[HeroState["Freez"] = 4] = "Freez";
+    HeroState[HeroState["Release"] = 5] = "Release";
+    HeroState[HeroState["Die"] = 6] = "Die";
 })(HeroState || (HeroState = {}));
 var AiType;
 (function (AiType) {

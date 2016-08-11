@@ -10,6 +10,8 @@ class GameManager {
     private static bulletDic: { [id: number]: BulletData } = {};
     private static itemDic: { [id: number]: ItemData } = {};
     private static stoneDic: { [id: number]: StoneData } = {};
+    private static heroPosArr: Array<number> = [];
+    
     
     /**
      * 初始化游戏数据
@@ -22,7 +24,8 @@ class GameManager {
         var bullets: Array<BulletData> = data["bullets"];
         var items: Array<ItemData> = data["items"];
         var stones: Array<StoneData> = data["stones"];
-        
+        this.heroPosArr = data["posArr"];
+
         for(let i = 0;i < heroes.length;i++) {
             let h = heroes[i];
             this.heroDic[h.id] = h;
@@ -89,5 +92,9 @@ class GameManager {
      */
     public static get UI_H(): number {
         return this.ui_h;
+    }
+    
+    public static GetHeroPos(idx: number): number{
+        return this.heroPosArr[idx];
     }
 }

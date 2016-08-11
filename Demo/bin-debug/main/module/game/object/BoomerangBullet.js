@@ -22,7 +22,7 @@ var BoomerangBullet = (function (_super) {
         switch (this.state) {
             case 0:
                 this.speed -= time * 0.9;
-                if (this.speed <= 700) {
+                if (this.speed <= 600) {
                     this.state = 1;
                     this.ignoreHeroes = [];
                     this.ignoreStones = [];

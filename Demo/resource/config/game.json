@@ -1,5 +1,6 @@
 {
     "ui_h" : 130,
+    "posArr" : [0.15, 0.35, 0.65, 0.85],
     "heroes" : [
 		{
 			"id" : 1,
@@ -200,7 +201,7 @@
     	{
     		"id" : 8,
     		"img" : "bullet_8_png",
-    		"speed" : 500,
+    		"speed" : 600,
     		"width" : 150,
     		"height" : 210,
     		"damage" : 2,

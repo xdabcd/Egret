@@ -44,10 +44,9 @@ class Stone extends BaseGameObject{
             this.img = new egret.Bitmap;
             this.addChild(this.img);
         }
-        this.img.rotation = 0;
         this.img.texture = RES.getRes(img);
-        this.img.x = 30;
-        this.img.y = 30;
+        this.img.x = this.stoneData.width / 2;
+        this.img.y = this.stoneData.height / 2;
         this.img.anchorOffsetX = this.img.width / 2;
         this.img.anchorOffsetY = this.img.height / 2;
     }
@@ -58,7 +57,7 @@ class Stone extends BaseGameObject{
         var t = time / 1000;
         switch(this.state){
             case 0:
-                this.img.rotation += this.speedY * t / 2; 
+                this.rotation += this.speedY * t / 2; 
                 break;
             case 1:
                 this.speedX -= this.ax * t;

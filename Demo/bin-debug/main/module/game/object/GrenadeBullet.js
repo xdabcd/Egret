@@ -125,7 +125,7 @@ var GrenadeBullet = (function (_super) {
                 width = this.bombImg.width * this.bombImg.scaleX;
                 height = this.bombImg.height * this.bombImg.scaleY;
             }
-            return new egret.Rectangle(this.x - width / 2, this.y - width / 2, width, height);
+            return new Rect(this.x, this.y, width, height, this.rotation);
         }
     );
     return GrenadeBullet;

@@ -70,11 +70,11 @@ var SceneEffect = (function (_super) {
     };
     d(p, "rect"
         ,function () {
-            var x = this.x + this.bullet.x;
-            var y = this.y + this.bullet.y;
+            var x = this.x + this.bullet.x * Math.cos(this.rotation / 180 * Math.PI);
+            var y = this.y + this.bullet.x * Math.sin(this.rotation / 180 * Math.PI);
             var width = this.bullet.width;
             var height = this.bullet.height;
-            return new egret.Rectangle(x - width / 2, y - height / 2, width, height);
+            return new Rect(x, y, width, height, this.rotation);
         }
     );
     return SceneEffect;

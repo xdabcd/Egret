@@ -48,9 +48,10 @@ class GameController extends BaseController {
     /**
      * 检查是否与英雄相撞
      */ 
-    public CheckHitHeroByRect(rect: egret.Rectangle): Array<Hero>{
+    public CheckHitHeroByRect(rect: Rect): Array<Hero>{
         var hitHeroes = [];
-        var arr: Array<Hero> = this.gameView.GetEnemies();
+        var arr: Array<Hero> = [];
+        arr.concat(this.gameView.GetEnemies());
         arr.push(this.gameView.GetHero());
         arr = [this.gameView.GetHero()];
         for(let i = 0;i < arr.length;i++) {
@@ -60,7 +61,6 @@ class GameController extends BaseController {
             }
         }
         return hitHeroes;
-    
     }
     
     /**
@@ -152,15 +152,17 @@ class GameController extends BaseController {
      * 检测是否超出屏幕
      */
     public CheckOutScreen(object: BaseGameObject): Boolean {
-        return !this.hitTest(new egret.Rectangle(object.x, object.y, object.width, object.height), 
-                            new egret.Rectangle(0, -100, App.StageUtils.getWidth(), App.StageUtils.getHeight() + 200));
+        var w = App.StageUtils.getWidth();
+        var h = App.StageUtils.getHeight();
+        return !this.hitTest(new Rect(object.x, object.y, object.width, object.height, object.rotation), 
+            new Rect(w / 2, h / 2, w + 200, h + 200, 0));
     }
     
     /**
      * 碰撞检测
      */ 
-    private hitTest(rect1: egret.Rectangle,rect2: egret.Rectangle): boolean {
-        return rect1.intersects(rect2);
+    private hitTest(rect1: Rect, rect2: Rect): boolean {
+        return rect1.intersectTo(rect2);
     }
     
     /**

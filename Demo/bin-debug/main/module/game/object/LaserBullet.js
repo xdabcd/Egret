@@ -96,23 +96,18 @@ var LaserBullet = (function (_super) {
     };
     d(p, "rect"
         ,function () {
+            if (this.state == 0) {
+                return (new Rect(-10000, -10000, 0, 0, this.rotation));
+            }
             var width = this.img.width;
             var height = this.img.height * this.img.scaleY;
             var rect;
             if (this.scaleX == 1) {
-                rect = new egret.Rectangle(this.x + this.img.x, this.y - height / 2, width, height);
+                rect = new Rect(this.x + this.img.x + width / 2, this.y, width, height, this.rotation);
             }
             else {
-                rect = new egret.Rectangle(this.x - this.img.x - width, this.y - height / 2, width, height);
+                rect = new Rect(this.x - this.img.x - width / 2, this.y, width, height, this.rotation);
             }
-            //        if(this.sha == null){
-            //            this.sha = new egret.Shape;
-            //            this.creater.parent.addChild(this.sha);
-            //        }
-            //        this.sha.graphics.clear();
-            //        this.sha.graphics.beginFill(0xff0000);
-            //        this.sha.graphics.drawRect(rect.x, rect.y, rect.width, rect.height);
-            //        this.sha.graphics.endFill();
             return rect;
         }
     );

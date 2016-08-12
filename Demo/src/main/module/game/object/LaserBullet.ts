@@ -109,25 +109,19 @@ class LaserBullet extends Bullet{
         }
     }
     
-    private sha: egret.Shape;
-    public get rect(): egret.Rectangle {
-        var width = this.img.width;
-        var height = this.img.height * this.img.scaleY;
-        var rect: egret.Rectangle;
-        if(this.scaleX == 1){
-            rect = new egret.Rectangle(this.x + this.img.x, this.y - height / 2, width, height);
-        }else{
-            rect = new egret.Rectangle(this.x - this.img.x - width, this.y - height / 2, width, height);
+    public get rect(): Rect {
+        if(this.state == 0){
+            return (new Rect(-10000,-10000,0,0,this.rotation));
         }
         
-//        if(this.sha == null){
-//            this.sha = new egret.Shape;
-//            this.creater.parent.addChild(this.sha);
-//        }
-//        this.sha.graphics.clear();
-//        this.sha.graphics.beginFill(0xff0000);
-//        this.sha.graphics.drawRect(rect.x, rect.y, rect.width, rect.height);
-//        this.sha.graphics.endFill();
+        var width = this.img.width;
+        var height = this.img.height * this.img.scaleY;
+        var rect: Rect;
+        if(this.scaleX == 1){
+            rect = new Rect(this.x + this.img.x + width / 2, this.y, width, height, this.rotation);
+        }else{
+            rect = new Rect(this.x - this.img.x - width / 2, this.y, width, height, this.rotation);
+        }
         return rect;
     }
 }

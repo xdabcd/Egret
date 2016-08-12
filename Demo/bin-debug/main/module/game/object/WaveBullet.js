@@ -38,7 +38,7 @@ var WaveBullet = (function (_super) {
         ,function () {
             var width = this.width * this.img.scaleX;
             var height = this.height * this.img.scaleY;
-            return new egret.Rectangle(this.x - width / 2, this.y - height / 2, width, height);
+            return new Rect(this.x, this.y, width, height, this.rotation);
         }
     );
     return WaveBullet;

@@ -386,9 +386,9 @@ var Hero = (function (_super) {
     d(p, "rect"
         ,function () {
             if (this.state == HeroState.Move || this.state == HeroState.Die || this.state == HeroState.Dodge) {
-                return (new egret.Rectangle(-10000, -10000, 0, 0));
+                return (new Rect(-10000, -10000, 0, 0, this.rotation));
             }
-            return new egret.Rectangle(this.x - this.width / 2, this.y - this.height / 2, this.width, this.height);
+            return new Rect(this.x, this.y, this.width, this.height, this.rotation);
         }
     );
     return Hero;

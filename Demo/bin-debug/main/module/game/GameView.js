@@ -68,7 +68,7 @@ var GameView = (function (_super) {
                 this.setState(1);
                 break;
             case 1:
-                this.createEnemy(AiType.Follow);
+                //                this.createEnemy(AiType.Follow);
                 this.setState(2);
                 break;
             case 2:

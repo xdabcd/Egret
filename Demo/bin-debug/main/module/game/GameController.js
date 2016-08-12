@@ -44,7 +44,8 @@ var GameController = (function (_super) {
      */
     p.CheckHitHeroByRect = function (rect) {
         var hitHeroes = [];
-        var arr = this.gameView.GetEnemies();
+        var arr = [];
+        arr.concat(this.gameView.GetEnemies());
         arr.push(this.gameView.GetHero());
         arr = [this.gameView.GetHero()];
         for (var i = 0; i < arr.length; i++) {
@@ -141,13 +142,15 @@ var GameController = (function (_super) {
      * 检测是否超出屏幕
      */
     p.CheckOutScreen = function (object) {
-        return !this.hitTest(new egret.Rectangle(object.x, object.y, object.width, object.height), new egret.Rectangle(0, -100, App.StageUtils.getWidth(), App.StageUtils.getHeight() + 200));
+        var w = App.StageUtils.getWidth();
+        var h = App.StageUtils.getHeight();
+        return !this.hitTest(new Rect(object.x, object.y, object.width, object.height, object.rotation), new Rect(w / 2, h / 2, w + 200, h + 200, 0));
     };
     /**
      * 碰撞检测
      */
     p.hitTest = function (rect1, rect2) {
-        return rect1.intersects(rect2);
+        return rect1.intersectTo(rect2);
     };
     /**
      * 获取游戏横向百分比

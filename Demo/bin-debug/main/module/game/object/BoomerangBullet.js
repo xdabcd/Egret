@@ -36,7 +36,7 @@ var BoomerangBullet = (function (_super) {
                 }
                 var a = App.MathUtils.getAngle(r);
                 this.rotation = a;
-                if (this.rect.intersects(this.creater.rect)) {
+                if (this.rect.intersectTo(this.creater.rect)) {
                     this.remove();
                     this.creater.GunReturn();
                 }

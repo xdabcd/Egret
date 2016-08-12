@@ -22,10 +22,37 @@ var BaseGameObject = (function (_super) {
     p.destory = function () {
         App.TimerManager.remove(this.onFrame, this);
         App.DisplayUtils.removeFromParent(this);
+        if (this.hitRect != null) {
+            App.DisplayUtils.removeFromParent(this.hitRect);
+            this.hitRect = null;
+        }
         ObjectPool.push(this);
     };
     p.onFrame = function (time) {
         this.update(time);
+        if (this.parent != null) {
+            if (this.hitRect == null) {
+                this.hitRect = new egret.Shape;
+                this.parent.addChild(this.hitRect);
+            }
+            else {
+                var arr = this.rect.getPoints();
+                this.hitRect.graphics.clear();
+                for (var i = 0; i < arr.length; i++) {
+                    var cur = arr[i];
+                    var next;
+                    if (i < arr.length - 1) {
+                        next = arr[i + 1];
+                    }
+                    else {
+                        next = arr[0];
+                    }
+                    this.hitRect.graphics.lineStyle(10, 0xff00000, 0.5);
+                    this.hitRect.graphics.moveTo(cur.x, cur.y);
+                    this.hitRect.graphics.lineTo(next.x, next.y);
+                }
+            }
+        }
     };
     p.update = function (time) {
     };
@@ -41,7 +68,7 @@ var BaseGameObject = (function (_super) {
     );
     d(p, "rect"
         ,function () {
-            return new egret.Rectangle(this.x - this.width / 2, this.y - this.height / 2, this.width, this.height);
+            return new Rect(this.x, this.y, this.width, this.height, this.rotation);
         }
     );
     return BaseGameObject;

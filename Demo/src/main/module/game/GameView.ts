@@ -65,7 +65,6 @@ class GameView extends BaseSpriteView {
         this.round = 1;
         this.wave = 1;
         
-        this.seCd = App.RandomUtils.limit(this.seInterval / 2, this.seInterval);
         App.TimerManager.doFrame(1,0,this.update,this);
     }
 
@@ -89,22 +88,23 @@ class GameView extends BaseSpriteView {
                 this.setState(1);
                 break;
             case 1:
-//                this.createEnemy(AiType.Follow);
+                this.createEnemy(AiType.Follow);
+                this.seCd = App.RandomUtils.limit(this.seInterval / 2,this.seInterval);
                 this.setState(2);
                 break;
             case 2:
                 this.itemCd -= t;
 
-                if(this.itemCd <= 0) {
-                    this.createItem(App.RandomUtils.limitInteger(2,8));
-                    this.itemCd = this.itemInterval;
-                }
+//                if(this.itemCd <= 0) {
+//                    this.createItem(App.RandomUtils.limitInteger(2,8));
+//                    this.itemCd = this.itemInterval;
+//                }
                 
-                this.stoneCd -= t;
-                if(this.stoneCd <= 0){
-                    this.createStone(App.RandomUtils.limitInteger(1, 2));
-                    this.stoneCd = this.stoneInterval;
-                }
+//                this.stoneCd -= t;
+//                if(this.stoneCd <= 0){
+//                    this.createStone(App.RandomUtils.limitInteger(1, 2));
+//                    this.stoneCd = this.stoneInterval;
+//                }
                 
                 this.seCd -= t;
                 if(this.seCd <= 0) {

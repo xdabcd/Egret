@@ -310,6 +310,7 @@ var Hero = (function (_super) {
                     }
                     else {
                         this.state = HeroState.Idle;
+                        this.speed = 0;
                     }
                 }
                 return;
@@ -369,6 +370,16 @@ var Hero = (function (_super) {
         }
     );
     p.followAi = function () {
+        var danger = this.gameController.checkDanger(this, 300);
+        if (danger) {
+            if (this.speed >= 0) {
+                this.IsUp = true;
+            }
+            else {
+                this.isUp = false;
+            }
+            return;
+        }
         var r = this.gameController.CheckEnemyPosByHero(this);
         if (r > 0) {
             this.isUp = true;

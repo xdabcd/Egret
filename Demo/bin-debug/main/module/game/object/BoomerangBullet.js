@@ -14,6 +14,7 @@ var BoomerangBullet = (function (_super) {
         _super.prototype.setImg.call(this, this.bulletData.img);
         this.width = this.bulletData.width;
         this.height = this.bulletData.height;
+        this.targetX = this.gameController.GetPerX(0.5 + 0.45 * this.scaleX);
         this.state = 0;
     };
     p.update = function (time) {
@@ -22,7 +23,7 @@ var BoomerangBullet = (function (_super) {
         switch (this.state) {
             case 0:
                 this.speed -= time * 0.9;
-                if (this.speed <= 600) {
+                if (this.scaleX > 0 && this.x >= this.targetX || this.scaleX < 0 && this.x <= this.targetX) {
                     this.state = 1;
                     this.ignoreHeroes = [];
                     this.ignoreStones = [];

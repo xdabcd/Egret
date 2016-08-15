@@ -1,6 +1,6 @@
 {
     "ui_h" : 130,
-    "posArr" : [0.15, 0.35, 0.65, 0.85],
+    "posArr" : [0.15, 0.3, 0.7, 0.85],
     "heroes" : [
 		{
 			"id" : 1,
@@ -10,10 +10,10 @@
 			"anim" : "dog",
 			"width" : 90,
 			"height" : 115,
-			"upAs" : 3000,
-			"downAs" : -2500,
-			"maxSpeed" : 1000,
-			"minSpeed" : -800,
+			"upAs" : 4000,
+			"downAs" : -3000,
+			"maxSpeed" : 800,
+			"minSpeed" : -600,
 			"hp" : 5,
 			"areas" : [
 				{

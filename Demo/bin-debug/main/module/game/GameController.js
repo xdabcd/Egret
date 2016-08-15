@@ -40,16 +40,48 @@ var GameController = (function (_super) {
         return 0;
     };
     /**
+     * 检测英雄是否即将受攻击
+     */
+    p.checkDanger = function (hero, range) {
+        var arr = [];
+        if (hero.side == Side.Own) {
+            arr = this.gameView.GetEnemyBullets();
+        }
+        else {
+            arr = this.gameView.GetOwnBullets();
+        }
+        var rect1 = hero.rect;
+        rect1.x -= range;
+        var rect2 = hero.rect;
+        rect2.x += range;
+        var rect;
+        for (var i = 0; i < arr.length; i++) {
+            var bullet = arr[i];
+            if (bullet.scaleX > 0) {
+                rect = rect1;
+            }
+            else {
+                rect = rect2;
+            }
+            if (rect.intersectTo(bullet.rect)) {
+                return true;
+            }
+        }
+        return false;
+    };
+    /**
      * 检查是否与英雄相撞
      */
     p.CheckHitHeroByRect = function (rect) {
         var hitHeroes = [];
         var arr = [];
-        arr.concat(this.gameView.GetEnemies());
+        var enemies = this.gameView.GetEnemies();
+        for (var i = 0; i < enemies.length; i++) {
+            arr.push(enemies[i]);
+        }
         arr.push(this.gameView.GetHero());
-        arr = [this.gameView.GetHero()];
-        for (var i = 0; i < arr.length; i++) {
-            var hero = arr[i];
+        for (var i_1 = 0; i_1 < arr.length; i_1++) {
+            var hero = arr[i_1];
             if (hero != null && this.hitTest(rect, hero.rect)) {
                 hitHeroes.push(hero);
             }

@@ -335,6 +335,7 @@ class Hero extends BaseGameObject{
                         this.rotation = Math.min(0,this.rotation + ra);
                     }else{
                         this.state = HeroState.Idle;
+                        this.speed = 0;
                     }
                 }
                 return; 
@@ -397,6 +398,16 @@ class Hero extends BaseGameObject{
 	}
 	
 	private followAi(){
+    	  var danger: boolean = this.gameController.checkDanger(this, 300);
+    	  if(danger){
+        	if(this.speed >= 0){
+                this.IsUp = true;
+        	}else{
+        	     this.isUp = false
+        	}
+            return;
+    	  }
+    	
         var r: number = this.gameController.CheckEnemyPosByHero(this);
         if(r > 0) {
             this.isUp = true;

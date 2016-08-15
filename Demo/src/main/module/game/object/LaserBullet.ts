@@ -116,6 +116,7 @@ class LaserBullet extends Bullet{
         
         var width = this.img.width;
         var height = this.img.height * this.img.scaleY;
+
         var rect: Rect;
         if(this.scaleX == 1){
             rect = new Rect(this.x + this.img.x + width / 2, this.y, width, height, this.rotation);

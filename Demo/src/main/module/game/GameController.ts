@@ -45,15 +45,47 @@ class GameController extends BaseController {
         return 0;
     }
     
+     /**
+      * 检测英雄是否即将受攻击
+      */ 
+     public checkDanger(hero: Hero, range: number): boolean{
+        var arr: Array<Bullet> = [];
+        if(hero.side == Side.Own){
+            arr = this.gameView.GetEnemyBullets();
+        }else{
+            arr = this.gameView.GetOwnBullets();
+        }
+        var rect1 = hero.rect;
+        rect1.x -= range;
+        var rect2 = hero.rect;
+        rect2.x += range;
+        var rect: Rect;
+        for(var i = 0; i < arr.length; i++){
+            var bullet = arr[i];
+            if(bullet.scaleX > 0){
+                 rect = rect1;  
+            }else{
+                rect = rect2;
+            }
+            if(rect.intersectTo(bullet.rect)){
+                return true;
+            }
+        }
+        
+        return false;
+     }
+    
     /**
      * 检查是否与英雄相撞
      */ 
     public CheckHitHeroByRect(rect: Rect): Array<Hero>{
         var hitHeroes = [];
         var arr: Array<Hero> = [];
-        arr.concat(this.gameView.GetEnemies());
+        var enemies = this.gameView.GetEnemies();
+        for(var i = 0; i < enemies.length; i++){
+            arr.push(enemies[i]);
+        }
         arr.push(this.gameView.GetHero());
-        arr = [this.gameView.GetHero()];
         for(let i = 0;i < arr.length;i++) {
             let hero: Hero = arr[i];
             if(hero != null && this.hitTest(rect,hero.rect)) {
@@ -95,6 +127,7 @@ class GameController extends BaseController {
         }else{
             arr = [this.gameView.GetHero()];
         }
+
         for(let i = 0;i < arr.length;i++) {
             let hero: Hero = arr[i];
             if(hero != null && this.hitTest(bullet.rect, hero.rect)) {

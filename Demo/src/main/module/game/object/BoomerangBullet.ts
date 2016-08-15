@@ -7,6 +7,7 @@ class BoomerangBullet extends Bullet{
     
     /** 0: 飞出状态 1: 返回状态 2: 落下状态 */
     private state: number;
+    private targetX: number;
     
     public constructor($controller: BaseController) {
         super($controller);
@@ -17,6 +18,8 @@ class BoomerangBullet extends Bullet{
         super.setImg(this.bulletData.img);
         this.width = this.bulletData.width;
         this.height = this.bulletData.height;
+        this.targetX = this.gameController.GetPerX(0.5 + 0.45 * this.scaleX);
+
         this.state = 0;
     }
     
@@ -27,7 +30,7 @@ class BoomerangBullet extends Bullet{
         switch(this.state){
             case 0:
                 this.speed -= time * 0.9;
-                if(this.speed <= 600) {
+                if(this.scaleX > 0 && this.x >= this.targetX || this.scaleX < 0 && this.x <= this.targetX) {
                     this.state = 1;
                     this.ignoreHeroes = [];
                     this.ignoreStones = [];

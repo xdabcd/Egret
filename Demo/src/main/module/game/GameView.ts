@@ -95,22 +95,22 @@ class GameView extends BaseSpriteView {
             case 2:
                 this.itemCd -= t;
 
-//                if(this.itemCd <= 0) {
-//                    this.createItem(App.RandomUtils.limitInteger(2,8));
-//                    this.itemCd = this.itemInterval;
-//                }
+                if(this.itemCd <= 0) {
+                    this.createItem(App.RandomUtils.limitInteger(2,8));
+                    this.itemCd = this.itemInterval;
+                }
                 
 //                this.stoneCd -= t;
 //                if(this.stoneCd <= 0){
 //                    this.createStone(App.RandomUtils.limitInteger(1, 2));
 //                    this.stoneCd = this.stoneInterval;
 //                }
-                
-                this.seCd -= t;
-                if(this.seCd <= 0) {
-                    this.addSceneEffect();
-                    this.seCd = this.seInterval;
-                }
+//                
+//                this.seCd -= t;
+//                if(this.seCd <= 0) {
+//                    this.addSceneEffect();
+//                    this.seCd = this.seInterval;
+//                }
                 break;
             case 3:
                 this.transTime -= t;
@@ -169,8 +169,8 @@ class GameView extends BaseSpriteView {
     }
 
     private trans(){
-        this.state = 3; 
-        this.transTime = 1;
+        this.setState(3);
+        this.transTime = 2;
     }
     
     private next(){

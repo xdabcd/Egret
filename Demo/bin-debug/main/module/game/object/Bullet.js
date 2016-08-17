@@ -145,6 +145,17 @@ var Bullet = (function (_super) {
     );
     p.doEffect = function (hero) {
     };
+    p.GetDangerArea = function (targetX, time) {
+        var arr = [];
+        var s = targetX - this.x - this.width / 2 * Math.abs(Math.cos(this.rotation));
+        var t = s / this.speed;
+        if (t < time) {
+            var min = this.y - this.height / 2 / Math.abs(Math.cos(this.rotation));
+            var max = this.y + this.height / 2 / Math.abs(Math.cos(this.rotation));
+            arr = [min, max];
+        }
+        return arr;
+    };
     return Bullet;
 }(BaseGameObject));
 egret.registerClass(Bullet,'Bullet');

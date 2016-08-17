@@ -6,7 +6,7 @@
 class BaseGameObject extends egret.DisplayObjectContainer {
     public controller: BaseController;
     private _side: Side;
-    private hitRect: egret.Shape;
+    protected hitRect: egret.Shape;
     
     public constructor($controller: BaseController) {
         super();

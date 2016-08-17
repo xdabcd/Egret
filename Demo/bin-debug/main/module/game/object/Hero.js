@@ -7,6 +7,7 @@ var Hero = (function (_super) {
     __extends(Hero, _super);
     function Hero($controller) {
         _super.call(this, $controller);
+        this.aiReactionTime = 0.1;
         this.hpArr = [];
         this.posArr = [];
     }
@@ -35,6 +36,7 @@ var Hero = (function (_super) {
         this.addHp(this.heroData.hp);
         this.showFreez(false);
         this.rotation = 0;
+        this.aiReactionCd = 0;
     };
     p.setAnim = function (anim) {
         if (this.anim == null) {
@@ -60,7 +62,7 @@ var Hero = (function (_super) {
         this.gun.visible = true;
         this.gunData = GameManager.GetGunData(id);
         this.gun.texture = RES.getRes(this.gunData.img);
-        this.shootCd = this.gunData.interval;
+        this.shootCd = this.shootInterval;
     };
     p.addHp = function (value) {
         var _loop_1 = function(i) {
@@ -187,7 +189,7 @@ var Hero = (function (_super) {
             switch (this.gunData.type) {
                 case GunType.Normal:
                     createFunc("NormalBullet", 0);
-                    this.shootCd = this.gunData.interval;
+                    this.shootCd = this.shootInterval;
                     break;
                 case GunType.Running:
                     var info = this.gunData.info;
@@ -236,7 +238,7 @@ var Hero = (function (_super) {
     };
     p.GunReturn = function () {
         this.gun.visible = true;
-        this.shootCd = this.gunData.interval;
+        this.shootCd = this.shootInterval;
     };
     p.ResetGun = function () {
         this.ChangeGun(this.heroData.gun);
@@ -318,7 +320,7 @@ var Hero = (function (_super) {
                 if (this.side == Side.Enemy) {
                     switch (this.aiType) {
                         case AiType.Follow:
-                            this.followAi();
+                            this.followAi(t);
                             break;
                         default:
                             break;
@@ -369,26 +371,59 @@ var Hero = (function (_super) {
             this.isUp = value;
         }
     );
-    p.followAi = function () {
-        var danger = this.gameController.checkDanger(this, 300);
-        if (danger) {
-            if (this.speed >= 0) {
-                this.IsUp = true;
-            }
-            else {
-                this.isUp = false;
-            }
+    p.followAi = function (t) {
+        if (this.aiReactionCd > 0) {
+            this.aiReactionCd -= t;
             return;
         }
-        var r = this.gameController.CheckEnemyPosByHero(this);
-        if (r > 0) {
-            this.isUp = true;
-        }
-        else {
-            this.isUp = false;
-            if (r == 0) {
-                this.Shoot();
+        var safeArea = this.gameController.GetSafeArea(this);
+        var up = null;
+        if (safeArea.length > 0) {
+            var idx = -1;
+            var l = 1000;
+            for (var i = 0; i < safeArea.length; i++) {
+                var min = safeArea[i][0] + this.height / 1.8;
+                var max = safeArea[i][1] - this.height / 1.8;
+                if (this.speed > 0) {
+                    min += this.speed * 0.2;
+                }
+                else {
+                    max += this.speed * 0.2;
+                }
+                if (this.y > min && this.y < max) {
+                    break;
+                }
+                else if (this.y <= min) {
+                    if (min - this.y < l) {
+                        up = false;
+                        idx = i;
+                    }
+                }
+                else {
+                    if (this.y - max) {
+                        up = true;
+                        idx = i;
+                    }
+                }
             }
+        }
+        var r = this.gameController.CheckEnemyPosByHero(this);
+        if (up == null) {
+            if (r > 0) {
+                up = true;
+            }
+            else {
+                up = false;
+            }
+        }
+        if (up != null) {
+            if (this.isUp != up) {
+                this.aiReactionCd = this.aiReactionTime;
+            }
+            this.isUp = up;
+        }
+        if (r == 0) {
+            this.Shoot();
         }
     };
     p.GetState = function () {
@@ -400,6 +435,11 @@ var Hero = (function (_super) {
                 return (new Rect(-10000, -10000, 0, 0, this.rotation));
             }
             return new Rect(this.x, this.y, this.width, this.height, this.rotation);
+        }
+    );
+    d(p, "shootInterval"
+        ,function () {
+            return this.gunData.interval;
         }
     );
     return Hero;

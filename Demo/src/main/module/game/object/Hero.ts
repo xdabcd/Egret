@@ -12,6 +12,8 @@ class Hero extends BaseGameObject{
     private isUp: Boolean;
     private speed: number;
     private aiType: AiType;
+    private aiReactionTime: number = 0.1;
+    private aiReactionCd: number;
     private hp: number;
     private hurtTime: number;
     private freezTime: number;
@@ -57,6 +59,7 @@ class Hero extends BaseGameObject{
         
         this.showFreez(false);
         this.rotation = 0;
+        this.aiReactionCd = 0;
     }
     
     private setAnim(anim: string) {
@@ -85,7 +88,7 @@ class Hero extends BaseGameObject{
         this.gun.visible = true;
         this.gunData = GameManager.GetGunData(id);
         this.gun.texture = RES.getRes(this.gunData.img);
-        this.shootCd = this.gunData.interval;
+        this.shootCd = this.shootInterval;
     }
 
     private addHp(value: number) {
@@ -215,7 +218,7 @@ class Hero extends BaseGameObject{
 	        switch(this.gunData.type){
 	            case GunType.Normal:
                     createFunc("NormalBullet", 0);
-                    this.shootCd = this.gunData.interval;
+                    this.shootCd = this.shootInterval;
                     break;
 	            case GunType.Running:
 	                var info = this.gunData.info;
@@ -265,7 +268,7 @@ class Hero extends BaseGameObject{
 	
 	public GunReturn(){
 	    this.gun.visible = true;
-	    this.shootCd = this.gunData.interval;
+	    this.shootCd = this.shootInterval;
 	}
 	
 	public ResetGun(){
@@ -343,7 +346,7 @@ class Hero extends BaseGameObject{
                 if(this.side == Side.Enemy) {
                     switch(this.aiType) {
                         case AiType.Follow:
-                            this.followAi();
+                            this.followAi(t);
                             break;
                         default:
                             break;
@@ -397,26 +400,61 @@ class Hero extends BaseGameObject{
 	    this.isUp = value;
 	}
 	
-	private followAi(){
-    	  var danger: boolean = this.gameController.checkDanger(this, 300);
-    	  if(danger){
-        	if(this.speed >= 0){
-                this.IsUp = true;
-        	}else{
-        	     this.isUp = false
-        	}
-            return;
-    	  }
+	private followAi(t: number){
+    	if(this.aiReactionCd > 0){
+    	    this.aiReactionCd -= t;
+    	    return;
+    	}
     	
+        var safeArea = this.gameController.GetSafeArea(this);
+        var up: boolean = null
+        if(safeArea.length > 0){
+            var idx = -1;
+            var l = 1000;
+        	for(var i = 0; i < safeArea.length; i++){
+                var min = safeArea[i][0] + this.height / 1.8;
+        	     var max = safeArea[i][1] - this.height / 1.8;
+        	     if(this.speed > 0){
+                     min += this.speed * 0.2;
+        	     }else{
+                     max += this.speed * 0.2;
+        	     }
+               
+        	    if(this.y > min && this.y < max){
+        	         break;
+        	    }else if(this.y <= min){
+            	    
+        	         if(min - this.y < l){
+        	             up = false;
+        	             idx = i;
+        	         }
+        	    }else{
+        	         if(this.y - max){
+        	             up = true;
+        	             idx = i;
+        	         }
+        	    }
+        	}
+    	}
         var r: number = this.gameController.CheckEnemyPosByHero(this);
-        if(r > 0) {
-            this.isUp = true;
-        } else {
-            this.isUp = false;
-            if(r == 0) {
-                this.Shoot();
+
+    	if(up == null){
+            if(r > 0) {
+                up = true;
+            } else {
+                up = false;
             }
-        }
+    	}
+    	
+    	if(up != null){
+            if(this.isUp != up) {
+                this.aiReactionCd = this.aiReactionTime;
+            }
+    	    this.isUp = up;
+    	}
+    	if(r == 0){
+    	    this.Shoot();
+    	}
 	}
 	
 	public GetState(): HeroState{
@@ -428,6 +466,10 @@ class Hero extends BaseGameObject{
             return (new Rect(-10000,-10000,0,0,this.rotation));
         }
         return new Rect(this.x, this.y, this.width, this.height, this.rotation);
+    }
+    
+    private get shootInterval(): number{
+        return this.gunData.interval;
     }
 }
 

@@ -92,6 +92,7 @@ var game_file_list = [
 	"bin-debug/core/utils/ResourceUtils.js",
 	"bin-debug/core/utils/RockerUtils.js",
 	"bin-debug/core/utils/ShockUtils.js",
+	"bin-debug/core/utils/SortUtils.js",
 	"bin-debug/core/utils/StageUtils.js",
 	"bin-debug/core/utils/StringBuffer.js",
 	"bin-debug/core/utils/StringUtils.js",

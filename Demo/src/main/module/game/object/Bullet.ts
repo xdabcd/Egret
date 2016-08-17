@@ -171,4 +171,16 @@ class Bullet extends BaseGameObject{
     
     protected doEffect(hero: Hero){
     }
+    
+    public GetDangerArea(targetX: number, time: number): Array<number>{ 
+        var arr = [];
+        var s = targetX - this.x - this.width / 2 * Math.abs(Math.cos(this.rotation));
+        var t = s / this.speed;
+        if(t < time){
+            var min = this.y - this.height / 2 / Math.abs(Math.cos(this.rotation));
+            var max = this.y + this.height / 2 / Math.abs(Math.cos(this.rotation));
+            arr = [min, max];
+        }
+        return arr;
+    }
 }

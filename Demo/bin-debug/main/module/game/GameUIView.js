@@ -79,7 +79,7 @@ var GameUIView = (function (_super) {
                 this.dodgeBtnDown();
                 break;
             case Keyboard.SPACE:
-                App.TimerManager.setTimeScale(0.02);
+                App.TimerManager.setTimeScale(0.1);
                 break;
             case Keyboard.J:
                 App.TimerManager.setTimeScale(1);

@@ -10,9 +10,9 @@
 			"anim" : "dog",
 			"width" : 90,
 			"height" : 115,
-			"upAs" : 4000,
+			"upAs" : 3000,
 			"downAs" : -3000,
-			"maxSpeed" : 800,
+			"maxSpeed" : 600,
 			"minSpeed" : -600,
 			"hp" : 5,
 			"areas" : [
@@ -62,7 +62,7 @@
     		"type" : 3,
     		"info" : {
     			"count" : 5,
-    			"angle" : 8
+    			"angle" : 5
     		}
     	},
     	{

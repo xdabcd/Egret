@@ -45,6 +45,43 @@ class GameController extends BaseController {
         return 0;
     }
     
+    /**
+     * 获取安全区域
+     */ 
+    public GetSafeArea(hero: Hero): Array<number>{
+        var dangerArr = [];
+        var safeArr = [];
+        var l = hero.height * 1.5;
+        var bullets: Array<Bullet> = [];
+        if(hero.side == Side.Own) {
+            bullets = this.gameView.GetEnemyBullets();
+        } else {
+            bullets = this.gameView.GetOwnBullets();
+        }
+        for(var i = 0; i < bullets.length; i++){
+            var bullet = bullets[i];
+            var dangerArea = bullet.GetDangerArea(hero.x, 0.6);
+            for(var j = 0; j < dangerArea.length; j++){
+                dangerArr.push(dangerArea[j]);
+            }
+        }
+        if(dangerArr.length > 0){
+            dangerArr.push(this.gameView.min_y);
+            dangerArr.push(this.gameView.max_y);
+        }
+        dangerArr.sort(SortUtils.sortNum);
+        for(var i = 0;i < dangerArr.length; i++){
+            if(i < dangerArr.length - 1){
+                var p1 = dangerArr[i];
+                var p2 = dangerArr[i + 1];
+                if(p2 - p1 > l){
+                    safeArr.push([p1, p2]);
+                }
+            }
+        }
+        return safeArr;
+    }
+    
      /**
       * 检测英雄是否即将受攻击
       */ 

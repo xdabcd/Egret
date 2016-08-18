@@ -44,7 +44,8 @@ class BoomerangBullet extends Bullet{
                 }
                 var a = App.MathUtils.getAngle(r);
                 this.rotation = a;
-                if(this.rect.intersectTo(this.creater.rect)) {
+                var rect = new Rect(this.creater.x, this.creater.y, this.creater.width, this.creater.height, 0);
+                if(this.rect.intersectTo(rect)) {
                     this.remove();
                     this.creater.GunReturn();
                 }

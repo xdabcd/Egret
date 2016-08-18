@@ -13,6 +13,7 @@ class GameView extends BaseSpriteView {
     private enemyBullets: Array<Bullet> = [];
     private items: Array<Item> = [];
     private stones: Array<Stone> = [];
+    private sceneEffet: SceneEffect;
     private itemInterval = 5;
     private itemCd = 0;
     private stoneInterval = 6;
@@ -96,21 +97,21 @@ class GameView extends BaseSpriteView {
                 this.itemCd -= t;
 
                 if(this.itemCd <= 0) {
-                    this.createItem(App.RandomUtils.limitInteger(2,8));
+                    this.createItem(App.RandomUtils.limitInteger(2, 8));
                     this.itemCd = this.itemInterval;
                 }
                 
-//                this.stoneCd -= t;
-//                if(this.stoneCd <= 0){
-//                    this.createStone(App.RandomUtils.limitInteger(1, 2));
-//                    this.stoneCd = this.stoneInterval;
-//                }
-//                
-//                this.seCd -= t;
-//                if(this.seCd <= 0) {
-//                    this.addSceneEffect();
-//                    this.seCd = this.seInterval;
-//                }
+                this.stoneCd -= t;
+                if(this.stoneCd <= 0){
+                    this.createStone(App.RandomUtils.limitInteger(1, 2));
+                    this.stoneCd = this.stoneInterval;
+                }
+                
+                this.seCd -= t;
+                if(this.seCd <= 0) {
+                    this.addSceneEffect();
+                    this.seCd = this.seInterval;
+                }
                 break;
             case 3:
                 this.transTime -= t;
@@ -119,15 +120,17 @@ class GameView extends BaseSpriteView {
                 }
                 break;
             case 4:
+                var w = App.StageUtils.getWidth();
                 if(this.hero != null && this.hero.GetState() == HeroState.Idle){
                     this.hero.destory();
                     this.hero = null;
                 }
-                if(this.bgDis > this.bgContainer.width / 3){
+                if(this.bgDis > w * 2 / 3){
                     this.clearItems();
                     this.clearStones();
+                    this.clearEffect();
                 }
-                if(this.bgDis > this.bgContainer.width * 4) {
+                if(this.bgDis > w * 4) {
                     if(this.bgSpeed <= 0.6){
                         this.bgSpeed = 0.6;
                         if(this.bgContainer.x >= -30){
@@ -139,7 +142,7 @@ class GameView extends BaseSpriteView {
                 }else if(this.bgSpeed < 6){
                     this.bgSpeed += t;
                 }
-                this.bgContainer.x = (this.bgContainer.x - this.bgSpeed * time) % (this.bgContainer.width / 2);
+                this.bgContainer.x = (this.bgContainer.x - this.bgSpeed * time) % w;
                 this.bgDis += this.bgSpeed * time;
                 break;
             case 5:
@@ -170,7 +173,7 @@ class GameView extends BaseSpriteView {
 
     private trans(){
         this.setState(3);
-        this.transTime = 2;
+        this.transTime = 0;
     }
     
     private next(){
@@ -203,6 +206,7 @@ class GameView extends BaseSpriteView {
         se.x = this.getPerXPos(0.5);
         se.y = this.getPerYPos(0.5);
         this.bgContainer.addChild(se);
+        this.sceneEffet = se;
     }
     
     private createHero(){
@@ -333,6 +337,12 @@ class GameView extends BaseSpriteView {
                 this.stones[i].destory();
             }
             this.stones = [];
+        }
+    }
+    
+    private clearEffect(){
+        if(this.sceneEffet != null){
+            this.sceneEffet.destory();
         }
     }
     

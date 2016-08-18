@@ -7,6 +7,7 @@ class BaseGameObject extends egret.DisplayObjectContainer {
     public controller: BaseController;
     private _side: Side;
     protected hitRect: egret.Shape;
+    protected showRect: boolean = false;
     
     public constructor($controller: BaseController) {
         super();
@@ -32,7 +33,7 @@ class BaseGameObject extends egret.DisplayObjectContainer {
 
     private onFrame(time: number): void {
         this.update(time);
-        if(this.parent != null){
+        if(this.showRect && this.parent != null){
             if(this.hitRect == null) {
                 this.hitRect = new egret.Shape;
                 this.parent.addChild(this.hitRect);

@@ -26,45 +26,65 @@ var GameController = (function (_super) {
     }
     var d = __define,c=GameController,p=c.prototype;
     /**
-     * 检查敌人相对英雄位置
-     * 1: 英雄在上方 0: 持平 -1: 英雄在下方
+     * 获取范围离英雄最近的敌人或道具
      */
-    p.CheckEnemyPosByHero = function (enemy) {
-        var hero = this.gameView.GetHero();
-        if (hero.y - enemy.y < -10) {
-            return 1;
+    p.GetNearestInArea = function (hero, area) {
+        var heroArr = [];
+        var itemArr = this.gameView.GetItems();
+        if (hero.side = Side.Own) {
+            heroArr = this.gameView.GetEnemies();
         }
-        else if (hero.y - enemy.y > 10) {
-            return -1;
+        else {
+            heroArr = [this.gameView.GetHero()];
         }
-        return 0;
+        var l = 2000;
+        var min = area[0];
+        var max = area[1];
+        var obj;
+        for (var i = 0; i < heroArr.length; i++) {
+            var h = heroArr[i];
+            if (h.y >= min && h.y <= max) {
+                if (Math.abs(h.y - hero.y) < l) {
+                    l = Math.abs(h.y - hero.y);
+                    obj = h;
+                }
+            }
+        }
+        for (var i = 0; i < itemArr.length; i++) {
+            var item = itemArr[i];
+            if (item.y >= min && item.y <= max) {
+                if (Math.abs(item.y - hero.y) < l) {
+                    l = Math.abs(item.y - hero.y);
+                    obj = item;
+                }
+            }
+        }
+        return obj;
     };
     /**
      * 获取安全区域
      */
     p.GetSafeArea = function (hero) {
-        var dangerArr = [];
+        var dangerArr = [this.gameView.min_y, this.gameView.max_y];
         var safeArr = [];
-        var l = hero.height * 1.5;
-        var bullets = [];
-        if (hero.side == Side.Own) {
-            bullets = this.gameView.GetEnemyBullets();
-        }
-        else {
-            bullets = this.gameView.GetOwnBullets();
-        }
-        for (var i = 0; i < bullets.length; i++) {
-            var bullet = bullets[i];
-            var dangerArea = bullet.GetDangerArea(hero.x, 0.6);
-            for (var j = 0; j < dangerArea.length; j++) {
-                dangerArr.push(dangerArea[j]);
+        if (!hero.HaveItem()) {
+            var bullets = [];
+            if (hero.side == Side.Own) {
+                bullets = this.gameView.GetEnemyBullets();
             }
+            else {
+                bullets = this.gameView.GetOwnBullets();
+            }
+            for (var i = 0; i < bullets.length; i++) {
+                var bullet = bullets[i];
+                var dangerArea = bullet.GetDangerArea(hero.x, 0.6);
+                for (var j = 0; j < dangerArea.length; j++) {
+                    dangerArr.push(dangerArea[j]);
+                }
+            }
+            dangerArr.sort(SortUtils.sortNum);
         }
-        if (dangerArr.length > 0) {
-            dangerArr.push(this.gameView.min_y);
-            dangerArr.push(this.gameView.max_y);
-        }
-        dangerArr.sort(SortUtils.sortNum);
+        var l = hero.height * 1.5;
         for (var i = 0; i < dangerArr.length; i++) {
             if (i < dangerArr.length - 1) {
                 var p1 = dangerArr[i];

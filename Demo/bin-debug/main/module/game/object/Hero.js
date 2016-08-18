@@ -7,7 +7,7 @@ var Hero = (function (_super) {
     __extends(Hero, _super);
     function Hero($controller) {
         _super.call(this, $controller);
-        this.aiReactionTime = 0.1;
+        this.aiDodgeInterval = 5;
         this.hpArr = [];
         this.posArr = [];
     }
@@ -36,7 +36,6 @@ var Hero = (function (_super) {
         this.addHp(this.heroData.hp);
         this.showFreez(false);
         this.rotation = 0;
-        this.aiReactionCd = 0;
     };
     p.setAnim = function (anim) {
         if (this.anim == null) {
@@ -162,7 +161,7 @@ var Hero = (function (_super) {
     };
     p.Dodge = function () {
         if (this.state != HeroState.Idle) {
-            return;
+            return false;
         }
         this.state = HeroState.Dodge;
         if (this.curPosIndex == 0) {
@@ -172,6 +171,7 @@ var Hero = (function (_super) {
             this.curPosIndex = 0;
         }
         this.targetPos = new egret.Point(this.posArr[this.curPosIndex], this.y);
+        return true;
     };
     p.Shoot = function () {
         var _this = this;
@@ -372,58 +372,65 @@ var Hero = (function (_super) {
         }
     );
     p.followAi = function (t) {
-        if (this.aiReactionCd > 0) {
-            this.aiReactionCd -= t;
-            return;
+        if (this.aiDodgeCd == null) {
+            this.aiDodgeCd = 0;
+        }
+        if (this.aiDodgeCd > 0) {
+            this.aiDodgeCd -= t;
+        }
+        else {
+            if (this.gameController.checkDanger(this, 100) && this.Dodge()) {
+                this.aiDodgeCd = this.aiDodgeInterval;
+                return;
+            }
         }
         var safeArea = this.gameController.GetSafeArea(this);
-        var up = null;
+        var target;
+        var targetPos;
         if (safeArea.length > 0) {
             var idx = -1;
-            var l = 1000;
+            var l = 2000;
             for (var i = 0; i < safeArea.length; i++) {
-                var min = safeArea[i][0] + this.height / 1.8;
-                var max = safeArea[i][1] - this.height / 1.8;
-                if (this.speed > 0) {
-                    min += this.speed * 0.2;
-                }
-                else {
-                    max += this.speed * 0.2;
-                }
-                if (this.y > min && this.y < max) {
+                var min = safeArea[i][0] + this.height / 2;
+                var max = safeArea[i][1] - this.height / 2;
+                //        	     if(this.speed > 0){
+                //                     min += this.speed * 0.2;
+                //        	     }else{
+                //      max += this.speed * 0.2;
+                //        	     }
+                if (this.y >= min && this.y <= max) {
+                    targetPos = (max + min) / 2;
+                    var near = this.gameController.GetNearestInArea(this, [min, max]);
+                    if (near != null) {
+                        target = near;
+                        targetPos = near.y;
+                    }
                     break;
                 }
                 else if (this.y <= min) {
                     if (min - this.y < l) {
-                        up = false;
-                        idx = i;
+                        targetPos = min;
+                        l = min - this.y;
                     }
                 }
                 else {
-                    if (this.y - max) {
-                        up = true;
-                        idx = i;
+                    if (this.y - max < l) {
+                        targetPos = max;
+                        l = this.y - max;
                     }
                 }
             }
         }
-        var r = this.gameController.CheckEnemyPosByHero(this);
-        if (up == null) {
-            if (r > 0) {
-                up = true;
-            }
-            else {
-                up = false;
+        if (target != null) {
+            if (Math.abs(targetPos - this.y) < 30) {
+                this.Shoot();
             }
         }
-        if (up != null) {
-            if (this.isUp != up) {
-                this.aiReactionCd = this.aiReactionTime;
-            }
-            this.isUp = up;
+        if (this.y > targetPos) {
+            this.isUp = true;
         }
-        if (r == 0) {
-            this.Shoot();
+        else {
+            this.isUp = false;
         }
     };
     p.GetState = function () {
@@ -442,6 +449,9 @@ var Hero = (function (_super) {
             return this.gunData.interval;
         }
     );
+    p.HaveItem = function () {
+        return this.gunData.id != this.heroData.gun;
+    };
     return Hero;
 }(BaseGameObject));
 egret.registerClass(Hero,'Hero');

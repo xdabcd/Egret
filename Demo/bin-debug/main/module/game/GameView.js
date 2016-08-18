@@ -77,17 +77,16 @@ var GameView = (function (_super) {
                     this.createItem(App.RandomUtils.limitInteger(2, 8));
                     this.itemCd = this.itemInterval;
                 }
-                //                this.stoneCd -= t;
-                //                if(this.stoneCd <= 0){
-                //                    this.createStone(App.RandomUtils.limitInteger(1, 2));
-                //                    this.stoneCd = this.stoneInterval;
-                //                }
-                //                
-                //                this.seCd -= t;
-                //                if(this.seCd <= 0) {
-                //                    this.addSceneEffect();
-                //                    this.seCd = this.seInterval;
-                //                }
+                this.stoneCd -= t;
+                if (this.stoneCd <= 0) {
+                    this.createStone(App.RandomUtils.limitInteger(1, 2));
+                    this.stoneCd = this.stoneInterval;
+                }
+                this.seCd -= t;
+                if (this.seCd <= 0) {
+                    this.addSceneEffect();
+                    this.seCd = this.seInterval;
+                }
                 break;
             case 3:
                 this.transTime -= t;
@@ -96,15 +95,17 @@ var GameView = (function (_super) {
                 }
                 break;
             case 4:
+                var w = App.StageUtils.getWidth();
                 if (this.hero != null && this.hero.GetState() == HeroState.Idle) {
                     this.hero.destory();
                     this.hero = null;
                 }
-                if (this.bgDis > this.bgContainer.width / 3) {
+                if (this.bgDis > w * 2 / 3) {
                     this.clearItems();
                     this.clearStones();
+                    this.clearEffect();
                 }
-                if (this.bgDis > this.bgContainer.width * 4) {
+                if (this.bgDis > w * 4) {
                     if (this.bgSpeed <= 0.6) {
                         this.bgSpeed = 0.6;
                         if (this.bgContainer.x >= -30) {
@@ -118,7 +119,7 @@ var GameView = (function (_super) {
                 else if (this.bgSpeed < 6) {
                     this.bgSpeed += t;
                 }
-                this.bgContainer.x = (this.bgContainer.x - this.bgSpeed * time) % (this.bgContainer.width / 2);
+                this.bgContainer.x = (this.bgContainer.x - this.bgSpeed * time) % w;
                 this.bgDis += this.bgSpeed * time;
                 break;
             case 5:
@@ -147,7 +148,7 @@ var GameView = (function (_super) {
     };
     p.trans = function () {
         this.setState(3);
-        this.transTime = 2;
+        this.transTime = 0;
     };
     p.next = function () {
         if (this.wave < this.round) {
@@ -178,6 +179,7 @@ var GameView = (function (_super) {
         se.x = this.getPerXPos(0.5);
         se.y = this.getPerYPos(0.5);
         this.bgContainer.addChild(se);
+        this.sceneEffet = se;
     };
     p.createHero = function () {
         this.hero = ObjectPool.pop("Hero", this.controller);
@@ -303,6 +305,11 @@ var GameView = (function (_super) {
                 this.stones[i].destory();
             }
             this.stones = [];
+        }
+    };
+    p.clearEffect = function () {
+        if (this.sceneEffet != null) {
+            this.sceneEffet.destory();
         }
     };
     p.RemoveStone = function (stone) {

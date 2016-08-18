@@ -7,6 +7,7 @@ var BaseGameObject = (function (_super) {
     __extends(BaseGameObject, _super);
     function BaseGameObject($controller) {
         _super.call(this);
+        this.showRect = false;
         this.controller = $controller;
     }
     var d = __define,c=BaseGameObject,p=c.prototype;
@@ -30,7 +31,7 @@ var BaseGameObject = (function (_super) {
     };
     p.onFrame = function (time) {
         this.update(time);
-        if (this.parent != null) {
+        if (this.showRect && this.parent != null) {
             if (this.hitRect == null) {
                 this.hitRect = new egret.Shape;
                 this.parent.addChild(this.hitRect);

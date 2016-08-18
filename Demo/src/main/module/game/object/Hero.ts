@@ -12,13 +12,13 @@ class Hero extends BaseGameObject{
     private isUp: Boolean;
     private speed: number;
     private aiType: AiType;
-    private aiReactionTime: number = 0.1;
-    private aiReactionCd: number;
     private hp: number;
     private hurtTime: number;
     private freezTime: number;
     private releaseTime: number;
     private targetPos: egret.Point;
+    private aiDodgeInterval: number = 5;
+    private aiDodgeCd: number;
     
     private anim: egret.MovieClip;
     private gun: egret.Bitmap;
@@ -59,7 +59,6 @@ class Hero extends BaseGameObject{
         
         this.showFreez(false);
         this.rotation = 0;
-        this.aiReactionCd = 0;
     }
     
     private setAnim(anim: string) {
@@ -190,9 +189,9 @@ class Hero extends BaseGameObject{
         this.releaseTime = duration;
     }
 	
-	public Dodge() {
+	public Dodge(): boolean {
 	    if(this.state != HeroState.Idle){
-	        return;
+	        return false;
 	    }
     	this.state = HeroState.Dodge; 
     	if(this.curPosIndex == 0){
@@ -201,6 +200,7 @@ class Hero extends BaseGameObject{
     	    this.curPosIndex = 0;
     	}
         this.targetPos = new egret.Point(this.posArr[this.curPosIndex], this.y);
+        return true;
 	}
 	
     public Shoot() {
@@ -400,61 +400,65 @@ class Hero extends BaseGameObject{
 	    this.isUp = value;
 	}
 	
-	private followAi(t: number){
-    	if(this.aiReactionCd > 0){
-    	    this.aiReactionCd -= t;
-    	    return;
+	private followAi(t :number){
+    	if(this.aiDodgeCd == null){
+    	    this.aiDodgeCd = 0;
     	}
+    	if(this.aiDodgeCd > 0){
+    	    this.aiDodgeCd -= t;
+    	}else{
+            if(this.gameController.checkDanger(this,100) && this.Dodge()) {
+                this.aiDodgeCd = this.aiDodgeInterval;
+                return;
+            }
+    	}    	
     	
         var safeArea = this.gameController.GetSafeArea(this);
-        var up: boolean = null
-        if(safeArea.length > 0){
+        var target: any;
+        var targetPos: number;
+        if(safeArea.length > 0) {
             var idx = -1;
-            var l = 1000;
-        	for(var i = 0; i < safeArea.length; i++){
-                var min = safeArea[i][0] + this.height / 1.8;
-        	     var max = safeArea[i][1] - this.height / 1.8;
-        	     if(this.speed > 0){
-                     min += this.speed * 0.2;
-        	     }else{
-                     max += this.speed * 0.2;
-        	     }
-               
-        	    if(this.y > min && this.y < max){
-        	         break;
-        	    }else if(this.y <= min){
-            	    
-        	         if(min - this.y < l){
-        	             up = false;
-        	             idx = i;
-        	         }
-        	    }else{
-        	         if(this.y - max){
-        	             up = true;
-        	             idx = i;
-        	         }
-        	    }
-        	}
-    	}
-        var r: number = this.gameController.CheckEnemyPosByHero(this);
+            var l = 2000;
+            for(var i = 0;i < safeArea.length;i++) {
+                var min = safeArea[i][0] + this.height / 2;
+                var max = safeArea[i][1] - this.height / 2;
+                //        	     if(this.speed > 0){
+                //                     min += this.speed * 0.2;
+                //        	     }else{
+                //      max += this.speed * 0.2;
+                //        	     }
 
-    	if(up == null){
-            if(r > 0) {
-                up = true;
-            } else {
-                up = false;
+                if(this.y >= min && this.y <= max) {
+                    targetPos = (max + min) / 2;
+                    var near = this.gameController.GetNearestInArea(this,[min,max]);
+                    if(near != null){
+                        target = near;  
+                        targetPos = near.y;
+                    }
+                    break;
+                } else if(this.y <= min) {
+                    if(min - this.y < l) {
+                        targetPos = min;
+                        l = min - this.y;
+                    }
+                } else {
+                    if(this.y - max < l) {
+                        targetPos = max;
+                        l = this.y - max;
+                    }
+                }
             }
-    	}
-    	
-    	if(up != null){
-            if(this.isUp != up) {
-                this.aiReactionCd = this.aiReactionTime;
+        }
+        if(target != null){
+            if(Math.abs(targetPos - this.y) < 30){
+                this.Shoot();
             }
-    	    this.isUp = up;
-    	}
-    	if(r == 0){
-    	    this.Shoot();
-    	}
+        }
+        if(this.y > targetPos){
+            this.isUp = true;
+        }else{
+            this.isUp = false;
+        }
 	}
 	
 	public GetState(): HeroState{
@@ -470,6 +474,10 @@ class Hero extends BaseGameObject{
     
     private get shootInterval(): number{
         return this.gunData.interval;
+    }
+    
+    public HaveItem(): boolean{
+        return this.gunData.id != this.heroData.gun;
     }
 }
 

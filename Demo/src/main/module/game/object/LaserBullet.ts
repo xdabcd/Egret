@@ -10,7 +10,7 @@ class LaserBullet extends Bullet{
     private readyTime: number;
     private releaseTime: number;
     private displayTime: number;
-    private readCd: number;
+    private readyCd: number;
     
     private createrX: number;
     private createrY: number;
@@ -28,7 +28,7 @@ class LaserBullet extends Bullet{
         this.readyTime = info.readyTime;
         this.releaseTime = info.releaseTime;
         this.displayTime = info.displayTime;
-        this.readCd = this.readyTime;
+        this.readyCd = this.readyTime;
         this.setReadyImg(info.ready);
         this.setImg(this.bulletData.img);
         this.readyImg.scaleX = this.readyImg.scaleY = 0.5;
@@ -60,6 +60,9 @@ class LaserBullet extends Bullet{
     
     public update(time: number) {
         super.update(time);
+        if(this.creater.GetState() == HeroState.Die){
+            this.remove();
+        }
         this.x += this.creater.x - this.createrX;
         this.y += this.creater.y - this.createrY;
         this.createrX = this.creater.x; 
@@ -68,8 +71,8 @@ class LaserBullet extends Bullet{
         var t = time / 1000;
         switch(this.state) {
             case 0:
-                this.readCd -= t;
-                if(this.readCd > 0){
+                this.readyCd -= t;
+                if(this.readyCd > 0){
                     if(this.readyImg.scaleX == 1) {
                         this.readyImg.scaleX = this.readyImg.scaleY = 0.5;
                     } else {
@@ -124,5 +127,15 @@ class LaserBullet extends Bullet{
             rect = new Rect(this.x - this.img.x - width / 2, this.y, width, height, this.rotation);
         }
         return rect;
+    }
+    
+    public GetDangerArea(targetX: number,time: number): Array<number> {
+        var arr = [];
+        if(this.readyCd < time){
+            var min = this.y - this.width / 2;
+            var max = this.y + this.width / 2;
+            arr = [min,max];
+        }
+        return arr;
     }
 }

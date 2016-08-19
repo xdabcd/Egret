@@ -12,6 +12,7 @@ var GameView = (function (_super) {
         this.enemyBullets = [];
         this.items = [];
         this.stones = [];
+        this.sceneBullets = [];
         this.itemInterval = 5;
         this.itemCd = 0;
         this.stoneInterval = 6;
@@ -67,8 +68,13 @@ var GameView = (function (_super) {
                 this.setState(1);
                 break;
             case 1:
-                this.createEnemy(AiType.Follow);
-                this.seCd = App.RandomUtils.limit(this.seInterval / 2, this.seInterval);
+                if (this.isBossRound) {
+                    this.createBoss();
+                }
+                else {
+                    this.createEnemy(AiType.Follow);
+                    this.seCd = App.RandomUtils.limit(this.seInterval / 2, this.seInterval);
+                }
                 this.setState(2);
                 break;
             case 2:
@@ -77,15 +83,17 @@ var GameView = (function (_super) {
                     this.createItem(App.RandomUtils.limitInteger(2, 8));
                     this.itemCd = this.itemInterval;
                 }
-                this.stoneCd -= t;
-                if (this.stoneCd <= 0) {
-                    this.createStone(App.RandomUtils.limitInteger(1, 2));
-                    this.stoneCd = this.stoneInterval;
-                }
-                this.seCd -= t;
-                if (this.seCd <= 0) {
-                    this.addSceneEffect();
-                    this.seCd = this.seInterval;
+                if (!this.isBossRound) {
+                    this.stoneCd -= t;
+                    if (this.stoneCd <= 0) {
+                        this.createStone(App.RandomUtils.limitInteger(1, 2));
+                        this.stoneCd = this.stoneInterval;
+                    }
+                    this.seCd -= t;
+                    if (this.seCd <= 0) {
+                        this.addSceneEffect();
+                        this.seCd = this.seInterval;
+                    }
                 }
                 break;
             case 3:
@@ -96,7 +104,7 @@ var GameView = (function (_super) {
                 break;
             case 4:
                 var w = App.StageUtils.getWidth();
-                if (this.hero != null && this.hero.GetState() == HeroState.Idle) {
+                if (this.hero != null && this.hero.GetState() == UnitState.Idle) {
                     this.hero.destory();
                     this.hero = null;
                 }
@@ -150,8 +158,13 @@ var GameView = (function (_super) {
         this.setState(3);
         this.transTime = 0;
     };
+    d(p, "isBossRound"
+        ,function () {
+            return this.round % 3 == 0;
+        }
+    );
     p.next = function () {
-        if (this.wave < this.round) {
+        if (!this.isBossRound && this.wave < this.round % 3) {
             this.setState(2);
             this.createEnemy(AiType.Follow);
             this.wave += 1;
@@ -203,6 +216,25 @@ var GameView = (function (_super) {
         this.enemies.push(enemy);
         enemy.Entrance();
     };
+    p.createBoss = function () {
+        this.boss = ObjectPool.pop("Boss", this.controller);
+        this.boss.init(1, Side.Enemy);
+        var pos = this.getPerPos(0.8, 0.4);
+        this.boss.x = pos.x;
+        this.boss.y = pos.y;
+        this.addChild(this.boss);
+    };
+    p.SetBossDie = function () {
+        var _this = this;
+        egret.Tween.get(this.boss).to({ alpha: 0.1 }, 600)
+            .call(function () { _this.RemoveBoss(); }, this);
+    };
+    p.RemoveBoss = function () {
+        this.boss.destory();
+        this.boss = null;
+        App.ControllerManager.applyFunc(ControllerConst.Game, GameConst.AddScore, 5);
+        this.trans();
+    };
     p.SetHeroDie = function (hero) {
         var _this = this;
         var targetX;
@@ -224,7 +256,7 @@ var GameView = (function (_super) {
         else if (hero.side = Side.Enemy) {
             var index = this.enemies.indexOf(hero);
             this.enemies.splice(index, 1);
-            App.ControllerManager.applyFunc(ControllerConst.Game, GameConst.AddScore, this);
+            App.ControllerManager.applyFunc(ControllerConst.Game, GameConst.AddScore, 1);
             if (this.enemies.length == 0) {
                 this.trans();
             }
@@ -240,6 +272,9 @@ var GameView = (function (_super) {
         }
         else if (creater.side == Side.Enemy) {
             this.enemyBullets.push(bullet);
+        }
+        else if (creater.side == Side.Middle) {
+            this.sceneBullets.push(bullet);
         }
         this.addChild(bullet);
     };
@@ -332,17 +367,54 @@ var GameView = (function (_super) {
             this.hero.Dodge();
         }
     };
-    p.GetHero = function () {
-        return this.hero;
+    p.GetDanger = function (side) {
+        var arr = [];
+        var a = this.hero;
+        var b = this.enemies;
+        var c = this.boss;
+        if (side == Side.Own) {
+            for (var i = 0; i < b.length; i++) {
+                arr.push(b[i]);
+            }
+            if (c != null) {
+                arr.push(c);
+            }
+        }
+        else if (side == Side.Enemy) {
+            if (a != null) {
+                arr.push(a);
+            }
+        }
+        else if (side == Side.Middle) {
+            if (a != null) {
+                arr.push(a);
+            }
+            for (var i = 0; i < b.length; i++) {
+                arr.push(b[i]);
+            }
+            if (c != null) {
+                arr.push(c);
+            }
+        }
+        return arr;
     };
-    p.GetOwnBullets = function () {
-        return this.ownBullets;
-    };
-    p.GetEnemies = function () {
-        return this.enemies;
-    };
-    p.GetEnemyBullets = function () {
-        return this.enemyBullets;
+    p.GetDangerBullets = function (side) {
+        var arr = [];
+        var a = [];
+        var b = this.sceneBullets;
+        if (side == Side.Own) {
+            a = this.enemyBullets;
+        }
+        else if (side == Side.Enemy) {
+            a = this.ownBullets;
+        }
+        for (var i = 0; i < a.length; i++) {
+            arr.push(a[i]);
+        }
+        for (var i = 0; i < b.length; i++) {
+            arr.push(b[i]);
+        }
+        return arr;
     };
     p.GetItems = function () {
         return this.items;

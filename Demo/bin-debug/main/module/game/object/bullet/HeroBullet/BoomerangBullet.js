@@ -25,7 +25,7 @@ var BoomerangBullet = (function (_super) {
                 this.speed -= time * 0.9;
                 if (this.scaleX > 0 && this.x >= this.targetX || this.scaleX < 0 && this.x <= this.targetX) {
                     this.state = 1;
-                    this.ignoreHeroes = [];
+                    this.ignoreUnits = [];
                     this.ignoreStones = [];
                 }
                 break;
@@ -40,7 +40,7 @@ var BoomerangBullet = (function (_super) {
                 var rect = new Rect(this.creater.x, this.creater.y, this.creater.width, this.creater.height, 0);
                 if (this.rect.intersectTo(rect)) {
                     this.remove();
-                    this.creater.GunReturn();
+                    this.createHero.GunReturn();
                 }
                 break;
             case 2:
@@ -65,10 +65,10 @@ var BoomerangBullet = (function (_super) {
                 break;
         }
     };
-    p.hitHero = function (heroes) {
-        _super.prototype.hitHero.call(this, heroes);
-        for (var i = 0; i < heroes.length; i++) {
-            this.ignoreHeroes.push(heroes[i]);
+    p.hitUnit = function (units) {
+        _super.prototype.hitUnit.call(this, units);
+        for (var i = 0; i < units.length; i++) {
+            this.ignoreUnits.push(units[i]);
         }
     };
     p.hitItems = function (items) {
@@ -79,5 +79,5 @@ var BoomerangBullet = (function (_super) {
         _super.prototype.outScreen.call(this);
     };
     return BoomerangBullet;
-}(Bullet));
+}(HeroBullet));
 egret.registerClass(BoomerangBullet,'BoomerangBullet');

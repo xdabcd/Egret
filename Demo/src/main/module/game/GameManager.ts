@@ -5,6 +5,7 @@
  */
 class GameManager {
     private static ui_h: number;
+    private static bossDic: { [id: number]: BossData } = {};
     private static heroDic: { [id: number]: HeroData } = {};
     private static gunDic: { [id: number]: GunData } = {};
     private static bulletDic: { [id: number]: BulletData } = {};
@@ -12,13 +13,13 @@ class GameManager {
     private static stoneDic: { [id: number]: StoneData } = {};
     private static heroPosArr: Array<number> = [];
     
-    
     /**
      * 初始化游戏数据
      */
     public static Init() {
         var data = RES.getRes("game_json");
         this.ui_h = data["ui_h"];
+        var bosses: Array<BossData> = data["bosses"];
         var heroes: Array<HeroData> = data["heroes"];
         var guns: Array<GunData> = data["guns"];
         var bullets: Array<BulletData> = data["bullets"];
@@ -26,6 +27,11 @@ class GameManager {
         var stones: Array<StoneData> = data["stones"];
         this.heroPosArr = data["posArr"];
 
+        for(let i = 0;i < bosses.length;i++) {
+            let b = bosses[i];
+            this.bossDic[b.id] = b;
+        }
+        
         for(let i = 0;i < heroes.length;i++) {
             let h = heroes[i];
             this.heroDic[h.id] = h;
@@ -52,6 +58,13 @@ class GameManager {
         }
     }
 
+    /**
+     * 获取Boss数据
+     */
+    public static GetBossData(id: number) {
+        return this.bossDic[id];
+    }
+    
     /**
      * 获取英雄数据
      */

@@ -3,7 +3,7 @@
  * @author 
  *
  */
-class WaveBullet extends Bullet {
+class WaveBullet extends HeroBullet {
     public constructor($controller: BaseController) {
         super($controller);
     }
@@ -25,11 +25,11 @@ class WaveBullet extends Bullet {
         }
     }
     
-    protected hitHero(heroes: Array<Hero>) {
-        super.hitHero(heroes);
+    protected hitUnit(units: Array<Unit>) {
+        super.hitUnit(units);
 
-        for(var i = 0;i < heroes.length;i++) {
-            this.ignoreHeroes.push(heroes[i]);
+        for(var i = 0;i < units.length;i++) {
+            this.ignoreUnits.push(units[i]);
         }
     }
 
@@ -44,6 +44,6 @@ class WaveBullet extends Bullet {
     public get rect(): Rect {
         var width = this.width * this.img.scaleX;
         var height = this.height * this.img.scaleY;
-        return new Rect(this.x, this.y, width, height, this.rotation);
+        return new Rect(this.x + width * 0.4 * this.scaleX, this.y, width * 0.2, height, this.rotation);
     }
 }

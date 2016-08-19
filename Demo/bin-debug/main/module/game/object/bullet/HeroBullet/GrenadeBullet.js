@@ -83,14 +83,14 @@ var GrenadeBullet = (function (_super) {
         this.bombImg.visible = true;
         this.bombImg.scaleX = this.bombImg.scaleY = 0.2;
     };
-    p.hitHero = function (heroes) {
-        _super.prototype.hitHero.call(this, heroes);
+    p.hitUnit = function (units) {
+        _super.prototype.hitUnit.call(this, units);
         if (this.state == 1) {
             this.bomb();
         }
         else {
-            for (var i = 0; i < heroes.length; i++) {
-                this.ignoreHeroes.push(heroes[i]);
+            for (var i = 0; i < units.length; i++) {
+                this.ignoreUnits.push(units[i]);
             }
         }
     };
@@ -129,5 +129,5 @@ var GrenadeBullet = (function (_super) {
         }
     );
     return GrenadeBullet;
-}(Bullet));
+}(HeroBullet));
 egret.registerClass(GrenadeBullet,'GrenadeBullet');

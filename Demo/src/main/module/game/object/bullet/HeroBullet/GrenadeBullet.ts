@@ -3,7 +3,7 @@
  * 手榴弹
  *
  */
-class GrenadeBullet extends Bullet{
+class GrenadeBullet extends HeroBullet{
     /** 1:飞行状态 2:爆炸状态 3:停滞 4:消失*/
     private state: number;
     private targetX: number;
@@ -100,17 +100,17 @@ class GrenadeBullet extends Bullet{
         this.bombImg.visible = true;
         this.bombImg.scaleX = this.bombImg.scaleY = 0.2;
     }
-    
-    protected hitHero(heroes: Array<Hero>) {
-        super.hitHero(heroes);
 
-        if(this.state == 1){
+    protected hitUnit(units: Array<Unit>) {
+        super.hitUnit(units);
+
+        if(this.state == 1) {
             this.bomb();
-        }else{
-            for(var i = 0;i < heroes.length;i++) {
-                this.ignoreHeroes.push(heroes[i]);
+        } else {
+            for(var i = 0;i < units.length;i++) {
+                this.ignoreUnits.push(units[i]);
             }
-        }        
+        } 
     }
 
     protected hitItems(items: Array<Item>) {

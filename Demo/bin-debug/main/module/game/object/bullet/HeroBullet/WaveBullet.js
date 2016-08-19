@@ -22,10 +22,10 @@ var WaveBullet = (function (_super) {
             this.img.scaleX = this.img.scaleY = Math.min(time / 1000 + this.img.scaleX, 1);
         }
     };
-    p.hitHero = function (heroes) {
-        _super.prototype.hitHero.call(this, heroes);
-        for (var i = 0; i < heroes.length; i++) {
-            this.ignoreHeroes.push(heroes[i]);
+    p.hitUnit = function (units) {
+        _super.prototype.hitUnit.call(this, units);
+        for (var i = 0; i < units.length; i++) {
+            this.ignoreUnits.push(units[i]);
         }
     };
     p.hitItems = function (items) {
@@ -38,9 +38,9 @@ var WaveBullet = (function (_super) {
         ,function () {
             var width = this.width * this.img.scaleX;
             var height = this.height * this.img.scaleY;
-            return new Rect(this.x, this.y, width, height, this.rotation);
+            return new Rect(this.x + width * 0.4 * this.scaleX, this.y, width * 0.2, height, this.rotation);
         }
     );
     return WaveBullet;
-}(Bullet));
+}(HeroBullet));
 egret.registerClass(WaveBullet,'WaveBullet');

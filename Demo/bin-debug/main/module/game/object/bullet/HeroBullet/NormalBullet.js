@@ -18,8 +18,8 @@ var NormalBullet = (function (_super) {
     p.update = function (time) {
         _super.prototype.update.call(this, time);
     };
-    p.hitHero = function (heroes) {
-        _super.prototype.hitHero.call(this, heroes);
+    p.hitUnit = function (units) {
+        _super.prototype.hitUnit.call(this, units);
         this.remove();
     };
     p.hitItems = function (items) {
@@ -30,5 +30,5 @@ var NormalBullet = (function (_super) {
         _super.prototype.outScreen.call(this);
     };
     return NormalBullet;
-}(Bullet));
+}(HeroBullet));
 egret.registerClass(NormalBullet,'NormalBullet');

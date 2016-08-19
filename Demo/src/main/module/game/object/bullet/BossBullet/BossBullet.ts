@@ -3,7 +3,7 @@
  * @author 
  *
  */
-class NormalBullet extends Bullet {
+class BossBullet extends Bullet {
     public constructor($controller: BaseController) {
         super($controller);
     }
@@ -19,18 +19,11 @@ class NormalBullet extends Bullet {
         super.update(time);
     }
     
-    protected hitHero(heroes: Array<Hero>) {
-        super.hitHero(heroes);
-        this.remove();
-    }
+    protected hitUnit(units: Array<Unit>) {
+        super.hitUnit(units);
 
-    protected hitItems(items: Array<Item>) {
-        super.hitItems(items);
-        this.remove();
+        for(var i = 0;i < units.length;i++) {
+            this.ignoreUnits.push(units[i]);
+        }
     }
-
-    protected outScreen() {
-        super.outScreen();
-    }
-
 }

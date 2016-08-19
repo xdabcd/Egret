@@ -9,8 +9,8 @@ var FreezBullet = (function (_super) {
         _super.apply(this, arguments);
     }
     var d = __define,c=FreezBullet,p=c.prototype;
-    p.doEffect = function (hero) {
-        hero.Freez(0.5);
+    p.doEffect = function (unit) {
+        unit.Freez(0.5);
     };
     return FreezBullet;
 }(NormalBullet));

@@ -10,8 +10,8 @@ class Bullet extends BaseGameObject{
     protected speed: number;
     protected img: egret.Bitmap;
     protected moveData: MoveData;
-    protected creater: Hero;
-    protected ignoreHeroes: Array<Hero>;
+    protected creater: BaseGameObject;
+    protected ignoreUnits: Array<Unit>;
     protected ignoreStones: Array<Stone>;
     
     private tail: Tail;
@@ -28,12 +28,14 @@ class Bullet extends BaseGameObject{
             this.scaleX = 1;
         } else if(this.side == Side.Enemy) {
             this.scaleX = -1;
+        } else if(this.side == Side.Middle) {
+            this.scaleX = 1;
         }
         this.moveData = moveData;
         this.rotation = moveData.direction * this.scaleX;
         this.bulletData = GameManager.GetBulletData(id);
         this.speed = this.bulletData.speed;
-        this.ignoreHeroes = [];
+        this.ignoreUnits = [];
         this.ignoreStones = [];
     }
     
@@ -74,51 +76,24 @@ class Bullet extends BaseGameObject{
             }
         }
         
-        var hitHeroes: Array<Hero> = this.gameController.CheckHitHero(this);
-        var hitItems: Array<Item> = this.gameController.CheckHitItem(this);
+        var hitUnits: Array<Unit> = this.gameController.CheckHitUnit(this);
         var outScreen: Boolean = this.gameController.CheckOutScreen(this);
-        var hitStones: Array<Stone> = this.gameController.CheckHitStone(this);
-        if(hitHeroes.length > 0){
-            this.hitHero(hitHeroes);
+        if(hitUnits.length > 0){
+            this.hitUnit(hitUnits);
         }
-        if(hitItems.length > 0){
-            this.hitItems(hitItems);
-        }
+        
         if(outScreen){
             this.outScreen();
         }
-        if(this.hitStones.length > 0){
-            this.hitStones(hitStones);
-        }
+        
     }  
     
-    protected hitHero(heroes: Array<Hero>){
-        for(var i = 0; i < heroes.length; i++){
-            var hero = heroes[i];
-            if(!this.checkIgnoreHero(hero)){
-                hero.Hurt(this.damage);
-                this.doEffect(hero);
-            }
-        }
-    }
-    
-    protected hitItems(items: Array<Item>) {
-        for(var i = 0;i < items.length;i++) {
-            var item = items[i];
-            item.ToHero(this.creater);
-        }
-    }
-    
-    protected hitStones(stones: Array<Stone>) {
-        for(var i = 0;i < stones.length;i++) {
-            var stone = stones[i];
-            if(!this.checkIgnoreStone(stone)){
-                if(this.priority == 1) {
-                    this.remove();
-                }
-                var direction = App.MathUtils.getAngle(App.MathUtils.getRadian2(this.x,this.y,stone.x,stone.y));
-                stone.Hit(Math.sqrt(this.damage) * 50,direction);
-                this.ignoreStones.push(stone);
+    protected hitUnit(units: Array<Unit>){
+        for(var i = 0; i < units.length; i++){
+            var unit: Unit = units[i];
+            if(!this.checkIgnoreUnit(unit)){
+                unit.Hurt(this.damage);
+                this.doEffect(unit);
             }
         }
     }
@@ -153,12 +128,8 @@ class Bullet extends BaseGameObject{
         }
     }
 
-    private checkIgnoreHero(hero: Hero): Boolean{
-        return this.ignoreHeroes.indexOf(hero) >= 0;
-    }
-    
-    private checkIgnoreStone(stone: Stone): Boolean {
-        return this.ignoreStones.indexOf(stone) >= 0;
+    private checkIgnoreUnit(unit: Unit): Boolean{
+        return this.ignoreUnits.indexOf(unit) >= 0;
     }
     
     protected get priority(): number{
@@ -169,7 +140,7 @@ class Bullet extends BaseGameObject{
         return this.bulletData.damage;
     }
     
-    protected doEffect(hero: Hero){
+    protected doEffect(unit: Unit){
     }
     
     public GetDangerArea(targetX: number, time: number): Array<number>{ 

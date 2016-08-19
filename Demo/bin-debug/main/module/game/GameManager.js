@@ -13,12 +13,17 @@ var GameManager = (function () {
     GameManager.Init = function () {
         var data = RES.getRes("game_json");
         this.ui_h = data["ui_h"];
+        var bosses = data["bosses"];
         var heroes = data["heroes"];
         var guns = data["guns"];
         var bullets = data["bullets"];
         var items = data["items"];
         var stones = data["stones"];
         this.heroPosArr = data["posArr"];
+        for (var i = 0; i < bosses.length; i++) {
+            var b = bosses[i];
+            this.bossDic[b.id] = b;
+        }
         for (var i = 0; i < heroes.length; i++) {
             var h = heroes[i];
             this.heroDic[h.id] = h;
@@ -39,6 +44,12 @@ var GameManager = (function () {
             var stone = stones[i];
             this.stoneDic[stone.id] = stone;
         }
+    };
+    /**
+     * 获取Boss数据
+     */
+    GameManager.GetBossData = function (id) {
+        return this.bossDic[id];
     };
     /**
      * 获取英雄数据
@@ -81,6 +92,7 @@ var GameManager = (function () {
     GameManager.GetHeroPos = function (idx) {
         return this.heroPosArr[idx];
     };
+    GameManager.bossDic = {};
     GameManager.heroDic = {};
     GameManager.gunDic = {};
     GameManager.bulletDic = {};

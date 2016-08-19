@@ -55,8 +55,8 @@ class GameUIView extends BaseSpriteView {
         super.initData();
     }
     
-    public AddScore(){
-        this.score.text = (parseInt(this.score.text) + 1).toString();
+    public AddScore(value: number){
+        this.score.text = (parseInt(this.score.text) + value).toString();
     }
     
     private jumpBtnDown(){

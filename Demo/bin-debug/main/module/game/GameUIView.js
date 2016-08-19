@@ -42,8 +42,8 @@ var GameUIView = (function (_super) {
     p.initData = function () {
         _super.prototype.initData.call(this);
     };
-    p.AddScore = function () {
-        this.score.text = (parseInt(this.score.text) + 1).toString();
+    p.AddScore = function (value) {
+        this.score.text = (parseInt(this.score.text) + value).toString();
     };
     p.jumpBtnDown = function () {
         this.jumpBtn.scaleX = this.jumpBtn.scaleY = 0.9;

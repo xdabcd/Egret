@@ -7,7 +7,7 @@ var BaseGameObject = (function (_super) {
     __extends(BaseGameObject, _super);
     function BaseGameObject($controller) {
         _super.call(this);
-        this.showRect = false;
+        this.showRect = true;
         this.controller = $controller;
     }
     var d = __define,c=BaseGameObject,p=c.prototype;

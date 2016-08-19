@@ -22,6 +22,7 @@ var GameController = (function (_super) {
         this.registerFunc(GameConst.RemoveItem, this.gameView.RemoveItem, this.gameView);
         this.registerFunc(GameConst.RemoveStone, this.gameView.RemoveStone, this.gameView);
         this.registerFunc(GameConst.HeroDie, this.gameView.SetHeroDie, this.gameView);
+        this.registerFunc(GameConst.BossDie, this.gameView.SetBossDie, this.gameView);
         this.registerFunc(GameConst.AddScore, this.gameUIView.AddScore, this.gameUIView);
     }
     var d = __define,c=GameController,p=c.prototype;
@@ -29,24 +30,18 @@ var GameController = (function (_super) {
      * 获取范围离英雄最近的敌人或道具
      */
     p.GetNearestInArea = function (hero, area) {
-        var heroArr = [];
+        var unitArr = this.gameView.GetDanger(hero.side);
         var itemArr = this.gameView.GetItems();
-        if (hero.side = Side.Own) {
-            heroArr = this.gameView.GetEnemies();
-        }
-        else {
-            heroArr = [this.gameView.GetHero()];
-        }
         var l = 2000;
         var min = area[0];
         var max = area[1];
         var obj;
-        for (var i = 0; i < heroArr.length; i++) {
-            var h = heroArr[i];
-            if (h.y >= min && h.y <= max) {
-                if (Math.abs(h.y - hero.y) < l) {
-                    l = Math.abs(h.y - hero.y);
-                    obj = h;
+        for (var i = 0; i < unitArr.length; i++) {
+            var unit = unitArr[i];
+            if (unit.y >= min && unit.y <= max) {
+                if (Math.abs(unit.y - hero.y) < l) {
+                    l = Math.abs(unit.y - hero.y);
+                    obj = unit;
                 }
             }
         }
@@ -68,13 +63,7 @@ var GameController = (function (_super) {
         var dangerArr = [this.gameView.min_y, this.gameView.max_y];
         var safeArr = [];
         if (!hero.HaveItem()) {
-            var bullets = [];
-            if (hero.side == Side.Own) {
-                bullets = this.gameView.GetEnemyBullets();
-            }
-            else {
-                bullets = this.gameView.GetOwnBullets();
-            }
+            var bullets = this.gameView.GetDangerBullets(hero.side);
             for (var i = 0; i < bullets.length; i++) {
                 var bullet = bullets[i];
                 var dangerArea = bullet.GetDangerArea(hero.x, 0.6);
@@ -100,13 +89,7 @@ var GameController = (function (_super) {
      * 检测英雄是否即将受攻击
      */
     p.checkDanger = function (hero, range) {
-        var arr = [];
-        if (hero.side == Side.Own) {
-            arr = this.gameView.GetEnemyBullets();
-        }
-        else {
-            arr = this.gameView.GetOwnBullets();
-        }
+        var arr = this.gameView.GetDangerBullets(hero.side);
         var rect1 = hero.rect;
         rect1.x -= range;
         var rect2 = hero.rect;
@@ -127,36 +110,11 @@ var GameController = (function (_super) {
         return false;
     };
     /**
-     * 检查是否与英雄相撞
-     */
-    p.CheckHitHeroByRect = function (rect) {
-        var hitHeroes = [];
-        var arr = [];
-        var enemies = this.gameView.GetEnemies();
-        for (var i = 0; i < enemies.length; i++) {
-            arr.push(enemies[i]);
-        }
-        arr.push(this.gameView.GetHero());
-        for (var i_1 = 0; i_1 < arr.length; i_1++) {
-            var hero = arr[i_1];
-            if (hero != null && this.hitTest(rect, hero.rect)) {
-                hitHeroes.push(hero);
-            }
-        }
-        return hitHeroes;
-    };
-    /**
      * 检测是否击中子弹
      */
     p.CheckHitBullet = function (bullet) {
         var bullets = [];
-        var arr = [];
-        if (bullet.side == Side.Own) {
-            arr = this.gameView.GetEnemyBullets();
-        }
-        else {
-            arr = this.gameView.GetOwnBullets();
-        }
+        var arr = this.gameView.GetDangerBullets(bullet.side);
         for (var i = 0; i < arr.length; i++) {
             var b = arr[i];
             if (this.hitTest(bullet.rect, b.rect)) {
@@ -166,24 +124,18 @@ var GameController = (function (_super) {
         return bullets;
     };
     /**
-     * 检测子弹是否击中英雄
+     * 检测子弹是否击中单位
      */
-    p.CheckHitHero = function (bullet) {
-        var hitHeroes = [];
-        var arr = [];
-        if (bullet.side == Side.Own) {
-            arr = this.gameView.GetEnemies();
-        }
-        else {
-            arr = [this.gameView.GetHero()];
-        }
+    p.CheckHitUnit = function (bullet) {
+        var hitUnits = [];
+        var arr = this.gameView.GetDanger(bullet.side);
         for (var i = 0; i < arr.length; i++) {
-            var hero = arr[i];
-            if (hero != null && this.hitTest(bullet.rect, hero.rect)) {
-                hitHeroes.push(hero);
+            var unit = arr[i];
+            if (unit != null && this.hitTest(bullet.rect, unit.rect)) {
+                hitUnits.push(unit);
             }
         }
-        return hitHeroes;
+        return hitUnits;
     };
     /**
      * 检查是否击中道具
@@ -246,6 +198,12 @@ var GameController = (function (_super) {
      */
     p.GetPerX = function (per) {
         return (this.gameView.max_x - this.gameView.min_x) * per + this.gameView.min_x;
+    };
+    /**
+     * 获取游戏纵向百分比
+     */
+    p.GetPerY = function (per) {
+        return (this.gameView.max_y - this.gameView.min_y) * per + this.gameView.min_y;
     };
     return GameController;
 }(BaseController));

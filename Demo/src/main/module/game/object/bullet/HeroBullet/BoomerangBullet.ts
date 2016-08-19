@@ -3,7 +3,7 @@
  * 回旋镖
  *
  */
-class BoomerangBullet extends Bullet{
+class BoomerangBullet extends HeroBullet{
     
     /** 0: 飞出状态 1: 返回状态 2: 落下状态 */
     private state: number;
@@ -32,7 +32,7 @@ class BoomerangBullet extends Bullet{
                 this.speed -= time * 0.9;
                 if(this.scaleX > 0 && this.x >= this.targetX || this.scaleX < 0 && this.x <= this.targetX) {
                     this.state = 1;
-                    this.ignoreHeroes = [];
+                    this.ignoreUnits = [];
                     this.ignoreStones = [];
                 }
                 break;
@@ -47,7 +47,7 @@ class BoomerangBullet extends Bullet{
                 var rect = new Rect(this.creater.x, this.creater.y, this.creater.width, this.creater.height, 0);
                 if(this.rect.intersectTo(rect)) {
                     this.remove();
-                    this.creater.GunReturn();
+                    this.createHero.GunReturn();
                 }
                 break;
             case 2:
@@ -72,11 +72,11 @@ class BoomerangBullet extends Bullet{
         }
     }  
 	
-    protected hitHero(heroes: Array<Hero>) {
-        super.hitHero(heroes);
-        
-        for(var i = 0;i < heroes.length;i++) {
-            this.ignoreHeroes.push(heroes[i]);
+    protected hitUnit(units: Array<Unit>) {
+        super.hitUnit(units);
+
+        for(var i = 0;i < units.length;i++) {
+            this.ignoreUnits.push(units[i]);
         }
     }
 

@@ -1,13 +1,23 @@
 {
     "ui_h" : 130,
     "posArr" : [0.15, 0.3, 0.7, 0.85],
+    "bosses" : [
+    	{
+    		"id" : 1,
+    		"img" : "boss_1_png",
+    		"width" : 280,
+    		"height" : 250,
+    		"hp" : 20,
+    		"shootInterval" : 2
+    	}
+    ],
     "heroes" : [
 		{
 			"id" : 1,
 			"gun" : 1,
 			"gunX" : 25,
 			"gunY" : 55,
-			"anim" : "dog",
+			"anim" : "hero_png",
 			"width" : 90,
 			"height" : 115,
 			"upAs" : 4000,
@@ -205,13 +215,25 @@
     		"width" : 150,
     		"height" : 210,
     		"damage" : 2,
-    		"priority" : 2,
-    		"info" : {
-    			"bombImg" : "bullet_7_bomb_png",
-    			"releaseTime" : 0.2,
-    			"stayTime" : 0.08,
-    			"displayTime" : 0.1
-    		}
+    		"priority" : 2
+		},
+    	{
+    		"id" : 100,
+    		"img" : "bullet_100_png",
+    		"speed" : 1800,
+    		"width" : 200,
+    		"height" : 100,
+    		"damage" : 5,
+    		"priority" : 2
+		},
+    	{
+    		"id" : 1001,
+    		"img" : "bullet_8_png",
+    		"speed" : 600,
+    		"width" : 150,
+    		"height" : 210,
+    		"damage" : 2,
+    		"priority" : 2
 		}
     ],
  	"items" : [

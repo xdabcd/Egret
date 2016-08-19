@@ -4,7 +4,7 @@
  *
  */
 class FreezBullet extends NormalBullet{    
-    protected doEffect(hero: Hero) {
-        hero.Freez(0.5);
+    protected doEffect(unit: Unit) {
+        unit.Freez(0.5);
     }
 }

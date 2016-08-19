@@ -3,24 +3,20 @@
  * @author 
  *
  */
-class Hero extends BaseGameObject{
+class Hero extends Unit{
     
-    private state: HeroState;
-    private id: number;
     private heroData: HeroData;
     private gunData: GunData;
     private isUp: Boolean;
     private speed: number;
     private aiType: AiType;
-    private hp: number;
     private hurtTime: number;
-    private freezTime: number;
     private releaseTime: number;
     private targetPos: egret.Point;
     private aiDodgeInterval: number = 5;
     private aiDodgeCd: number;
     
-    private anim: egret.MovieClip;
+    private img: egret.Bitmap;
     private gun: egret.Bitmap;
     private hpArr: Array<egret.Shape> = [];
     private freezImg: egret.Bitmap;
@@ -35,9 +31,8 @@ class Hero extends BaseGameObject{
     }
 
     public init(id: number, side: Side): void {
-        super.init(side);
+        super.init(id, side);
 
-        this.id = id;
         if(this.side == Side.Own){
             this.scaleX = 1;
         } else if(this.side == Side.Enemy){
@@ -49,7 +44,7 @@ class Hero extends BaseGameObject{
         this.anchorOffsetX = this.width / 2;
         this.anchorOffsetY = this.height / 2
         //设置动画，并装上枪
-        this.setAnim(this.heroData.anim);
+        this.setImg(this.heroData.anim);
         this.setGun(this.heroData.gun);
         this.isUp = false;
         this.speed = 0;
@@ -61,20 +56,16 @@ class Hero extends BaseGameObject{
         this.rotation = 0;
     }
     
-    private setAnim(anim: string) {
-        if(this.anim == null) {
-            this.anim = new egret.MovieClip();
-            this.anim.scaleX = this.anim.scaleY = 0.8;
-            this.anim.anchorOffsetX = -this.width / 2 / 0.8;
-            this.anim.anchorOffsetY = -this.height / 0.8;
-            this.addChild(this.anim);
+    private setImg(img: string) {
+        if(this.img == null) {
+            this.img = new egret.Bitmap;
+            this.addChild(this.img);
         }
-
-        var mcData = RES.getRes("hero_json");
-        var mcTexture = RES.getRes("hero_png");
-        var mcDataFactory: egret.MovieClipDataFactory = new egret.MovieClipDataFactory(mcData,mcTexture);
-        this.anim.movieClipData = mcDataFactory.generateMovieClipData(anim);
-        this.anim.gotoAndPlay(1,-1);
+        this.img.texture = RES.getRes(img);
+        this.img.x = this.heroData.width / 2;
+        this.img.y = this.heroData.height / 2;
+        this.img.anchorOffsetX = this.img.width / 2;
+        this.img.anchorOffsetY = this.img.height / 2;
     }
 
     private setGun(id: number) {
@@ -90,7 +81,7 @@ class Hero extends BaseGameObject{
         this.shootCd = this.shootInterval;
     }
 
-    private addHp(value: number) {
+    protected addHp(value: number) {
         for(let i = this.hp;i < this.hp + value;i++) {
             let bar: egret.Shape;
             if(this.hpArr.length > i) {
@@ -109,12 +100,12 @@ class Hero extends BaseGameObject{
             bar.scaleX = bar.scaleY = 0.01;
             egret.setTimeout(() => {
                 egret.Tween.get(bar).to({ scaleX: 1,scaleY: 1 },300,egret.Ease.elasticOut)
-            },this,200 * i);
+            },this,50 * i);
         }
         this.hp += value;
     }
 
-    private subHp(value: number) {
+    protected subHp(value: number) {
         for(let i = this.hp - 1;i >= Math.max(0,this.hp - value);i--) {
             let bar = this.hpArr[i];
             egret.setTimeout(() => {
@@ -122,11 +113,11 @@ class Hero extends BaseGameObject{
                     .call(() => {
                         bar.visible = false;
                     });
-            },this,200 * (this.hp - 1 - i));
+            },this,50 * (this.hp - 1 - i));
         }
         this.hp = Math.max(0,this.hp - value);
         if(this.hp <= 0) {
-            this.state = HeroState.Die;
+            this.state = UnitState.Die;
             App.ControllerManager.applyFunc(ControllerConst.Game,GameConst.HeroDie,this);
         }
     }
@@ -161,12 +152,12 @@ class Hero extends BaseGameObject{
     }
     
     public Move(pos: egret.Point){
-        this.state = HeroState.Move;
+        this.state = UnitState.Move;
         this.targetPos = pos;
     }
     
     public ToIdle() {
-        this.state = HeroState.Idle;
+        this.state = UnitState.Idle;
     }
     
     public Hurt(damage: number) {
@@ -174,26 +165,21 @@ class Hero extends BaseGameObject{
             return;
         }
         App.ShockUtils.shock(App.ShockUtils.SPRITE,this,1);
-        this.state = HeroState.Hurt;
+        this.state = UnitState.Hurt;
         this.hurtTime = 0;
         this.subHp(damage);
     }
 
-    public Freez(duration: number) {
-        this.state = HeroState.Freez;
-        this.freezTime = duration;
-    }
-
     public Release(duration: number) {
-        this.state = HeroState.Release;
+        this.state = UnitState.Release;
         this.releaseTime = duration;
     }
 	
 	public Dodge(): boolean {
-	    if(this.state != HeroState.Idle){
+	    if(this.state != UnitState.Idle){
 	        return false;
 	    }
-    	this.state = HeroState.Dodge; 
+    	this.state = UnitState.Dodge; 
     	if(this.curPosIndex == 0){
             this.curPosIndex = 1;
     	}else{
@@ -204,7 +190,7 @@ class Hero extends BaseGameObject{
 	}
 	
     public Shoot() {
-        if(this.state != HeroState.Idle){
+        if(this.state != UnitState.Idle){
             return;
         }
 	    if(this.shootCd <= 0){
@@ -279,7 +265,7 @@ class Hero extends BaseGameObject{
         super.update(time);
         var t = time / 1000;
         switch(this.state){
-            case HeroState.Move:
+            case UnitState.Move:
                 var xa = time / 2;
                 var ya = xa * (this.targetPos.y - this.y) / (this.targetPos.x - this.x);
                 var ra = time / 2;
@@ -293,7 +279,7 @@ class Hero extends BaseGameObject{
                     }else{
                         this.rotation = Math.max(0, this.rotation - ra);
                         if(this.rotation == 0){
-                            this.state = HeroState.Idle;
+                            this.state = UnitState.Idle;
                         }
                     }
                 }else{
@@ -305,7 +291,7 @@ class Hero extends BaseGameObject{
                     } else {
                         this.rotation = Math.min(0,this.rotation + ra);
                         if(this.rotation == 0) {
-                            this.state = HeroState.Idle;
+                            this.state = UnitState.Idle;
                         }
                     }
                 }
@@ -316,7 +302,7 @@ class Hero extends BaseGameObject{
                 }
 
                 return;
-            case HeroState.Dodge:
+            case UnitState.Dodge:
                 var xa = time * 1.5;
                 var ra = time * 1.5;
                 
@@ -337,12 +323,12 @@ class Hero extends BaseGameObject{
                     }else if(this.rotation < 0){
                         this.rotation = Math.min(0,this.rotation + ra);
                     }else{
-                        this.state = HeroState.Idle;
+                        this.state = UnitState.Idle;
                         this.speed = 0;
                     }
                 }
                 return; 
-            case HeroState.Idle:
+            case UnitState.Idle:
                 if(this.side == Side.Enemy) {
                     switch(this.aiType) {
                         case AiType.Follow:
@@ -353,34 +339,38 @@ class Hero extends BaseGameObject{
                     }
                 }
                 break;
-            case HeroState.Hurt:
+            case UnitState.Hurt:
                 this.hurtTime -= t;
 
                 if(this.hurtTime <= 0) {
-                    this.state = HeroState.Idle;
+                    this.state = UnitState.Idle;
                 }
                 break;
-            case HeroState.Freez:
+            case UnitState.Freez:
                 this.isUp = false;
                 this.freezTime -= t;
                 this.showFreez(true);
                 this.speed = 0;
                 if(this.freezTime <= 0) {
-                    this.state = HeroState.Idle;
+                    this.state = UnitState.Idle;
                     this.showFreez(false);
                 }
                 break;
-            case HeroState.Release:
+            case UnitState.Release:
                 this.isUp = false;
                 this.releaseTime -= t;
                 this.speed = 0;
                 if(this.releaseTime <= 0) {
-                    this.state = HeroState.Idle;
+                    this.state = UnitState.Idle;
                 }
                 break;
         }
         if(this.shootCd > 0) {
-            this.shootCd -= t;
+            if(this.aiType == AiType.Follow){
+                this.shootCd -= t * 0.5;
+            }else{
+                this.shootCd -= t;
+            }
         }
         let as = this.heroData.downAs;
         if(this.isUp){
@@ -461,12 +451,12 @@ class Hero extends BaseGameObject{
         }
 	}
 	
-	public GetState(): HeroState{
+	public GetState(): UnitState{
 	    return this.state;
 	}
 	
     public get rect(): Rect {
-        if(this.state == HeroState.Move || this.state == HeroState.Die || this.state == HeroState.Dodge){
+        if(this.state == UnitState.Move || this.state == UnitState.Die || this.state == UnitState.Dodge){
             return (new Rect(-10000,-10000,0,0,this.rotation));
         }
         return new Rect(this.x, this.y, this.width, this.height, this.rotation);
@@ -479,16 +469,6 @@ class Hero extends BaseGameObject{
     public HaveItem(): boolean{
         return this.gunData.id != this.heroData.gun;
     }
-}
-
-enum HeroState {
-    Move,
-    Idle,
-    Dodge,
-    Hurt,
-    Freez,
-    Release,
-    Die
 }
 
 enum AiType{

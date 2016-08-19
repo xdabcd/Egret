@@ -17,12 +17,11 @@ class GameScene extends BaseScene{
         //添加该Scene使用的层级
         this.addLayer(LayerManager.Game_Main);
         this.addLayer(LayerManager.Game_UI);
+        this.addLayer(LayerManager.UI_Pop);
         
         //初始打开Game和GameUI
         App.ViewManager.open(ViewConst.Game);
         App.ViewManager.open(ViewConst.GameUI);
-        
-        
     }
 
     /**

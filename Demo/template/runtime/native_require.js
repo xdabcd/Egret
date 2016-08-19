@@ -105,6 +105,8 @@ var game_file_list = [
 	"bin-debug/main/module/game/GameConst.js",
 	"bin-debug/main/module/game/GameController.js",
 	"bin-debug/main/module/game/GameManager.js",
+	"bin-debug/main/module/game/GameOverView.js",
+	"bin-debug/main/module/game/GamePauseView.js",
 	"bin-debug/main/module/game/GameUIView.js",
 	"bin-debug/main/module/game/GameView.js",
 	"bin-debug/main/module/game/data/BulletData.js",
@@ -130,9 +132,13 @@ var game_file_list = [
 	"bin-debug/main/module/loading/LoadingConst.js",
 	"bin-debug/main/module/loading/LoadingController.js",
 	"bin-debug/main/module/loading/LoadingView.js",
+	"bin-debug/main/module/main/MainController.js",
+	"bin-debug/main/module/main/MainFuncConst.js",
+	"bin-debug/main/module/main/MainView.js",
 	"bin-debug/main/scene/GameScene.js",
 	"bin-debug/main/scene/LayerManager.js",
 	"bin-debug/main/scene/LoadingScene.js",
+	"bin-debug/main/scene/MainScene.js",
 	//----auto game_file_list end----
 ];
 
@@ -166,7 +172,7 @@ egret_native.egretStart = function () {
 		contentWidth: 1334,
 		contentHeight: 750,
 		showPaintRect: false,
-		showFPS: true,
+		showFPS: false,
 		fpsStyles: "x:0,y:0,size:12,textColor:0xffffff,bgAlpha:0.9",
 		showLog: false,
 		logFilter: "",

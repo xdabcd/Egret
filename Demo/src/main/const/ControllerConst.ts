@@ -4,6 +4,7 @@
  *
  */
 enum ControllerConst {
-	Loading = 1,
-	Game = 2
+	Loading,
+	Main,
+	Game
 }

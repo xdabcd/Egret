@@ -100,10 +100,12 @@ class GameUIView extends BaseSpriteView {
                 this.dodgeBtnDown();
                 break;
             case Keyboard.SPACE:
-                App.TimerManager.setTimeScale(0.1);
+                App.ControllerManager.applyFunc(ControllerConst.Game, GameConst.Pause);
+                App.ViewManager.isShow(ViewConst.GamePop) || App.ViewManager.open(ViewConst.GamePop);
                 break;
             case Keyboard.J:
-                App.TimerManager.setTimeScale(1);
+                App.ControllerManager.applyFunc(ControllerConst.Game, GameConst.Resume);
+                App.ViewManager.isShow(ViewConst.GamePop) && App.ViewManager.close(ViewConst.GamePop);
                 break;
             default:
                 break;
@@ -159,5 +161,10 @@ class GameUIView extends BaseSpriteView {
         bitmap.x = $x;
         bitmap.y = $y;
         return bitmap;
+    }
+
+    public destroy() {
+        super.destroy();
+        delete this;
     }
 }

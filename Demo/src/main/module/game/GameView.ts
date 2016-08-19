@@ -95,7 +95,6 @@ class GameView extends BaseSpriteView {
                 break;
             case 2:
                 this.itemCd -= t;
-
                 if(this.itemCd <= 0) {
                     this.createItem(App.RandomUtils.limitInteger(2, 8));
                     this.itemCd = this.itemInterval;
@@ -150,25 +149,9 @@ class GameView extends BaseSpriteView {
         }
     }
     
-    private gameOver(){
-        if(this.over == null){
-            this.over = new egret.TextField;
-            this.over.width = 600;
-            this.over.anchorOffsetX = 300;
-            this.over.anchorOffsetY = 40;
-            this.over.x = this.width / 2;
-            this.over.y = this.height / 2 - 100;
-            this.over.textAlign = "center";
-            this.over.size = 80;
-            this.over.bold = true;
-            this.over.text = "GAME OVER!";
-            this.addChild(this.over);        
-        } 
+    private gameOver(){ 
+        App.ViewManager.isShow(ViewConst.GameOver) || App.ViewManager.open(ViewConst.GameOver);
         this.setState(5);
-        this.over.scaleX = this.roundText.scaleY = 0.1;
-        this.over.visible = true;
-        this.over.alpha = 1;
-        egret.Tween.get(this.over).to({ scaleX: 1,scaleY: 1 },400,egret.Ease.elasticOut);
     }
 
     private trans(){
@@ -424,5 +407,11 @@ class GameView extends BaseSpriteView {
     
     private getPerPos(perX: number, perY: number): egret.Point{
         return new egret.Point(this.getPerXPos(perX), this.getPerYPos(perY));
+    }
+
+    public destroy() {
+        super.destroy();
+        App.TimerManager.remove(this.update,this);
+        delete this;
     }
 }

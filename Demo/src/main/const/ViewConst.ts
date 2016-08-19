@@ -4,7 +4,10 @@
  *
  */
 enum ViewConst {
-    Loading = 1,
-    Game = 2,
-    GameUI = 3
+    Loading,
+    Main,
+    Game,
+    GameUI,
+    GamePop,
+    GameOver
 }

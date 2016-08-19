@@ -79,10 +79,12 @@ var GameUIView = (function (_super) {
                 this.dodgeBtnDown();
                 break;
             case Keyboard.SPACE:
-                App.TimerManager.setTimeScale(0.1);
+                App.ControllerManager.applyFunc(ControllerConst.Game, GameConst.Pause);
+                App.ViewManager.isShow(ViewConst.GamePop) || App.ViewManager.open(ViewConst.GamePop);
                 break;
             case Keyboard.J:
-                App.TimerManager.setTimeScale(1);
+                App.ControllerManager.applyFunc(ControllerConst.Game, GameConst.Resume);
+                App.ViewManager.isShow(ViewConst.GamePop) && App.ViewManager.close(ViewConst.GamePop);
                 break;
             default:
                 break;
@@ -133,6 +135,10 @@ var GameUIView = (function (_super) {
         bitmap.x = $x;
         bitmap.y = $y;
         return bitmap;
+    };
+    p.destroy = function () {
+        _super.prototype.destroy.call(this);
+        delete this;
     };
     return GameUIView;
 }(BaseSpriteView));

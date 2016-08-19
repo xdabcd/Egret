@@ -22,7 +22,7 @@ class LayerManager {
 	/**
 	 * UI弹出层
 	 */
-    public static UI_Pop: BaseEuiLayer = new BaseEuiLayer;
+    public static UI_Pop: BaseSpriteLayer = new BaseSpriteLayer;
     
     /**
 	 * UI消息层

@@ -86,8 +86,8 @@ class Main extends eui.UILayer {
     
     private start(){
         App.Init();
-        App.ControllerManager.register(ControllerConst.Game,new GameController());
-        App.SceneManager.runScene(SceneConst.Game);
+        App.ControllerManager.register(ControllerConst.Main, new MainController())
+        App.SceneManager.runScene(SceneConst.Main);
     }
     
     /**
@@ -95,6 +95,7 @@ class Main extends eui.UILayer {
      */
     private initScene(): void {
         App.SceneManager.register(SceneConst.Loading, new LoadingScene());
+        App.SceneManager.register(SceneConst.Main, new MainScene());
         App.SceneManager.register(SceneConst.Game, new GameScene());
     }
     

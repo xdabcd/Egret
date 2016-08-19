@@ -135,24 +135,8 @@ var GameView = (function (_super) {
         }
     };
     p.gameOver = function () {
-        if (this.over == null) {
-            this.over = new egret.TextField;
-            this.over.width = 600;
-            this.over.anchorOffsetX = 300;
-            this.over.anchorOffsetY = 40;
-            this.over.x = this.width / 2;
-            this.over.y = this.height / 2 - 100;
-            this.over.textAlign = "center";
-            this.over.size = 80;
-            this.over.bold = true;
-            this.over.text = "GAME OVER!";
-            this.addChild(this.over);
-        }
+        App.ViewManager.isShow(ViewConst.GameOver) || App.ViewManager.open(ViewConst.GameOver);
         this.setState(5);
-        this.over.scaleX = this.roundText.scaleY = 0.1;
-        this.over.visible = true;
-        this.over.alpha = 1;
-        egret.Tween.get(this.over).to({ scaleX: 1, scaleY: 1 }, 400, egret.Ease.elasticOut);
     };
     p.trans = function () {
         this.setState(3);
@@ -453,6 +437,11 @@ var GameView = (function (_super) {
     };
     p.getPerPos = function (perX, perY) {
         return new egret.Point(this.getPerXPos(perX), this.getPerYPos(perY));
+    };
+    p.destroy = function () {
+        _super.prototype.destroy.call(this);
+        App.TimerManager.remove(this.update, this);
+        delete this;
     };
     return GameView;
 }(BaseSpriteView));

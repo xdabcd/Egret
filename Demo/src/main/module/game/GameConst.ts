@@ -13,5 +13,9 @@ enum GameConst {
     RemoveStone,
     HeroDie,
     BossDie,
-    AddScore
+    AddScore,
+    Pause,
+    Resume,
+    Destructor
+
 }

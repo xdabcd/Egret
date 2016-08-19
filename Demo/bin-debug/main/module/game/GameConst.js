@@ -15,4 +15,7 @@ var GameConst;
     GameConst[GameConst["HeroDie"] = 8] = "HeroDie";
     GameConst[GameConst["BossDie"] = 9] = "BossDie";
     GameConst[GameConst["AddScore"] = 10] = "AddScore";
+    GameConst[GameConst["Pause"] = 11] = "Pause";
+    GameConst[GameConst["Resume"] = 12] = "Resume";
+    GameConst[GameConst["Destructor"] = 13] = "Destructor";
 })(GameConst || (GameConst = {}));

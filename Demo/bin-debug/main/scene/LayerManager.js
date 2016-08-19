@@ -22,7 +22,7 @@ var LayerManager = (function () {
     /**
      * UI弹出层
      */
-    LayerManager.UI_Pop = new BaseEuiLayer;
+    LayerManager.UI_Pop = new BaseSpriteLayer;
     /**
      * UI消息层
      */

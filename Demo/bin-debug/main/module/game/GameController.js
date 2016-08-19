@@ -14,6 +14,10 @@ var GameController = (function (_super) {
         App.ViewManager.register(ViewConst.Game, this.gameView);
         this.gameUIView = new GameUIView(this, LayerManager.Game_UI);
         App.ViewManager.register(ViewConst.GameUI, this.gameUIView);
+        this.gamePauseView = new GamePauseView(this, LayerManager.UI_Pop);
+        App.ViewManager.register(ViewConst.GamePop, this.gamePauseView);
+        this.gameOverView = new GameOverView(this, LayerManager.UI_Pop);
+        App.ViewManager.register(ViewConst.GameOver, this.gameOverView);
         this.registerFunc(GameConst.Jump, this.gameView.Jump, this.gameView);
         this.registerFunc(GameConst.Shoot, this.gameView.Shoot, this.gameView);
         this.registerFunc(GameConst.Dodge, this.gameView.Dodge, this.gameView);
@@ -24,8 +28,17 @@ var GameController = (function (_super) {
         this.registerFunc(GameConst.HeroDie, this.gameView.SetHeroDie, this.gameView);
         this.registerFunc(GameConst.BossDie, this.gameView.SetBossDie, this.gameView);
         this.registerFunc(GameConst.AddScore, this.gameUIView.AddScore, this.gameUIView);
+        this.registerFunc(GameConst.Pause, this.gamePauseView.Pause, this.gamePauseView);
+        this.registerFunc(GameConst.Resume, this.gamePauseView.Resume, this.gamePauseView);
+        this.registerFunc(GameConst.Destructor, this.destructor, this);
     }
     var d = __define,c=GameController,p=c.prototype;
+    p.destructor = function () {
+        App.ViewManager.destroy(ViewConst.Game);
+        App.ViewManager.destroy(ViewConst.GameUI);
+        App.ViewManager.destroy(ViewConst.GamePop);
+        App.ViewManager.destroy(ViewConst.GameOver);
+    };
     /**
      * 获取范围离英雄最近的敌人或道具
      */

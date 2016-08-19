@@ -240,6 +240,26 @@
 					"isFolder":false,
 					"key":"bullet_100_png",
 					"name":"bullet_100_png"
+				},
+				{
+					"isFolder":false,
+					"key":"home_png",
+					"name":"home_png"
+				},
+				{
+					"isFolder":false,
+					"key":"over_png",
+					"name":"over_png"
+				},
+				{
+					"isFolder":false,
+					"key":"pause_png",
+					"name":"pause_png"
+				},
+				{
+					"isFolder":false,
+					"key":"pop_bg_png",
+					"name":"pop_bg_png"
 				}
 			]
 		}

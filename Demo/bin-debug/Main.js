@@ -82,14 +82,15 @@ var Main = (function (_super) {
     };
     p.start = function () {
         App.Init();
-        App.ControllerManager.register(ControllerConst.Game, new GameController());
-        App.SceneManager.runScene(SceneConst.Game);
+        App.ControllerManager.register(ControllerConst.Main, new MainController());
+        App.SceneManager.runScene(SceneConst.Main);
     };
     /**
      * 初始化所有场景
      */
     p.initScene = function () {
         App.SceneManager.register(SceneConst.Loading, new LoadingScene());
+        App.SceneManager.register(SceneConst.Main, new MainScene());
         App.SceneManager.register(SceneConst.Game, new GameScene());
     };
     /**

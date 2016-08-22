@@ -75,11 +75,12 @@ class Boss extends Unit {
                 this.addChild(bar);
                 this.hpArr.push(bar);
             }
+            egret.Tween.removeTweens(bar);
             bar.visible = true;
             bar.scaleX = bar.scaleY = 0.01;
-            egret.setTimeout(() => {
+            App.TimerManager.doTimer(50 * i,1,() => {
                 egret.Tween.get(bar).to({ scaleX: 1,scaleY: 1 },300,egret.Ease.elasticOut)
-            },this,50 * i);
+            },this);
         }
         this.hp += value;
     }
@@ -87,12 +88,15 @@ class Boss extends Unit {
     protected subHp(value: number) {
         for(let i = this.hp - 1;i >= Math.max(0,this.hp - value);i--) {
             let bar = this.hpArr[i];
-            egret.setTimeout(() => {
+            egret.Tween.removeTweens(bar);
+            bar.visible = true;
+            bar.scaleX = bar.scaleY = 1;
+            App.TimerManager.doTimer(50 * (this.hp - 1 - i),1,() => {
                 egret.Tween.get(bar).to({ scaleX: 0.01,scaleY: 0.01 },300,egret.Ease.elasticOut)
                     .call(() => {
                         bar.visible = false;
                     });
-            },this,50 * (this.hp - 1 - i));
+            },this);
         }
         this.hp = Math.max(0,this.hp - value);
         if(this.hp <= 0) {
@@ -116,7 +120,7 @@ class Boss extends Unit {
         var max = 60 - per * 60;
         for(var i = 0; i < 2; i++){
             let moveData = new MoveData(App.RandomUtils.limit(min, max));
-            App.ControllerManager.applyFunc(ControllerConst.Game,GameConst.CeateBullet,1001,"BossBullet",this,x,y,moveData);
+            App.ControllerManager.applyFunc(ControllerConst.Game,GameConst.CeateBullet,1001,"BossWaveBullet",this,x,y,moveData);
         } 
     }
 

@@ -5,7 +5,7 @@
 			"name":"preload"
 		},
 		{
-			"keys":"bullets_json,hero_json,hero_png,btn_switch_jpg,btn_shoot_png,btn_jump_png,game_json,global_json,bg_png,bottom_png,bullet_1_png,bullet_2_png,bullet_3_png,bullet_4_png,bullet_5_ready_png,bullet_5_png,bullet_6_png,freez_png,bullet_7_png,bullet_7_bomb_png,bullet_8_png,item_2_png,item_2_drop_png,item_3_png,item_3_drop_png,item_4_png,item_4_drop_png,item_5_png,item_5_drop_png,item_6_png,item_6_drop_png,item_7_png,item_7_drop_png,item_8_png,item_8_drop_png,stone_1_png,stone_2_png,btn_dodge_png,se_rail_png,se_shadow_png,boss_1_png,bullet_100_png,home_png,over_png,pause_png,pop_bg_png",
+			"keys":"bullets_json,hero_json,hero_png,btn_switch_jpg,btn_shoot_png,btn_jump_png,game_json,global_json,bottom_png,bullet_1_png,bullet_2_png,bullet_3_png,bullet_4_png,bullet_5_ready_png,bullet_5_png,bullet_6_png,freez_png,bullet_7_png,bullet_7_bomb_png,bullet_8_png,item_2_png,item_2_drop_png,item_3_png,item_3_drop_png,item_4_png,item_4_drop_png,item_5_png,item_5_drop_png,item_6_png,item_6_drop_png,item_7_png,item_7_drop_png,item_8_png,item_8_drop_png,stone_1_png,stone_2_png,btn_dodge_png,se_rail_png,se_shadow_png,boss_1_png,bullet_100_png,home_png,over_png,pause_png,pop_bg_png,bg_1_png,bg_2_png",
 			"name":"loading"
 		}
 	],
@@ -55,11 +55,6 @@
 			"name":"load_Reel_png",
 			"type":"image",
 			"url":"assets/load_Reel.png"
-		},
-		{
-			"name":"bg_png",
-			"type":"image",
-			"url":"assets/bg.png"
 		},
 		{
 			"name":"bottom_png",
@@ -250,6 +245,16 @@
 			"name":"pop_bg_png",
 			"type":"image",
 			"url":"assets/pop_bg.png"
+		},
+		{
+			"name":"bg_1_png",
+			"type":"image",
+			"url":"assets/bg_1.png"
+		},
+		{
+			"name":"bg_2_png",
+			"type":"image",
+			"url":"assets/bg_2.png"
 		}
 	]
 }

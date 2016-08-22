@@ -127,6 +127,7 @@ var game_file_list = [
 	"bin-debug/main/module/game/object/Tail.js",
 	"bin-debug/main/module/game/object/bullet/Bullet.js",
 	"bin-debug/main/module/game/object/bullet/BossBullet/BossBullet.js",
+	"bin-debug/main/module/game/object/bullet/BossBullet/BossWaveBullet.js",
 	"bin-debug/main/module/game/object/bullet/HeroBullet/HeroBullet.js",
 	"bin-debug/main/module/game/object/bullet/HeroBullet/BoomerangBullet.js",
 	"bin-debug/main/module/game/object/bullet/HeroBullet/NormalBullet.js",

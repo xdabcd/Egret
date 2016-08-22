@@ -26,11 +26,11 @@ var GameView = (function (_super) {
         _super.prototype.initUI.call(this);
         this.bgContainer = new egret.DisplayObjectContainer;
         this.addChild(this.bgContainer);
-        var bg = App.DisplayUtils.createBitmap("bg_png");
-        this.bgContainer.addChild(bg);
-        var bg1 = App.DisplayUtils.createBitmap("bg_png");
-        bg1.x = bg.width;
-        this.bgContainer.addChild(bg1);
+        for (var i = 0; i < 4; i++) {
+            var bg = App.DisplayUtils.createBitmap("bg_1_png");
+            bg.x = bg.width * i;
+            this.bgContainer.addChild(bg);
+        }
         this.width = App.StageUtils.getWidth();
         this.height = App.StageUtils.getHeight();
         this.roundText = new egret.TextField;
@@ -44,13 +44,13 @@ var GameView = (function (_super) {
         this.roundText.bold = true;
         this.addChild(this.roundText);
         this.roundText.visible = false;
+    };
+    p.initData = function () {
+        _super.prototype.initData.call(this);
         this.setState(0);
         this.round = 1;
         this.wave = 1;
         App.TimerManager.doFrame(1, 0, this.update, this);
-    };
-    p.initData = function () {
-        _super.prototype.initData.call(this);
     };
     p.update = function (time) {
         var _this = this;
@@ -108,12 +108,10 @@ var GameView = (function (_super) {
                     this.hero.destory();
                     this.hero = null;
                 }
-                if (this.bgDis > w * 2 / 3) {
-                    this.clearItems();
-                    this.clearStones();
-                    this.clearEffect();
+                if (this.bgDis > w * 2) {
+                    this.clear();
                 }
-                if (this.bgDis > w * 4) {
+                if (this.bgDis > w * 3) {
                     if (this.bgSpeed <= 0.6) {
                         this.bgSpeed = 0.6;
                         if (this.bgContainer.x >= -30) {
@@ -127,7 +125,7 @@ var GameView = (function (_super) {
                 else if (this.bgSpeed < 6) {
                     this.bgSpeed += t;
                 }
-                this.bgContainer.x = (this.bgContainer.x - this.bgSpeed * time) % w;
+                this.bgContainer.x = (this.bgContainer.x - this.bgSpeed * time) % (w * 3);
                 this.bgDis += this.bgSpeed * time;
                 break;
             case 5:
@@ -235,6 +233,7 @@ var GameView = (function (_super) {
     p.RemoveHero = function (hero) {
         hero.destory();
         if (hero.side == Side.Own) {
+            this.hero = null;
             this.gameOver();
         }
         else if (hero.side = Side.Enemy) {
@@ -310,6 +309,55 @@ var GameView = (function (_super) {
         this.bgContainer.addChild(stone);
         this.stones.push(stone);
     };
+    p.clear = function () {
+        this.clearHero();
+        this.clearEnemies();
+        this.clearBoss();
+        this.clearBullets();
+        this.clearItems();
+        this.clearStones();
+        this.clearEffect();
+    };
+    p.clearHero = function () {
+        if (this.hero != null) {
+            this.hero.destory();
+            this.hero = null;
+        }
+    };
+    p.clearEnemies = function () {
+        if (this.enemies.length > 0) {
+            for (var i = 0; i < this.enemies.length; i++) {
+                this.enemies[i].destory();
+            }
+            this.enemies = [];
+        }
+    };
+    p.clearBoss = function () {
+        if (this.boss != null) {
+            this.boss.destory();
+            this.boss = null;
+        }
+    };
+    p.clearBullets = function () {
+        if (this.ownBullets.length > 0) {
+            for (var i = 0; i < this.ownBullets.length; i++) {
+                this.ownBullets[i].destory();
+            }
+            this.ownBullets = [];
+        }
+        if (this.enemyBullets.length > 0) {
+            for (var i = 0; i < this.enemyBullets.length; i++) {
+                this.enemyBullets[i].destory();
+            }
+            this.enemyBullets = [];
+        }
+        if (this.sceneBullets.length > 0) {
+            for (var i = 0; i < this.sceneBullets.length; i++) {
+                this.sceneBullets[i].destory();
+            }
+            this.sceneBullets = [];
+        }
+    };
     p.clearItems = function () {
         if (this.items.length > 0) {
             for (var i = 0; i < this.items.length; i++) {
@@ -329,6 +377,7 @@ var GameView = (function (_super) {
     p.clearEffect = function () {
         if (this.sceneEffet != null) {
             this.sceneEffet.destory();
+            this.sceneEffet = null;
         }
     };
     p.RemoveStone = function (stone) {
@@ -440,6 +489,7 @@ var GameView = (function (_super) {
     };
     p.destroy = function () {
         _super.prototype.destroy.call(this);
+        this.clear();
         App.TimerManager.remove(this.update, this);
         delete this;
     };

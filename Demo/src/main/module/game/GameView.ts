@@ -43,11 +43,11 @@ class GameView extends BaseSpriteView {
         
         this.bgContainer = new egret.DisplayObjectContainer;
         this.addChild(this.bgContainer);
-        var bg = App.DisplayUtils.createBitmap("bg_png");
-        this.bgContainer.addChild(bg);
-        var bg1 = App.DisplayUtils.createBitmap("bg_png");
-        bg1.x = bg.width;
-        this.bgContainer.addChild(bg1);
+        for(var i = 0; i < 4; i++){
+            var bg = App.DisplayUtils.createBitmap("bg_1_png");
+            bg.x = bg.width * i;
+            this.bgContainer.addChild(bg);
+        }
         
         this.width = App.StageUtils.getWidth();
         this.height = App.StageUtils.getHeight();  
@@ -63,16 +63,15 @@ class GameView extends BaseSpriteView {
         this.roundText.bold = true;
         this.addChild(this.roundText);  
         this.roundText.visible = false;
-        
+    }
+    
+    public initData(): void {
+        super.initData();
         this.setState(0);
         this.round = 1;
         this.wave = 1;
-        
-        App.TimerManager.doFrame(1,0,this.update,this);
-    }
 
-    public initData(): void {
-        super.initData();
+        App.TimerManager.doFrame(1,0,this.update,this);
     }
     
     private update(time: number): void {
@@ -134,12 +133,10 @@ class GameView extends BaseSpriteView {
                     this.hero.destory();
                     this.hero = null;
                 }
-                if(this.bgDis > w * 2 / 3){
-                    this.clearItems();
-                    this.clearStones();
-                    this.clearEffect();
+                if(this.bgDis > w * 2){
+                    this.clear();
                 }
-                if(this.bgDis > w * 4) {
+                if(this.bgDis > w * 3) {
                     if(this.bgSpeed <= 0.6){
                         this.bgSpeed = 0.6;
                         if(this.bgContainer.x >= -30){
@@ -151,7 +148,7 @@ class GameView extends BaseSpriteView {
                 }else if(this.bgSpeed < 6){
                     this.bgSpeed += t;
                 }
-                this.bgContainer.x = (this.bgContainer.x - this.bgSpeed * time) % w;
+                this.bgContainer.x = (this.bgContainer.x - this.bgSpeed * time) % (w * 3);
                 this.bgDis += this.bgSpeed * time;
                 break;
             case 5:
@@ -266,6 +263,7 @@ class GameView extends BaseSpriteView {
     public RemoveHero(hero: Hero) {
         hero.destory();
         if(hero.side == Side.Own) {
+            this.hero = null;
             this.gameOver();
         } else if(hero.side = Side.Enemy) {
             let index = this.enemies.indexOf(hero);
@@ -342,6 +340,60 @@ class GameView extends BaseSpriteView {
         this.stones.push(stone);
     }
 
+    private clear(){
+        this.clearHero();
+        this.clearEnemies();
+        this.clearBoss();
+        this.clearBullets();
+        this.clearItems();
+        this.clearStones();
+        this.clearEffect();
+    }
+    
+    private clearHero() {
+        if(this.hero != null){
+            this.hero.destory();
+            this.hero = null;
+        }
+    }
+    
+    private clearEnemies() {
+        if(this.enemies.length > 0){
+            for(var i = 0;i < this.enemies.length;i++) {
+                this.enemies[i].destory();
+            }
+            this.enemies = [];
+        }    
+    }
+    
+    private clearBoss() {
+        if(this.boss != null){
+            this.boss.destory();
+            this.boss = null;
+        }
+    }
+    
+    private clearBullets() {
+        if(this.ownBullets.length > 0){
+            for(var i = 0;i < this.ownBullets.length;i++) {
+                this.ownBullets[i].destory();
+            }
+            this.ownBullets = [];
+        }
+        if(this.enemyBullets.length > 0) {
+            for(var i = 0;i < this.enemyBullets.length;i++) {
+                this.enemyBullets[i].destory();
+            }
+            this.enemyBullets = [];
+        }
+        if(this.sceneBullets.length > 0) {
+            for(var i = 0;i < this.sceneBullets.length;i++) {
+                this.sceneBullets[i].destory();
+            }
+            this.sceneBullets = [];
+        }
+    }
+    
     private clearItems(){
         if(this.items.length > 0){
             for(var i = 0; i < this.items.length; i++){
@@ -363,6 +415,7 @@ class GameView extends BaseSpriteView {
     private clearEffect(){
         if(this.sceneEffet != null){
             this.sceneEffet.destory();
+            this.sceneEffet = null;
         }
     }
     
@@ -480,6 +533,7 @@ class GameView extends BaseSpriteView {
 
     public destroy() {
         super.destroy();
+        this.clear();
         App.TimerManager.remove(this.update,this);
         delete this;
     }

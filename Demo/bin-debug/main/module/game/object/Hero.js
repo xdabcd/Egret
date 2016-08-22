@@ -75,11 +75,12 @@ var Hero = (function (_super) {
                 this_1.addChild(bar);
                 this_1.hpArr.push(bar);
             }
+            egret.Tween.removeTweens(bar);
             bar.visible = true;
             bar.scaleX = bar.scaleY = 0.01;
-            egret.setTimeout(function () {
+            App.TimerManager.doTimer(50 * i, 1, function () {
                 egret.Tween.get(bar).to({ scaleX: 1, scaleY: 1 }, 300, egret.Ease.elasticOut);
-            }, this_1, 50 * i);
+            }, this_1);
         };
         var this_1 = this;
         for (var i = this.hp; i < this.hp + value; i++) {
@@ -90,12 +91,15 @@ var Hero = (function (_super) {
     p.subHp = function (value) {
         var _loop_2 = function(i) {
             var bar = this_2.hpArr[i];
-            egret.setTimeout(function () {
+            egret.Tween.removeTweens(bar);
+            bar.visible = true;
+            bar.scaleX = bar.scaleY = 1;
+            App.TimerManager.doTimer(50 * (this_2.hp - 1 - i), 1, function () {
                 egret.Tween.get(bar).to({ scaleX: 0.01, scaleY: 0.01 }, 300, egret.Ease.elasticOut)
                     .call(function () {
                     bar.visible = false;
                 });
-            }, this_2, 50 * (this_2.hp - 1 - i));
+            }, this_2);
         };
         var this_2 = this;
         for (var i = this.hp - 1; i >= Math.max(0, this.hp - value); i--) {

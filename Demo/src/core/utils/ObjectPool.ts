@@ -55,6 +55,9 @@ class ObjectPool {
 
         var list:Array<any> = ObjectPool._content[refKey];
         if (list.length) {
+            if(refKey != "TimerHandler"){
+                egret.log(refKey + ": " + list.length);
+            }
             return list.pop();
         } else {
             var classZ:any = egret.getDefinitionByName(refKey);

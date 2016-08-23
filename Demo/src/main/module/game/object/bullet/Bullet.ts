@@ -145,11 +145,12 @@ class Bullet extends BaseGameObject{
     
     public GetDangerArea(targetX: number, time: number): Array<number>{ 
         var arr = [];
-        var s = targetX - this.x - this.width / 2 * Math.abs(Math.cos(this.rotation));
+        var s = (targetX - this.x) / Math.cos(this.rotation) - this.width / 2;
         var t = s / this.speed;
-        if(t < time){
-            var min = this.y - this.height / 2 / Math.abs(Math.cos(this.rotation));
-            var max = this.y + this.height / 2 / Math.abs(Math.cos(this.rotation));
+        if(t >= 0 && t < time){
+            var targetY = this.y + (targetX - this.x) * Math.tan(this.rotation * Math.PI / 180);
+            var min = targetY - this.height / 2 / Math.abs(Math.cos(this.rotation));
+            var max = targetY + this.height / 2 / Math.abs(Math.cos(this.rotation));
             arr = [min, max];
         }
         return arr;

@@ -8,7 +8,7 @@
     		"width" : 280,
     		"height" : 250,
     		"hp" : 20,
-    		"shootInterval" : 2
+    		"shootInterval" : 4
     	}
     ],
     "heroes" : [
@@ -24,19 +24,7 @@
 			"downAs" : -3000,
 			"maxSpeed" : 800,
 			"minSpeed" : -600,
-			"hp" : 5,
-			"areas" : [
-				{
-					"x" : 1,
-					"y" : 1,
-					"r" : 30
-				},
-				{
-					"x" : 1,
-					"y" : 1,
-					"r" : 30
-				}
-			]
+			"hp" : 5
 		}
     ],
     "guns" : [

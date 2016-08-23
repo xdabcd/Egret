@@ -37,6 +37,7 @@ var BaseGameObject = (function (_super) {
                 this.parent.addChild(this.hitRect);
             }
             else {
+                return;
                 var arr = this.rect.getPoints();
                 this.hitRect.graphics.clear();
                 for (var i = 0; i < arr.length; i++) {

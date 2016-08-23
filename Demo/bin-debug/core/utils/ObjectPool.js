@@ -53,6 +53,9 @@ var ObjectPool = (function () {
         }
         var list = ObjectPool._content[refKey];
         if (list.length) {
+            if (refKey != "TimerHandler") {
+                egret.log(refKey + ": " + list.length);
+            }
             return list.pop();
         }
         else {

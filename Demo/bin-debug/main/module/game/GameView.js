@@ -15,7 +15,7 @@ var GameView = (function (_super) {
         this.sceneBullets = [];
         this.itemInterval = 5;
         this.itemCd = 0;
-        this.stoneInterval = 6;
+        this.stoneInterval = 10;
         this.stoneCd = 0;
         this.seInterval = 15;
         this.seCd = 0;
@@ -73,7 +73,7 @@ var GameView = (function (_super) {
                 }
                 else {
                     this.createEnemy(AiType.Follow);
-                    this.seCd = App.RandomUtils.limit(this.seInterval / 2, this.seInterval);
+                    this.seCd = this.seInterval;
                 }
                 this.setState(2);
                 break;
@@ -266,9 +266,13 @@ var GameView = (function (_super) {
             var index = this.ownBullets.indexOf(bullet);
             this.ownBullets.splice(index, 1);
         }
-        else if (bullet.side = Side.Enemy) {
+        else if (bullet.side == Side.Enemy) {
             var index = this.enemyBullets.indexOf(bullet);
             this.enemyBullets.splice(index, 1);
+        }
+        else if (bullet.side == Side.Middle) {
+            var index = this.sceneBullets.indexOf(bullet);
+            this.sceneBullets.splice(index, 1);
         }
         bullet.destory();
     };

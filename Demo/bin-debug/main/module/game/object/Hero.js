@@ -391,6 +391,7 @@ var Hero = (function (_super) {
         if (safeArea.length > 0) {
             var idx = -1;
             var l = 2000;
+            this.hitRect.graphics.clear();
             for (var i = 0; i < safeArea.length; i++) {
                 var min = safeArea[i][0] + this.height / 2;
                 var max = safeArea[i][1] - this.height / 2;
@@ -399,6 +400,9 @@ var Hero = (function (_super) {
                 //        	     }else{
                 //      max += this.speed * 0.2;
                 //        	     }
+                this.hitRect.graphics.lineStyle(10, 0xff00000, 0.5);
+                this.hitRect.graphics.moveTo(this.x, min);
+                this.hitRect.graphics.lineTo(this.x, max);
                 if (this.y >= min && this.y <= max) {
                     targetPos = (max + min) / 2;
                     var near = this.gameController.GetNearestInArea(this, [min, max]);

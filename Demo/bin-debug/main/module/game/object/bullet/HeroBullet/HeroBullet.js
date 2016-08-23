@@ -34,7 +34,7 @@ var HeroBullet = (function (_super) {
                     this.remove();
                 }
                 var direction = App.MathUtils.getAngle(App.MathUtils.getRadian2(this.x, this.y, stone.x, stone.y));
-                stone.Hit(Math.sqrt(this.damage) * 50, direction);
+                stone.Hit(Math.sqrt(this.damage) * 100, direction);
                 this.ignoreStones.push(stone);
             }
         }

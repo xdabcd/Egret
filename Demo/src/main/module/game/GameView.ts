@@ -6,6 +6,7 @@
 class GameView extends BaseSpriteView {
     private controller: BaseController;
     
+    private bg: egret.Bitmap;
     private bgContainer: egret.DisplayObjectContainer;
     private hero: Hero;
     private boss: Boss;
@@ -18,7 +19,7 @@ class GameView extends BaseSpriteView {
     private sceneBullets: Array<Bullet> = [];
     private itemInterval = 5;
     private itemCd = 0;
-    private stoneInterval = 6;
+    private stoneInterval = 10;
     private stoneCd = 0;
     private seInterval = 15;
     private seCd = 0;
@@ -94,7 +95,7 @@ class GameView extends BaseSpriteView {
                     this.createBoss();
                 }else{
                     this.createEnemy(AiType.Follow);
-                    this.seCd = App.RandomUtils.limit(this.seInterval / 2,this.seInterval);
+                    this.seCd = this.seInterval;
                 }
                
                 this.setState(2);
@@ -294,9 +295,12 @@ class GameView extends BaseSpriteView {
         if(bullet.side == Side.Own){
             let index = this.ownBullets.indexOf(bullet);
             this.ownBullets.splice(index, 1);
-        }else if(bullet.side = Side.Enemy){
+        }else if(bullet.side == Side.Enemy){
             let index = this.enemyBullets.indexOf(bullet);
             this.enemyBullets.splice(index,1);
+        }else if(bullet.side == Side.Middle){
+            let index = this.sceneBullets.indexOf(bullet);
+            this.sceneBullets.splice(index,1);
         }
         
         bullet.destory();

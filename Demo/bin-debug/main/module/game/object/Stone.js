@@ -45,8 +45,8 @@ var Stone = (function (_super) {
                 this.rotation += this.speedY * t / 2;
                 break;
             case 1:
-                this.speedX -= this.ax * t;
-                this.speedY -= this.ay * t;
+                this.speedX -= this.ax * t * 2;
+                this.speedY -= this.ay * t * 2;
                 var n = 2;
                 if (this.ax > 0 && this.speedX <= this.ax / n || this.ax < 0 && this.speedX >= this.ax / n) {
                     this.speedX = this.ax / n;
@@ -76,7 +76,7 @@ var Stone = (function (_super) {
         this.speedX += speed * Math.cos(direction / 180 * Math.PI);
         this.speedY += speed * Math.sin(direction / 180 * Math.PI);
         this.state = 1;
-        var a = this.stoneData.speed;
+        var a = this.stoneData.speed / 2;
         var r = Math.atan(this.speedX / this.speedY);
         this.ax = Math.abs(a * Math.sin(r));
         this.ay = Math.abs(a * Math.cos(r));

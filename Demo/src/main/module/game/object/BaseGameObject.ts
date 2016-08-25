@@ -37,7 +37,7 @@ class BaseGameObject extends egret.DisplayObjectContainer {
             if(this.hitRect == null) {
                 this.hitRect = new egret.Shape;
                 this.parent.addChild(this.hitRect);
-            } else {return;
+            } else {
                 var arr: Array<egret.Point> = this.rect.getPoints();
                 this.hitRect.graphics.clear();
 

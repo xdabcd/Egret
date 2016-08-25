@@ -53,9 +53,6 @@ var ObjectPool = (function () {
         }
         var list = ObjectPool._content[refKey];
         if (list.length) {
-            if (refKey != "TimerHandler") {
-                egret.log(refKey + ": " + list.length);
-            }
             return list.pop();
         }
         else {
@@ -123,8 +120,9 @@ var ObjectPool = (function () {
             return false;
         }
         var refKey = obj.ObjectPoolKey;
+        var arr = ObjectPool._content[refKey];
         //保证只有pop出来的对象可以放进来，或者是已经清除的无法放入
-        if (!ObjectPool._content[refKey]) {
+        if (!arr || arr.indexOf(obj) >= 0) {
             return false;
         }
         ObjectPool._content[refKey].push(obj);

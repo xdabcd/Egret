@@ -20,7 +20,7 @@ class Bullet extends BaseGameObject{
         super($controller);
     }
 
-    public init(id: number,creater: Hero, moveData: MoveData): void {
+    public init(id: number,creater: BaseGameObject, moveData: MoveData): void {
         super.init(creater.side);
         this.id = id;
         this.creater = creater;

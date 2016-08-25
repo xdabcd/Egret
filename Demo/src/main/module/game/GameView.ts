@@ -276,7 +276,7 @@ class GameView extends BaseSpriteView {
         }
     }
     
-    public CreateBullet(id:number, type: string, creater: Hero, x:number, y:number, moveData: MoveData){
+    public CreateBullet(id: number,type: string,creater: BaseGameObject, x:number, y:number, moveData: MoveData){
         var bullet: Bullet = ObjectPool.pop(type,this.controller);
         bullet.init(id,creater, moveData);
         bullet.x = x;

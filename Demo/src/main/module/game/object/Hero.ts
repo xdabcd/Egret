@@ -422,9 +422,9 @@ class Hero extends Unit{
                 //        	     }else{
                 //      max += this.speed * 0.2;
                 //        	     }
-                this.hitRect.graphics.lineStyle(10,0xff00000,0.5);
-                this.hitRect.graphics.moveTo(this.x,min);
-                this.hitRect.graphics.lineTo(this.x,max);
+//                this.hitRect.graphics.lineStyle(10,0xff00000,0.5);
+//                this.hitRect.graphics.moveTo(this.x,min);
+//                this.hitRect.graphics.lineTo(this.x,max);
                 
                 if(this.y >= min && this.y <= max) {
                     targetPos = (max + min) / 2;

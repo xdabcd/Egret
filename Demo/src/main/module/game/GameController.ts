@@ -170,12 +170,12 @@ class GameController extends BaseController {
     /**
      * 检查是否击中道具
      */ 
-    public CheckHitItem(bullet: Bullet): Array<Item> {
+    public CheckHitItem(obj: BaseGameObject): Array<Item> {
         var hitItems = [];
         var items = this.gameView.GetItems();
         for(let i = 0;i < items.length;i++) {
             let item: Item = items[i];
-            if(this.hitTest(bullet.rect,item.rect)) {
+            if(this.hitTest(obj.rect,item.rect)) {
                 hitItems.push(item);
             }
         }
@@ -185,12 +185,12 @@ class GameController extends BaseController {
     /**
      * 检查是否击中石头
      */
-    public CheckHitStone(bullet: Bullet): Array<Stone> {
+    public CheckHitStone(obj: BaseGameObject): Array<Stone> {
         var hitStones = [];
         var stones = this.gameView.GetStones();
         for(let i = 0;i < stones.length;i++) {
             let stone: Stone = stones[i];
-            if(this.hitTest(bullet.rect,stone.rect)) {
+            if(this.hitTest(obj.rect,stone.rect)) {
                 hitStones.push(stone);
             }
         }

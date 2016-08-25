@@ -55,9 +55,6 @@ class ObjectPool {
 
         var list:Array<any> = ObjectPool._content[refKey];
         if (list.length) {
-            if(refKey != "TimerHandler"){
-                egret.log(refKey + ": " + list.length);
-            }
             return list.pop();
         } else {
             var classZ:any = egret.getDefinitionByName(refKey);
@@ -123,8 +120,9 @@ class ObjectPool {
         }
 
         var refKey:any = obj.ObjectPoolKey;
+        var arr: Array<any> = ObjectPool._content[refKey];
         //保证只有pop出来的对象可以放进来，或者是已经清除的无法放入
-        if (!ObjectPool._content[refKey]) {
+        if (!arr || arr.indexOf(obj) >= 0) {
             return false;
         }
 

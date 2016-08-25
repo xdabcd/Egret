@@ -153,12 +153,12 @@ var GameController = (function (_super) {
     /**
      * 检查是否击中道具
      */
-    p.CheckHitItem = function (bullet) {
+    p.CheckHitItem = function (obj) {
         var hitItems = [];
         var items = this.gameView.GetItems();
         for (var i = 0; i < items.length; i++) {
             var item = items[i];
-            if (this.hitTest(bullet.rect, item.rect)) {
+            if (this.hitTest(obj.rect, item.rect)) {
                 hitItems.push(item);
             }
         }
@@ -167,12 +167,12 @@ var GameController = (function (_super) {
     /**
      * 检查是否击中石头
      */
-    p.CheckHitStone = function (bullet) {
+    p.CheckHitStone = function (obj) {
         var hitStones = [];
         var stones = this.gameView.GetStones();
         for (var i = 0; i < stones.length; i++) {
             var stone = stones[i];
-            if (this.hitTest(bullet.rect, stone.rect)) {
+            if (this.hitTest(obj.rect, stone.rect)) {
                 hitStones.push(stone);
             }
         }

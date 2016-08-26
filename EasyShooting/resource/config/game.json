@@ -14,17 +14,8 @@
     "heroes" : [
 		{
 			"id" : 1,
-			"gun" : 1,
-			"gunX" : 25,
-			"gunY" : 55,
-			"anim" : "hero_png",
-			"width" : 90,
-			"height" : 115,
-			"upAs" : 4000,
-			"downAs" : -3000,
-			"maxSpeed" : 800,
-			"minSpeed" : -600,
-			"hp" : 5
+			"points" : [[0, 0], [3, 0], [3, 4], [0, 4]],
+			"anim" : "hero_png"
 		}
     ],
     "guns" : [

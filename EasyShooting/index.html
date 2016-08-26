@@ -28,6 +28,7 @@
 	<script egret="lib" src="libs/modules/game/game.web.js" src-release="libs/modules/game/game.web.min.js"></script>
 	<script egret="lib" src="libs/modules/tween/tween.js" src-release="libs/modules/tween/tween.min.js"></script>
 	<script egret="lib" src="libs/modules/res/res.js" src-release="libs/modules/res/res.min.js"></script>
+	<script egret="lib" src="libs/modules/p2Physics/p2Physics.js" src-release="libs/modules/p2Physics/p2Physics.min.js"></script>
 	<!--modules_files_end-->
 
     <!--这个标签为不通过egret提供的第三方库的方式使用的 javascript 文件，请将这些文件放在libs下，但不要放在modules下面。-->
@@ -39,25 +40,43 @@
 	<script egret="game" src="bin-debug/EgretExpandUtils.js"></script>
 	<script egret="game" src="bin-debug/LoadingUI.js"></script>
 	<script egret="game" src="bin-debug/Main.js"></script>
-	<script egret="game" src="bin-debug/Utils/AnchorUtils.js"></script>
-	<script egret="game" src="bin-debug/Utils/ArrayUtils.js"></script>
-	<script egret="game" src="bin-debug/Utils/DateUtils.js"></script>
-	<script egret="game" src="bin-debug/Utils/DebugUtils.js"></script>
-	<script egret="game" src="bin-debug/Utils/DeviceUtils.js"></script>
-	<script egret="game" src="bin-debug/Utils/DisplayUtils.js"></script>
-	<script egret="game" src="bin-debug/Utils/EffectUtils.js"></script>
-	<script egret="game" src="bin-debug/Utils/FrameExecutor.js"></script>
-	<script egret="game" src="bin-debug/Utils/KeyboardUtils.js"></script>
-	<script egret="game" src="bin-debug/Utils/MathUtils.js"></script>
-	<script egret="game" src="bin-debug/Utils/ObjectPool.js"></script>
-	<script egret="game" src="bin-debug/Utils/RandomUtils.js"></script>
-	<script egret="game" src="bin-debug/Utils/Rocker.js"></script>
-	<script egret="game" src="bin-debug/Utils/ShockUtils.js"></script>
-	<script egret="game" src="bin-debug/Utils/SortUtils.js"></script>
-	<script egret="game" src="bin-debug/Utils/StageUtils.js"></script>
-	<script egret="game" src="bin-debug/Utils/StringUtils.js"></script>
-	<script egret="game" src="bin-debug/Utils/TextFlowMaker.js"></script>
-	<script egret="game" src="bin-debug/Utils/TimerManager.js"></script>
+	<script egret="game" src="bin-debug/base/BaseView.js"></script>
+	<script egret="game" src="bin-debug/game/GameScene.js"></script>
+	<script egret="game" src="bin-debug/SceneManager.js"></script>
+	<script egret="game" src="bin-debug/game/GameUIView.js"></script>
+	<script egret="game" src="bin-debug/game/GameView.js"></script>
+	<script egret="game" src="bin-debug/p2DebugDraw.js"></script>
+	<script egret="game" src="bin-debug/utils/AnchorUtils.js"></script>
+	<script egret="game" src="bin-debug/utils/ArrayUtils.js"></script>
+	<script egret="game" src="bin-debug/utils/DateUtils.js"></script>
+	<script egret="game" src="bin-debug/utils/DebugUtils.js"></script>
+	<script egret="game" src="bin-debug/utils/DeviceUtils.js"></script>
+	<script egret="game" src="bin-debug/utils/DisplayUtils.js"></script>
+	<script egret="game" src="bin-debug/utils/EffectUtils.js"></script>
+	<script egret="game" src="bin-debug/utils/FrameExecutor.js"></script>
+	<script egret="game" src="bin-debug/utils/KeyboardUtils.js"></script>
+	<script egret="game" src="bin-debug/utils/MathUtils.js"></script>
+	<script egret="game" src="bin-debug/utils/ObjectPool.js"></script>
+	<script egret="game" src="bin-debug/utils/RandomUtils.js"></script>
+	<script egret="game" src="bin-debug/utils/Rocker.js"></script>
+	<script egret="game" src="bin-debug/utils/ShockUtils.js"></script>
+	<script egret="game" src="bin-debug/utils/SortUtils.js"></script>
+	<script egret="game" src="bin-debug/utils/StageUtils.js"></script>
+	<script egret="game" src="bin-debug/utils/StringUtils.js"></script>
+	<script egret="game" src="bin-debug/utils/TextFlowMaker.js"></script>
+	<script egret="game" src="bin-debug/utils/TimerManager.js"></script>
+	<script egret="game" src="bin-debug/game/Unit.js"></script>
+	<script egret="game" src="bin-debug/game/Hero.js"></script>
+	<script egret="game" src="bin-debug/game/data/BossData.js"></script>
+	<script egret="game" src="bin-debug/game/data/BulletData.js"></script>
+	<script egret="game" src="bin-debug/game/data/GunData.js"></script>
+	<script egret="game" src="bin-debug/game/data/UnitData.js"></script>
+	<script egret="game" src="bin-debug/game/data/HeroData.js"></script>
+	<script egret="game" src="bin-debug/game/data/ItemData.js"></script>
+	<script egret="game" src="bin-debug/game/data/MoveData.js"></script>
+	<script egret="game" src="bin-debug/game/data/Rect.js"></script>
+	<script egret="game" src="bin-debug/game/data/StoneData.js"></script>
+	<script egret="game" src="bin-debug/game/GameDataManager.js"></script>
 	<!--game_files_end-->
 </head>
 <body>
@@ -81,7 +100,7 @@
          * "audioType": "" //使用的音频类型，0:默认，1:qq audio，2:web audio，3:audio
          * }
          **/
-        egret.runEgret({renderMode:"webgl", audioType:0});
+        egret.runEgret({renderMode:"canvas", audioType:0});
     </script>
 </body>
 </html>

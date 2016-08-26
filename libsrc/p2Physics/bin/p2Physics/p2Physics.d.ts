@@ -1,31 +1,32 @@
-//////////////////////////////////////////////////////////////////////////////////////
-//
-//  Copyright (c) 2014-2015, Egret Technology Inc.
-//  All rights reserved.
-//  Redistribution and use in source and binary forms, with or without
-//  modification, are permitted provided that the following conditions are met:
-//
-//     * Redistributions of source code must retain the above copyright
-//       notice, this list of conditions and the following disclaimer.
-//     * Redistributions in binary form must reproduce the above copyright
-//       notice, this list of conditions and the following disclaimer in the
-//       documentation and/or other materials provided with the distribution.
-//     * Neither the name of the Egret nor the
-//       names of its contributors may be used to endorse or promote products
-//       derived from this software without specific prior written permission.
-//
-//  THIS SOFTWARE IS PROVIDED BY EGRET AND CONTRIBUTORS "AS IS" AND ANY EXPRESS
-//  OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
-//  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
-//  IN NO EVENT SHALL EGRET AND CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
-//  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-//  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;LOSS OF USE, DATA,
-//  OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-//  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-//  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
-//  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-//
-//////////////////////////////////////////////////////////////////////////////////////
+
+
+
+/**
+ * Copyright (c) 2014,Egret-Labs.org
+ * All rights reserved.
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ *     * Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *     * Neither the name of the Egret-Labs.org nor the
+ *       names of its contributors may be used to endorse or promote products
+ *       derived from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY EGRET-LABS.ORG AND CONTRIBUTORS "AS IS" AND ANY
+ * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL EGRET-LABS.ORG AND CONTRIBUTORS BE LIABLE FOR ANY
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
     
 declare module p2 {
 
@@ -155,7 +156,7 @@ declare module p2 {
 
     export class DistanceConstraint extends Constraint {
 
-        constructor(bodyA: Body, bodyB: Body, type: number, options?: {
+        constructor(bodyA: Body, bodyB: Body, options?: {
             collideConnected?: boolean;
             wakeUpBodies?: boolean;
             distance?: number;
@@ -181,7 +182,7 @@ declare module p2 {
 
     export class GearConstraint extends Constraint {
 
-        constructor(bodyA: Body, bodyB: Body, type: number, options?: {
+        constructor(bodyA: Body, bodyB: Body, options?: {
             collideConnected?: boolean;
             wakeUpBodies?: boolean;
             angle?: number;
@@ -206,6 +207,8 @@ declare module p2 {
             localAngleB?: number;
             maxForce?: number;
         });
+        localOffsetB: number[];
+        localAngleB: number;
 
         setMaxForce(force: number): void;
         getMaxForce(): number;
@@ -214,7 +217,7 @@ declare module p2 {
 
     export class PrismaticConstraint extends Constraint {
 
-        constructor(bodyA: Body, bodyB: Body, type: number, options?: {
+        constructor(bodyA: Body, bodyB: Body, options?: {
             collideConnected?: boolean;
             wakeUpBodies?: boolean;
             maxForce?: number;
@@ -240,6 +243,7 @@ declare module p2 {
         motorEquation: Equation;
         motorEnabled: boolean;
         motorSpeed: number;
+        disableRotationalLock: boolean;
 
         enableMotor(): void;
         disableMotor(): void;
@@ -249,7 +253,7 @@ declare module p2 {
 
     export class RevoluteConstraint extends Constraint {
 
-        constructor(bodyA: Body, bodyB: Body, type: number, options?: {
+        constructor(bodyA: Body, bodyB: Body, options?: {
             collideConnected?: boolean;
             wakeUpBodies?: boolean;
             worldPivot?: number[];
@@ -342,6 +346,7 @@ declare module p2 {
         computeGiMGt(): number;
         addToWlambda(deltalambda: number): number;
         computeInvC(eps: number): number;
+        update():void;
 
     }
 
@@ -384,13 +389,13 @@ declare module p2 {
 
     export class EventEmitter {
 
-        on(type: string, listener: Function, context: any): EventEmitter;
+        on(type: string, listener: Function): EventEmitter;
         has(type: string, listener: Function): boolean;
         off(type: string, listener: Function): EventEmitter;
         emit(event: any): EventEmitter;
 
     }
-
+    /* remove by ladeng6666
     export class ContactMaterialOptions {
 
         friction: number;
@@ -401,25 +406,29 @@ declare module p2 {
         frictionRelaxation: number;
         surfaceVelocity: number;
 
-    }
+    }*/
 
     export class ContactMaterial {
 
         static idCounter: number;
 
-        constructor(materialA: Material, materialB: Material, options?: ContactMaterialOptions);
-
-        id: number;
-        materialA: Material;
-        materialB: Material;
+        constructor(materialA: Material, materialB: Material, options?: {
+            friction?: number;
+            restitution?: number;
+            stiffness?: number;
+            relaxation?: number;
+            frictionStiffness?: number;
+            frictionRelaxation?: number;
+            surfaceVelocity?: number
+            }
+         );
         friction: number;
         restitution: number;
         stiffness: number;
         relaxation: number;
-        frictionStuffness: number;
+        frictionStiffness: number;
         frictionRelaxation: number;
-        surfaceVelocity: number;
-        contactSkinSize: number;
+        surfaceVelocity: number
 
     }
 
@@ -427,7 +436,7 @@ declare module p2 {
 
         static idCounter: number;
 
-        constructor(id: number);
+        constructor(id?: number);
 
         id: number;
 
@@ -537,7 +546,22 @@ declare module p2 {
         static SLEEPY: number;
         static SLEEPING: number;
 
-        constructor(options?);
+        constructor(options?: {
+            force?:number;
+            position?:number[];
+            velocity?:number;
+            allowSleep?:boolean;
+            collisionResponse?:boolean;
+            angle?:number;
+            angularForce?: number;
+            angularVelocity?: number;
+            ccdIterations?: number;
+            ccdSpeedThreshold?:number;
+            fixedRotation?:boolean;
+            gravityScale?:number;
+            id?:number;
+            mass?:number
+        });
 
         /**
          * 刚体id
@@ -563,13 +587,13 @@ declare module p2 {
          * @property shapeOffsets
          * @type {Array}
          */
-        shapeOffsets: number[][];
+        //shapeOffsets: number[][];
         /**
          * 碰撞形状的角度变换
          * @property shapeAngles
          * @type {Array}
          */
-        shapeAngles: number[];
+        //shapeAngles: number[];
         /**
          * 质量
          * @property mass
@@ -582,6 +606,7 @@ declare module p2 {
          * @type {number}
          */
         inertia: number;
+        invInertia: number;
         /**
          * 是否固定旋转
          * @property fixedRotation
@@ -738,7 +763,8 @@ declare module p2 {
         /**
          * 与每个形状对应的显示对象
          */
-        displays: egret.DisplayObject[];
+        displays: any[];
+        userData: any;
 
         updateSolveMassProperties(): void;
         /**
@@ -841,6 +867,20 @@ declare module p2 {
          * @return {boolean}
          */
         overlaps(body: Body): boolean;
+
+        // functions below was added by ladeng6666
+        angularVelocity: number;
+        toWorldFrame(out: number[], localPoint: number[]): void;
+        toLocalFrame(out: number[], worldPoint: number[]): void;
+        vectorToLocalFrame(out:number[],worldVector:number[]):void;
+        vectorToWorldFrame(out:number[],localVector:number[]):void;
+        adjustCenterOfMass(): void;
+        fromPolygon(vertices: number[][], options?: any): Body;
+        applyDamping(dt: number): void;
+        applyImpulse(force: number[], worldPoint: number[]): void;
+        collisionResponse: boolean;
+        fixedX: boolean;
+        fixedY: boolean;
     }
 
     export class Spring {
@@ -893,7 +933,7 @@ declare module p2 {
 
     export class Capsule extends Shape {
 
-        constructor(length?: number, radius?: number);
+        constructor(optoins?: { length?: number; radius?: number });
 
         length: number;
         radius: number;
@@ -902,7 +942,7 @@ declare module p2 {
 
     export class Circle extends Shape {
 
-        constructor(radius: number);
+        constructor(options?: { radius: number });
 
         /**
          * 半径
@@ -917,7 +957,7 @@ declare module p2 {
 
         static triangleArea(a: number[], b: number[], c: number[]): number;
 
-        constructor(vertices: number[][], axes: number[]);
+        constructor(options: { vertices: number[][]; axes?: number[][] });
 
         vertices: number[][];
         axes: number[];
@@ -934,13 +974,14 @@ declare module p2 {
 
     export class Heightfield extends Shape {
 
-        constructor(data: number[], options?: {
+        constructor(options?: {
+            heights: number[];
             minValue?: number;
             maxValue?: number;
             elementWidth: number;
         });
 
-        data: number[];
+        heights: number[];
         maxValue: number;
         minValue: number;
         elementWidth: number;
@@ -955,11 +996,19 @@ declare module p2 {
         static PLANE: number;
         static CONVEX: number;
         static LINE: number;
-        static RECTANGLE: number;
+        static Box: number;
         static CAPSULE: number;
         static HEIGHTFIELD: number;
 
-        constructor(type?: number);
+        constructor(options?: {
+            position?: number[];
+            angle?: number;
+            collisionGroup?: number;
+            collisionMask?: number;
+            sensor?: boolean;
+            collisionResponse?: boolean;
+            type?: number;
+        });
 
         type: number;
         id: number;
@@ -969,7 +1018,9 @@ declare module p2 {
         material: Material;
         area: number;
         sensor: boolean;
-
+        //vertices: number[][]; //2015-05-12 ladeng6666
+        angle: number;
+        position: number[];
         computeMomentOfInertia(mass: number): number;
         updateBoundingRadius(): number;
         updateArea(): void;
@@ -979,7 +1030,7 @@ declare module p2 {
 
     export class Line extends Shape {
 
-        constructor(length?: number);
+        constructor(option?: { length?: number });
 
         length: number;
 
@@ -993,13 +1044,12 @@ declare module p2 {
 
     }
 
-    export class Rectangle extends Shape {
+    export class Box extends Shape {
 
-        constructor(width?: number, height?: number);
+        constructor(options: { width?: number; height?: number});
 
         width: number;
         height: number;
-
     }
 
     export class Solver extends EventEmitter {
@@ -1020,7 +1070,8 @@ declare module p2 {
         addEquations(eqs: Equation[]): void;
         removeEquation(eq: Equation): void;
         removeAllEquations(): void;
-
+        tolerance: number;
+        frictionIterations: number;
     }
 
     export class GSSolver extends Solver {
@@ -1245,7 +1296,7 @@ declare module p2 {
             contactEquations: ContactEquation[];
             frictionEquations: FrictionEquation[];
         };
-
+        
         /**
          * 从不让刚体睡眠
          * @static
@@ -1507,6 +1558,65 @@ declare module p2 {
          * @return {World}
          */
         clone(): World;
+        /**
+        * [ladeng6666] 检测world中，与一组全局坐标点worldPoint，与一组刚体是否发生碰撞，并返回碰撞的刚体列表
+        * @param {Array} worldPoint  一组全局要检测的全局坐标点.
+        * @param {Array} bodies 要检测的刚体列表.
+        * @param {number} precision 检测的精确度.
+        */
+        hitTest(worldPoint: number[], bodies: Body[], precision?: number): Body[];
+        //functions below were added by ladeng6666
+        /*raycastAll(from: number[], to: number[], options: { collisionMask?: number; collisionGroup?: number; skipBackfaces?: boolean; checkCollisionResponse?:boolean}, callback: Function): void;
+        raycastAny(from: number[], to: number[], options: Object, result: RayCastResult): void;
+        raycastClosed(from: number[], to: number[], options: Object, callback: Function): void;
+        */
+        raycast(result: RaycastResult, ray: Ray);
+    }
+    export class RaycastResult {
+        constructor();
+        body: Body;
+        fraction: number;
+        shape: Shape;
+        faceIndex: number;
+        isStopped: boolean;
+        normal: number[];
+
+        getHitPoint(out:number[],ray:Ray):number[];
+        getHitDistance(ray:Ray): number;
+        hasHit(): boolean;
+        reset();
+        stop();
+    }
+    export class Ray {
+        static ANY: number;
+        static CLOSEST: number;
+        static ALL: number;
+
+        constructor(options?: {
+            to?: number[];
+            from?: number[];
+            mode?: number;
+            callback?: Function;
+            collisionMask?: number;
+            collisionGroup?: number;
+            checkCollisionResponse?: boolean;
+            skipBackfaces?: boolean;
+            direction?: number[];
+            length?: number;
+        });
+        to: number[];
+        from: number[];
+        mode: number;
+        callback: Function;
+        collisionMask: number;
+        collisionGroup: number;
+        checkCollisionResponse: boolean;
+        skipBackfaces: boolean;
+        direction: number[];
+        length: number;
     }
 
 }
+
+
+

@@ -22,8 +22,8 @@
       "name": "res"
     },
 	{
-		"name": "physics",
-		"path": "../libsrc/physics"
+		"name": "p2Physics",
+		"path": "../libsrc/p2Physics"
 	}
   ]
 }

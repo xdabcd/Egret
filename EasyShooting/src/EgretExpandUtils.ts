@@ -7,7 +7,7 @@ class EgretExpandUtils {
 	/**
      * 初始化函数
      */
-    public init(): void {
+    public static init(): void {
         AnchorUtils.init();
         KeyboardUtils.init();
         TimerManager.init();

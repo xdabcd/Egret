@@ -115,71 +115,11 @@ class Main extends egret.DisplayObjectContainer {
      * Create a game scene
      */
     private createGameScene():void {
-//        var sky:egret.Bitmap = this.createBitmapByName("bg_jpg");
-//        this.addChild(sky);
-//        var stageW:number = this.stage.stageWidth;
-//        var stageH:number = this.stage.stageHeight;
-//        sky.width = stageW;
-//        sky.height = stageH;
-//
-//        var topMask = new egret.Shape();
-//        topMask.graphics.beginFill(0x000000, 0.5);
-//        topMask.graphics.drawRect(0, 0, stageW, 172);
-//        topMask.graphics.endFill();
-//        topMask.y = 33;
-//        this.addChild(topMask);
-//
-//        var icon:egret.Bitmap = this.createBitmapByName("egret_icon_png");
-//        this.addChild(icon);
-//        icon.x = 26;
-//        icon.y = 33;
-//
-//        var line = new egret.Shape();
-//        line.graphics.lineStyle(2,0xffffff);
-//        line.graphics.moveTo(0,0);
-//        line.graphics.lineTo(0,117);
-//        line.graphics.endFill();
-//        line.x = 172;
-//        line.y = 61;
-//        this.addChild(line);
-//
-//
-//        var colorLabel = new egret.TextField();
-//        colorLabel.textColor = 0xffffff;
-//        colorLabel.width = stageW - 172;
-//        colorLabel.textAlign = "center";
-//        colorLabel.text = "Hello Egret";
-//        colorLabel.size = 24;
-//        colorLabel.x = 172;
-//        colorLabel.y = 80;
-//        this.addChild(colorLabel);
-//
-//        var textfield = new egret.TextField();
-//        this.addChild(textfield);
-//        textfield.alpha = 0;
-//        textfield.width = stageW - 172;
-//        textfield.textAlign = egret.HorizontalAlign.CENTER;
-//        textfield.size = 24;
-//        textfield.textColor = 0xffffff;
-//        textfield.x = 172;
-//        textfield.y = 135;
-//        this.textfield = textfield;
-//
-//        //根据name关键字，异步获取一个json配置文件，name属性请参考resources/resource.json配置文件的内容。
-//        // Get asynchronously a json configuration file according to name keyword. As for the property of name please refer to the configuration file of resources/resource.json.
-//        RES.getResAsync("description_json", this.startAnimation, this)
+        EgretExpandUtils.init();
+        SceneManager.init(this.stage);
+        SceneManager.enterGameScene();
     }
 
-    /**
-     * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。
-     * Create a Bitmap object according to name keyword.As for the property of name please refer to the configuration file of resources/resource.json.
-     */
-    private createBitmapByName(name:string):egret.Bitmap {
-        var result = new egret.Bitmap();
-        var texture:egret.Texture = RES.getRes(name);
-        result.texture = texture;
-        return result;
-    }
 }
 
 

@@ -47,9 +47,9 @@ class AnchorUtils {
             },
             set: function(value) {
                 this.$setWidth(value);
-                this._propertyChange[this.hashCode] = true;
+                AnchorUtils._propertyChange[this.hashCode] = true;
                 egret.callLater(() => {
-                    this.changeAnchor(this);
+                    AnchorUtils.changeAnchor(this);
                 },this);
             },
             enumerable: true,
@@ -62,9 +62,9 @@ class AnchorUtils {
             },
             set: function(value) {
                 this.$setHeight(value);
-                this._propertyChange[this.hashCode] = true;
+                AnchorUtils._propertyChange[this.hashCode] = true;
                 egret.callLater(() => {
-                    this.changeAnchor(this);
+                    AnchorUtils.changeAnchor(this);
                 },this);
             },
             enumerable: true,
@@ -77,10 +77,10 @@ class AnchorUtils {
             },
             set: function(value) {
                 this._anchorX = value;
-                this._propertyChange[this.hashCode] = true;
-                this._anchorChange[this.hashCode] = true;
+                AnchorUtils._propertyChange[this.hashCode] = true;
+                AnchorUtils._anchorChange[this.hashCode] = true;
                 egret.callLater(() => {
-                    this.changeAnchor(this);
+                    AnchorUtils.changeAnchor(this);
                 },this);
             },
             enumerable: true,
@@ -93,10 +93,10 @@ class AnchorUtils {
             },
             set: function(value) {
                 this._anchorY = value;
-                this._propertyChange[this.hashCode] = true;
-                this._anchorChange[this.hashCode] = true;
+                AnchorUtils._propertyChange[this.hashCode] = true;
+                AnchorUtils._anchorChange[this.hashCode] = true;
                 egret.callLater(() => {
-                    this.changeAnchor(this);
+                    AnchorUtils.changeAnchor(this);
                 },this);
             },
             enumerable: true,

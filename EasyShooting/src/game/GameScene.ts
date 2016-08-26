@@ -55,6 +55,7 @@ class GameScene extends BaseView{
 	protected update(time: number){
 	    super.update(time);
 	    
+        this._world.step(time / 10000);
 	    this._debugDraw.drawDebug();
 	}
 	

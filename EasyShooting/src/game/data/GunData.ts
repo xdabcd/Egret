@@ -1,19 +1,22 @@
 /**
  *
- * @author 
+ * 武器信息
  *
  */
 class GunData {
+    /** 编号 */
 	public id: number;
-	public bullet: number;
-	public bulletX: number;
-	public bulletY: number;
-	public img: string;
+	/** 射击间隔 */
 	public interval: number;
-	public type : GunType;
-	public info: any;
+	/** 类型 */
+	public type: GunType;
+	/** 子弹编号 */
+	public bulletId: number;
 }
 
+/**
+ * 武器类型
+ */ 
 enum GunType{
     Normal = 1,
     Running = 2,

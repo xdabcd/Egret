@@ -1,11 +1,15 @@
 /**
  *
- * @author 
+ * 单位信息
  *
  */
 class UnitData {
 	/** 编号 */
 	public id: number;
-	/** 顶点 */
-	public points: Array<Array<number>>;
+	/** 宽 */
+	public width: number;
+	/** 高 */
+	public height: number;
+	/** 质量 */
+	public mass: number;
 }

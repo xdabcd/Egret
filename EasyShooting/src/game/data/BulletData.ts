@@ -1,16 +1,15 @@
 /**
  *
- * @author 
+ * 子弹信息
  *
  */
-class BulletData {
-	public id: number;
+class BulletData extends UnitData{
+    /** 名字 */
+    public name: string;
+    /** 图片 */
 	public img: string;
+	/** 速度 */
 	public speed: number;
-	public width: number;
-	public height: number;
+	/** 伤害 */
 	public damage: number;
-    public trail: number;
-	public info: any;
-    public priority: number;
 }

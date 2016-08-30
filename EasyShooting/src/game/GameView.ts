@@ -31,10 +31,14 @@ class GameView extends BaseView{
     /**
      * 添加英雄
      */ 
-    public addHero(id: number): Hero{
-        var hero:Hero = ObjectPool.pop("Hero");
-        hero.init(id);
+    public addHero(hero: Hero){
         this.addChild(hero);
-        return hero;
+    }
+    
+    /**
+     * 添加子弹
+     */
+    public addBullet(bullet: Bullet) {
+        this.addChild(bullet);
     }
 }

@@ -31,6 +31,8 @@ var game_file_list = [
 	"bin-debug/game/obj/Unit.js",
 	"bin-debug/game/obj/Bullet.js",
 	"bin-debug/game/obj/Hero.js",
+	"bin-debug/game/obj/Enemy.js",
+	"bin-debug/game/obj/Tail.js",
 	"bin-debug/p2DebugDraw.js",
 	"bin-debug/utils/AnchorUtils.js",
 	"bin-debug/utils/ArrayUtils.js",
@@ -79,7 +81,7 @@ egret_native.egretStart = function () {
         //以下为自动修改，请勿修改
         //----auto option start----
 		entryClassName: "Main",
-		frameRate: 30,
+		frameRate: 60,
 		scaleMode: "fixedWidth",
 		contentWidth: 1334,
 		contentHeight: 750,

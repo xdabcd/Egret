@@ -36,6 +36,13 @@ class GameView extends BaseView{
     }
     
     /**
+     * 添加敌人
+     */
+    public addEnemy(enemy: Enemy){
+        this.addChild(enemy);
+    }
+
+    /**
      * 添加子弹
      */
     public addBullet(bullet: Bullet) {

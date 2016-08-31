@@ -9,9 +9,17 @@ class ArrayUtils {
      * @param arr
      * @param func
      */
-    public forEach(arr: Array<any>,func: Function,funcObj: any): void {
-        for(var i: number = 0,len: number = arr.length;i < len;i++) {
-            func.apply(funcObj,[arr[i]]);
+    public static forEach(arr: Array<any>, func: Function, funcObj: any): void {
+        for (var i: number = 0, len: number = arr.length; i < len; i++) {
+            func.apply(funcObj, [arr[i]]);
         }
+    }
+
+    /**
+     * 移除元素
+     */
+    public static remove(arr: Array<any>, obj: any) {
+        let index = arr.indexOf(obj);
+        arr.splice(index, 1);
     }
 }

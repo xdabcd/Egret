@@ -23,6 +23,8 @@ class GameMessageCenter {
 }
 
 enum GameMessage{
-    CreateBullet = 1
-
+    /** 创建子弹 */
+    CreateBullet = 1,
+    /** 移除子弹 */
+    RemoveBullet = 2
 }

@@ -17,5 +17,4 @@ enum GameConst {
     Pause,
     Resume,
     Destructor
-
 }

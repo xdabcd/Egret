@@ -15,7 +15,7 @@ class GamePauseView extends BaseSpriteView {
         this.bgImg.width = this.width;
         this.bgImg.height = this.height;
         this.bgImg.alpha = 0.6;
-        this.bgImg.name = "background"
+        this.bgImg.name = "background";
 
         var pauseUI = new egret.Bitmap(RES.getRes("pause_png"));
         pauseUI.height = this.height * 0.5;
@@ -25,10 +25,10 @@ class GamePauseView extends BaseSpriteView {
         AnchorUtil.setAnchor(pauseUI, 0.5);
 
         var resumeBtnTouchArea = new egret.Shape();
-        resumeBtnTouchArea.width = pauseUI.width * 0.1467;
+        resumeBtnTouchArea.width = pauseUI.width * 0.1465;
         resumeBtnTouchArea.height = pauseUI.height * 0.2137;
-        resumeBtnTouchArea.x = pauseUI.width * 0.6528;
-        resumeBtnTouchArea.y = pauseUI.height * 1.047;
+        resumeBtnTouchArea.x = pauseUI.width * 0.8774;
+        resumeBtnTouchArea.y = pauseUI.height * 0.9333;
         resumeBtnTouchArea.graphics.beginFill(0xfffff, 0);
         resumeBtnTouchArea.graphics.drawRect(0, 0, resumeBtnTouchArea.width, resumeBtnTouchArea.height);
         resumeBtnTouchArea.graphics.endFill();

@@ -32,7 +32,7 @@
 		},
 		{
 			"name": "protobuf",
-			"path": "../libsrc/protobuf"
+			"path": "libsrc/protobuf"
 		}
 	]
 }

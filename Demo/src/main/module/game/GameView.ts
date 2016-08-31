@@ -241,6 +241,11 @@ class GameView extends BaseSpriteView {
         egret.Tween.get(this.boss).to({ alpha: 0.1 }, 600)
             .call(() => { this.RemoveBoss(); },this);
     }
+
+    public DestoryBoss() {
+        this.boss && this.boss.destory();
+        this.boss = null;
+    }
     
     public RemoveBoss() {
         this.boss.destory();

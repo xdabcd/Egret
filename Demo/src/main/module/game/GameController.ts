@@ -42,6 +42,7 @@ class GameController extends BaseController {
     }
 
     public destructor() {
+        this.gameView.DestoryBoss();
         App.ViewManager.destroy(ViewConst.Game);
         App.ViewManager.destroy(ViewConst.GameUI);
         App.ViewManager.destroy(ViewConst.GamePop);

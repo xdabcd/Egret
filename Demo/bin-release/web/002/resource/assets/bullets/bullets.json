@@ -1,6 +1,0 @@
-{"file":"bullets.png","frames":{
-"bullet02_destroy":{"x":1,"y":384,"w":162,"h":133,"offX":8,"offY":9,"sourceW":256,"sourceH":256},
-"bullet02":{"x":1,"y":519,"w":87,"h":44,"offX":7,"offY":3,"sourceW":101,"sourceH":52},
-"bullet01_destroy":{"x":165,"y":384,"w":147,"h":141,"offX":10,"offY":4,"sourceW":256,"sourceH":256},
-"bullet01":{"x":90,"y":519,"w":52,"h":43,"offX":4,"offY":3,"sourceW":63,"sourceH":52},
-"bullet03":{"x":1,"y":1,"w":507,"h":381,"offX":0,"offY":0,"sourceW":512,"sourceH":512}}}

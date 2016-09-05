@@ -1,9 +1,9 @@
 /**
  *
- * 英雄
+ * Boss
  *
  */
-class Hero extends Unit {
+class Boss extends Unit {
     public constructor() {
         super();
         this._className = "Hero";
@@ -88,29 +88,10 @@ class Hero extends Unit {
                     }
                     this.resetGun();
                     break;
-                case GunType.Boomerang:
-                    createFunc("Boomerang", 0);
-                    this._shootCd = 100;
-                    break;
-                case GunType.Laser:
-                    break;
-                case GunType.Freez:
-                    break;
-                case GunType.Grenade:
-                    break;
-                case GunType.Wave:
-                    break;
                 default:
                     break;
             }
         }
-    }
-
-    /**
-     * 获取武器
-     */
-    public getGun(gunId: number){
-        this.setGun(gunId);
     }
 
     /**
@@ -122,7 +103,7 @@ class Hero extends Unit {
             this.addChild(this._img);
         }
         this._img.texture = RES.getRes(img);
-        this._img.anchorOffsetX = 40;
+        this._img.anchorOffsetX = 20;
     }
 
     /**

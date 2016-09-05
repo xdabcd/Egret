@@ -26,5 +26,7 @@ enum GameMessage{
     /** 创建子弹 */
     CreateBullet = 1,
     /** 移除子弹 */
-    RemoveBullet = 2
+    RemoveBullet = 2,
+    /** 移除道具 */
+    RemoveItem = 3,
 }

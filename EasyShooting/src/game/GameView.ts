@@ -48,4 +48,11 @@ class GameView extends BaseView{
     public addBullet(bullet: Bullet) {
         this.addChild(bullet);
     }
+
+    /**
+     * 添加道具
+     */
+    public addItem(item: Item){
+        this.addChild(item);
+    }
 }

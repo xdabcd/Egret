@@ -16,7 +16,7 @@
 			"id" : 1,
 			"width" : 110,
 			"height" : 180,
-			"mass" : 1,
+			"mass" : 100,
 			"anim" : "hero_png",
 			"gunId" : 1,
 			"shootPos" : [60, 20]
@@ -32,9 +32,7 @@
     	},
     	{
     		"id" : 2,
-    		"bullet" : 2,
-    		"bulletX" : 20,
-    		"bulletY" : 0,
+    		"bulletId" : 2,
     		"img" : "bullet_2_png",
     		"interval" : 0.1,
     		"type" : 2,
@@ -45,9 +43,7 @@
     	},
     	{
     		"id" : 3,
-    		"bullet" : 3,
-    		"bulletX" : 20,
-    		"bulletY" : 0,
+    		"bulletId" : 3,
     		"img" : "bullet_3_png",
     		"interval" : 0.1,
     		"type" : 3,
@@ -58,9 +54,7 @@
     	},
     	{
     		"id" : 4,
-    		"bullet" : 4,
-    		"bulletX" : 20,
-    		"bulletY" : 0,
+    		"bulletId" : 4,
     		"img" : "bullet_4_png",
     		"interval" : 0.1,
     		"type" : 4,
@@ -68,9 +62,7 @@
     	},
     	{
     		"id" : 5,
-    		"bullet" : 5,
-    		"bulletX" : 20,
-    		"bulletY" : 0,
+    		"bulletId" : 5,
     		"img" : "gun_4_png",
     		"interval" : 0.1,
     		"type" : 5,
@@ -78,18 +70,14 @@
     	},
     	{
     		"id" : 6,
-    		"bullet" : 6,
-    		"bulletX" : 20,
-    		"bulletY" : 0,
+    		"bulletId" : 6,
     		"img" : "bullet_6_png",
     		"interval" : 0.1,
     		"type" : 6
     	},
     	{
     		"id" : 7,
-    		"bullet" : 7,
-    		"bulletX" : 20,
-    		"bulletY" : 0,
+    		"bulletId" : 7,
     		"img" : "bullet_7_png",
     		"interval" : 0.1,
     		"type" : 7,
@@ -99,9 +87,7 @@
     	},
     	{
     		"id" : 8,
-    		"bullet" : 8,
-    		"bulletX" : 20,
-    		"bulletY" : 0,
+    		"bulletId" : 8,
     		"img" : "",
     		"interval" : 0.1,
     		"type" : 8
@@ -111,7 +97,6 @@
     	{
     		"id" : 1,
     		"img" : "bullet_1_png",
-    		"name" : "Bullet",
     		"speed" : 1000,
     		"width" : 45,
     		"height" : 25,
@@ -123,8 +108,8 @@
     		"id" : 2,
     		"img" : "bullet_2_png",
     		"speed" : 1200,
-    		"width" : 63,
-    		"height" : 52,
+    		"width" : 45,
+    		"height" : 25,
     		"damage" : 1,
     		"trail" : "0xffffff",
     		"priority" : 1
@@ -133,8 +118,8 @@
     		"id" : 3,
     		"img" : "bullet_3_png",
     		"speed" : 1200,
-    		"width" : 63,
-    		"height" : 52,
+    		"width" : 50,
+    		"height" : 50,
     		"damage" : 1,
     		"trail" : "0xffffff",
     		"priority" : 1

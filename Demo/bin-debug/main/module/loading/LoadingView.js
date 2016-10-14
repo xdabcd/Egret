@@ -16,3 +16,4 @@ var LoadingView = (function (_super) {
     return LoadingView;
 }(BaseEuiView));
 egret.registerClass(LoadingView,'LoadingView');
+//# sourceMappingURL=LoadingView.js.map

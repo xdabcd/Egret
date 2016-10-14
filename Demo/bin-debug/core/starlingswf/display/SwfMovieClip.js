@@ -243,3 +243,4 @@ var starlingswf;
     starlingswf.SwfMovieClip = SwfMovieClip;
     egret.registerClass(SwfMovieClip,'starlingswf.SwfMovieClip',["starlingswf.ISwfAnimation"]);
 })(starlingswf || (starlingswf = {}));
+//# sourceMappingURL=SwfMovieClip.js.map

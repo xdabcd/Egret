@@ -171,3 +171,4 @@ var GuideUtils = (function (_super) {
     return GuideUtils;
 }(BaseClass));
 egret.registerClass(GuideUtils,'GuideUtils');
+//# sourceMappingURL=GuideUtils.js.map

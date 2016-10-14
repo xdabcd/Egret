@@ -93,3 +93,4 @@ var Stone = (function (_super) {
     return Stone;
 }(BaseGameObject));
 egret.registerClass(Stone,'Stone');
+//# sourceMappingURL=Stone.js.map

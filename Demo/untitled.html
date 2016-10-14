@@ -1,0 +1,134 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <style>
+    body {
+        background: no-repeat url("./bg.png");
+        background-size: cover;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .form-wrapper {
+        width: 100%;
+        padding: 60px 30px;
+    }
+    form > div {
+        margin: 20px 0;
+    }
+    label {
+        display: inline-block;
+        width: 60px;
+        font-size: 18px;
+        color: white;
+    }
+    label + input {
+        background: rgba(0,0,0,0);
+        border: 0;
+        width: 70%;
+        border-bottom: 1px solid rgb(150, 255, 255);
+        color: white;
+        font-size: 20px;
+    }
+    .place {
+        border: 0 !important;
+    }
+    .submit {
+        color: white;
+        border: 1px solid rgb(150, 255, 255);
+        border-radius: 8px;
+        width: auto;
+        text-align: center;
+        padding: 5px;
+        margin: 50px 30px;
+        background-color: black;
+    }
+    </style>
+    <script src="./zepto.min.js"></script>
+    <script>
+        !(function(window, $, undefined){
+            'use strict'
+
+            function servers() {
+                var servers = ["艾欧尼亚", "祖安", "诺克萨斯", "班德尔城", "皮尔特沃夫", "战争学院", "巨神峰", "雷瑟守备", "钢铁烈阳", "裁决之地", "黑色玫瑰", "暗影岛", "均衡教派", "水晶之痕", "影流", "守望之海", "征服之海", "卡拉曼达", "皮城警备", "比尔吉沃特", "德玛西亚", "弗雷尔卓德", "无畏先锋", "恕瑞玛", "扭曲丛林", "巨龙之巢", "教育网专区"]
+                return servers
+            }
+
+            function infliteServers() {
+                var $select = $("select.place");
+                var serverlist = servers()
+
+                var selectHtml = ""
+                for(var place in serverlist) {
+                    selectHtml += '<option value=\"' + serverlist[place] + '"">' + serverlist[place] + '</option>'
+                }
+
+                $select.html(selectHtml)
+            }
+
+            function validateParameters() {
+                var $tel = $("[name='tel']")
+                var tel = $tel.val()
+                if(!/^(13[0-9]|14[0-9]|15[0-9]|18[0-9])\d{8}$/i.test(tel)) {
+                    return false
+                }
+                return true
+            }
+
+            function initEvent() {
+                var $submit = $('.submit')
+                $submit.on('click', function() {
+                    if(validateParameters()) {
+                        $.post("http://event.trustingme.cn/trustingme/eventInfoController.do", $("#form").serialize(), function(res) {
+                            var obj = JSON.parse(res)
+                            if(obj.success) {
+                                alert("报名成功")
+                            }else {
+                                alert("提交失败，请稍后重试")
+                            }
+                        })
+                    }
+                })
+            }
+
+            $(function() {
+                infliteServers()
+                initEvent()
+            });
+
+        })(window, window.jQuery || window.zepto || $)
+    </script>
+    <title>早起看S6 助威LPL</title>
+<script src="chrome-extension://oofgjnalpjodkfmfomihdlchiiacnman/injectScripts.min.js"></script></head>
+
+<body>
+    <div class="form-wrapper">
+        <form id="form">
+        <div>
+            <label>姓名：</label>
+            <input name="userName">
+        </div>
+        <div>
+            <label>手机：</label>
+            <input name="tel" type="phone">
+        </div>
+        <div>
+            <label>QQ：</label>
+            <input name="userQQ" type="number">
+        </div>
+        <div>
+            <label>区服：</label>
+            <select class="place" name="nativePlace"><option value="艾欧尼亚" "="">艾欧尼亚</option><option value="祖安" "="">祖安</option><option value="诺克萨斯" "="">诺克萨斯</option><option value="班德尔城" "="">班德尔城</option><option value="皮尔特沃夫" "="">皮尔特沃夫</option><option value="战争学院" "="">战争学院</option><option value="巨神峰" "="">巨神峰</option><option value="雷瑟守备" "="">雷瑟守备</option><option value="钢铁烈阳" "="">钢铁烈阳</option><option value="裁决之地" "="">裁决之地</option><option value="黑色玫瑰" "="">黑色玫瑰</option><option value="暗影岛" "="">暗影岛</option><option value="均衡教派" "="">均衡教派</option><option value="水晶之痕" "="">水晶之痕</option><option value="影流" "="">影流</option><option value="守望之海" "="">守望之海</option><option value="征服之海" "="">征服之海</option><option value="卡拉曼达" "="">卡拉曼达</option><option value="皮城警备" "="">皮城警备</option><option value="比尔吉沃特" "="">比尔吉沃特</option><option value="德玛西亚" "="">德玛西亚</option><option value="弗雷尔卓德" "="">弗雷尔卓德</option><option value="无畏先锋" "="">无畏先锋</option><option value="恕瑞玛" "="">恕瑞玛</option><option value="扭曲丛林" "="">扭曲丛林</option><option value="巨龙之巢" "="">巨龙之巢</option><option value="教育网专区" "="">教育网专区</option></select>
+            <div></div>
+        </div>
+        <input name="regEventUser" value="" hidden="">
+        <input name="eventId" value="1" hidden="">
+        <div class="submit">提交信息</div>
+        </form>
+    </div>
+
+
+
+</body></html>

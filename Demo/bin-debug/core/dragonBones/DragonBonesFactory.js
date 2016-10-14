@@ -184,3 +184,4 @@ var DragonBonesFactory = (function (_super) {
     return DragonBonesFactory;
 }(BaseClass));
 egret.registerClass(DragonBonesFactory,'DragonBonesFactory');
+//# sourceMappingURL=DragonBonesFactory.js.map

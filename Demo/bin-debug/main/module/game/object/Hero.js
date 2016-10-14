@@ -464,3 +464,4 @@ var AiType;
 (function (AiType) {
     AiType[AiType["Follow"] = 0] = "Follow";
 })(AiType || (AiType = {}));
+//# sourceMappingURL=Hero.js.map

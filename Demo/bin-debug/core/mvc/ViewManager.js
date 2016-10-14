@@ -174,3 +174,4 @@ var ViewManager = (function (_super) {
     return ViewManager;
 }(BaseClass));
 egret.registerClass(ViewManager,'ViewManager');
+//# sourceMappingURL=ViewManager.js.map

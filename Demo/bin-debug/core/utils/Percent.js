@@ -59,3 +59,4 @@ var Percent = (function () {
     return Percent;
 }());
 egret.registerClass(Percent,'Percent');
+//# sourceMappingURL=Percent.js.map

@@ -54,3 +54,4 @@ var ByteArrayMsg = (function () {
     return ByteArrayMsg;
 }());
 egret.registerClass(ByteArrayMsg,'ByteArrayMsg',["BaseMsg"]);
+//# sourceMappingURL=ByteArrayMsg.js.map

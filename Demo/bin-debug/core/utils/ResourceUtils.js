@@ -158,3 +158,4 @@ var ResourceUtils = (function (_super) {
     return ResourceUtils;
 }(BaseClass));
 egret.registerClass(ResourceUtils,'ResourceUtils');
+//# sourceMappingURL=ResourceUtils.js.map

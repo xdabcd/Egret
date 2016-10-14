@@ -81,3 +81,4 @@ var CommonUtils = (function (_super) {
     return CommonUtils;
 }(BaseClass));
 egret.registerClass(CommonUtils,'CommonUtils');
+//# sourceMappingURL=CommonUtils.js.map

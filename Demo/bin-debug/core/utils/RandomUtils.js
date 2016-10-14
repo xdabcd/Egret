@@ -40,3 +40,4 @@ var RandomUtils = (function (_super) {
     return RandomUtils;
 }(BaseClass));
 egret.registerClass(RandomUtils,'RandomUtils');
+//# sourceMappingURL=RandomUtils.js.map

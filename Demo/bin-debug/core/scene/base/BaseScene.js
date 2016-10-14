@@ -89,3 +89,4 @@ var BaseScene = (function () {
     return BaseScene;
 }());
 egret.registerClass(BaseScene,'BaseScene');
+//# sourceMappingURL=BaseScene.js.map

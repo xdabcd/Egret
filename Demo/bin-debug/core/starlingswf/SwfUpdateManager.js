@@ -97,3 +97,4 @@ var starlingswf;
     starlingswf.SwfUpdateManager = SwfUpdateManager;
     egret.registerClass(SwfUpdateManager,'starlingswf.SwfUpdateManager');
 })(starlingswf || (starlingswf = {}));
+//# sourceMappingURL=SwfUpdateManager.js.map

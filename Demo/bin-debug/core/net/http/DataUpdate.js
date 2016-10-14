@@ -161,3 +161,4 @@ var ProxyUpdate = (function () {
     return ProxyUpdate;
 }());
 egret.registerClass(ProxyUpdate,'ProxyUpdate');
+//# sourceMappingURL=DataUpdate.js.map

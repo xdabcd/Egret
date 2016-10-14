@@ -89,3 +89,4 @@ var ShockUtils = (function (_super) {
     return ShockUtils;
 }(BaseClass));
 egret.registerClass(ShockUtils,'ShockUtils');
+//# sourceMappingURL=ShockUtils.js.map

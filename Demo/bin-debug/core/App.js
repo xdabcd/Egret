@@ -341,3 +341,4 @@ var App = (function () {
     return App;
 }());
 egret.registerClass(App,'App');
+//# sourceMappingURL=App.js.map

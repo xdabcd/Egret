@@ -180,3 +180,4 @@ var starlingswf;
     starlingswf.Swf = Swf;
     egret.registerClass(Swf,'starlingswf.Swf');
 })(starlingswf || (starlingswf = {}));
+//# sourceMappingURL=Swf.js.map

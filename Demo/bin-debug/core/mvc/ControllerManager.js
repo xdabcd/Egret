@@ -88,3 +88,4 @@ var ControllerManager = (function (_super) {
     return ControllerManager;
 }(BaseClass));
 egret.registerClass(ControllerManager,'ControllerManager');
+//# sourceMappingURL=ControllerManager.js.map

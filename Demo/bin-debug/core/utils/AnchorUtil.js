@@ -105,3 +105,4 @@ var AnchorUtil = (function () {
     return AnchorUtil;
 }());
 egret.registerClass(AnchorUtil,'AnchorUtil');
+//# sourceMappingURL=AnchorUtil.js.map

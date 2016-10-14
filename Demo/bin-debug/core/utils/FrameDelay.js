@@ -26,3 +26,4 @@ var FrameDelay = (function () {
     return FrameDelay;
 }());
 egret.registerClass(FrameDelay,'FrameDelay');
+//# sourceMappingURL=FrameDelay.js.map

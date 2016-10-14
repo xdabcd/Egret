@@ -12,3 +12,4 @@ var ViewConst;
     ViewConst[ViewConst["GamePop"] = 4] = "GamePop";
     ViewConst[ViewConst["GameOver"] = 5] = "GameOver";
 })(ViewConst || (ViewConst = {}));
+//# sourceMappingURL=ViewConst.js.map

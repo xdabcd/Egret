@@ -50,3 +50,4 @@ var HeroBullet = (function (_super) {
     return HeroBullet;
 }(Bullet));
 egret.registerClass(HeroBullet,'HeroBullet');
+//# sourceMappingURL=HeroBullet.js.map

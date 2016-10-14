@@ -108,3 +108,4 @@ var Item = (function (_super) {
     return Item;
 }(BaseGameObject));
 egret.registerClass(Item,'Item');
+//# sourceMappingURL=Item.js.map

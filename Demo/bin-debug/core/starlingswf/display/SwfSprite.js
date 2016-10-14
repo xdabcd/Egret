@@ -27,3 +27,4 @@ var starlingswf;
     starlingswf.SwfSprite = SwfSprite;
     egret.registerClass(SwfSprite,'starlingswf.SwfSprite');
 })(starlingswf || (starlingswf = {}));
+//# sourceMappingURL=SwfSprite.js.map

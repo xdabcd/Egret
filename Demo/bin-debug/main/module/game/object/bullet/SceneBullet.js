@@ -27,3 +27,4 @@ var SceneBullet = (function (_super) {
     return SceneBullet;
 }(Bullet));
 egret.registerClass(SceneBullet,'SceneBullet');
+//# sourceMappingURL=SceneBullet.js.map

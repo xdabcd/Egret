@@ -68,12 +68,13 @@ var GameView = (function (_super) {
                 this.setState(1);
                 break;
             case 1:
-                //                if(this.isBossRound){
-                //                    this.createBoss();
-                //                }else{
-                //                    this.createEnemy(AiType.Follow);
-                //                    this.seCd = this.seInterval;
-                //                }
+                if (this.isBossRound) {
+                    this.createBoss();
+                }
+                else {
+                    this.createEnemy(AiType.Follow);
+                    this.seCd = this.seInterval;
+                }
                 this.setState(2);
                 break;
             case 2:
@@ -499,3 +500,4 @@ var GameView = (function (_super) {
     return GameView;
 }(BaseSpriteView));
 egret.registerClass(GameView,'GameView');
+//# sourceMappingURL=GameView.js.map

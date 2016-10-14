@@ -39,3 +39,4 @@ var UnitState;
     UnitState[UnitState["Release"] = 5] = "Release";
     UnitState[UnitState["Die"] = 6] = "Die";
 })(UnitState || (UnitState = {}));
+//# sourceMappingURL=Unit.js.map

@@ -161,3 +161,4 @@ var BaseSpriteView = (function (_super) {
     return BaseSpriteView;
 }(egret.DisplayObjectContainer));
 egret.registerClass(BaseSpriteView,'BaseSpriteView',["IBaseView"]);
+//# sourceMappingURL=BaseSpriteView.js.map

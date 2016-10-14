@@ -42,3 +42,4 @@ var BaseClass = (function () {
     return BaseClass;
 }());
 egret.registerClass(BaseClass,'BaseClass');
+//# sourceMappingURL=BaseClass.js.map

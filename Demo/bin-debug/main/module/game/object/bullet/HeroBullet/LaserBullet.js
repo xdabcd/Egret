@@ -126,3 +126,4 @@ var LaserBullet = (function (_super) {
     return LaserBullet;
 }(HeroBullet));
 egret.registerClass(LaserBullet,'LaserBullet');
+//# sourceMappingURL=LaserBullet.js.map

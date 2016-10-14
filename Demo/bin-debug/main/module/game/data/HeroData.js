@@ -10,3 +10,4 @@ var HeroData = (function () {
     return HeroData;
 }());
 egret.registerClass(HeroData,'HeroData');
+//# sourceMappingURL=HeroData.js.map

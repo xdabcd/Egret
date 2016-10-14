@@ -47,3 +47,4 @@ var TextFlowMaker = (function (_super) {
     return TextFlowMaker;
 }(BaseClass));
 egret.registerClass(TextFlowMaker,'TextFlowMaker');
+//# sourceMappingURL=TextFlowMaker.js.map

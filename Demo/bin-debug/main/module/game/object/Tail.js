@@ -71,3 +71,4 @@ var Tail = (function (_super) {
     return Tail;
 }(egret.Shape));
 egret.registerClass(Tail,'Tail');
+//# sourceMappingURL=Tail.js.map

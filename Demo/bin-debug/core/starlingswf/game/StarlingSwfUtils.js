@@ -206,3 +206,4 @@ var StarlingSwfButtonData = (function () {
     return StarlingSwfButtonData;
 }());
 egret.registerClass(StarlingSwfButtonData,'StarlingSwfButtonData');
+//# sourceMappingURL=StarlingSwfUtils.js.map

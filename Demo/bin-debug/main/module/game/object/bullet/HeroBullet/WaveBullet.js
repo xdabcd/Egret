@@ -44,3 +44,4 @@ var WaveBullet = (function (_super) {
     return WaveBullet;
 }(HeroBullet));
 egret.registerClass(WaveBullet,'WaveBullet');
+//# sourceMappingURL=WaveBullet.js.map

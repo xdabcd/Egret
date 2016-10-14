@@ -170,3 +170,4 @@ var DragonBonesArmatureContainer = (function (_super) {
     return DragonBonesArmatureContainer;
 }(egret.DisplayObjectContainer));
 egret.registerClass(DragonBonesArmatureContainer,'DragonBonesArmatureContainer');
+//# sourceMappingURL=DragonBonesArmatureContainer.js.map

@@ -76,3 +76,4 @@ var RenderTextureManager = (function (_super) {
     return RenderTextureManager;
 }(BaseClass));
 egret.registerClass(RenderTextureManager,'RenderTextureManager');
+//# sourceMappingURL=RenderTextureManager.js.map

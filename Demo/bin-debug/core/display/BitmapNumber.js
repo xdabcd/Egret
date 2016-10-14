@@ -114,3 +114,4 @@ var BitmapNumber = (function (_super) {
     return BitmapNumber;
 }(BaseClass));
 egret.registerClass(BitmapNumber,'BitmapNumber');
+//# sourceMappingURL=BitmapNumber.js.map

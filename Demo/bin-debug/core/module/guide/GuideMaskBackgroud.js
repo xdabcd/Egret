@@ -101,3 +101,4 @@ var GuideMaskBackgroud = (function (_super) {
     return GuideMaskBackgroud;
 }(egret.Sprite));
 egret.registerClass(GuideMaskBackgroud,'GuideMaskBackgroud');
+//# sourceMappingURL=GuideMaskBackgroud.js.map

@@ -45,3 +45,4 @@ var DelayOptManager = (function (_super) {
     return DelayOptManager;
 }(BaseClass));
 egret.registerClass(DelayOptManager,'DelayOptManager');
+//# sourceMappingURL=DelayOptManager.js.map

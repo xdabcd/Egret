@@ -33,3 +33,4 @@ var StringBuffer = (function () {
     return StringBuffer;
 }());
 egret.registerClass(StringBuffer,'StringBuffer');
+//# sourceMappingURL=StringBuffer.js.map

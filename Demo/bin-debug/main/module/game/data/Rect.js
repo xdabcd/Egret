@@ -158,3 +158,4 @@ var Rect = (function () {
     return Rect;
 }());
 egret.registerClass(Rect,'Rect');
+//# sourceMappingURL=Rect.js.map

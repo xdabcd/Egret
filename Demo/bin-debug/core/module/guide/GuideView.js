@@ -144,3 +144,4 @@ var GuideView = (function (_super) {
     return GuideView;
 }(egret.Sprite));
 egret.registerClass(GuideView,'GuideView');
+//# sourceMappingURL=GuideView.js.map

@@ -10,3 +10,4 @@ var BossData = (function () {
     return BossData;
 }());
 egret.registerClass(BossData,'BossData');
+//# sourceMappingURL=BossData.js.map

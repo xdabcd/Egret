@@ -27,3 +27,4 @@ var BossBullet = (function (_super) {
     return BossBullet;
 }(Bullet));
 egret.registerClass(BossBullet,'BossBullet');
+//# sourceMappingURL=BossBullet.js.map

@@ -32,3 +32,4 @@ var NormalBullet = (function (_super) {
     return NormalBullet;
 }(HeroBullet));
 egret.registerClass(NormalBullet,'NormalBullet');
+//# sourceMappingURL=NormalBullet.js.map

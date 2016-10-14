@@ -178,3 +178,4 @@ var MessageVo = (function () {
     return MessageVo;
 }());
 egret.registerClass(MessageVo,'MessageVo');
+//# sourceMappingURL=MessageCenter.js.map

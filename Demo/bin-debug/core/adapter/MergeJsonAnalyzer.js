@@ -36,3 +36,4 @@ var MergeJsonAnalyzer = (function (_super) {
     return MergeJsonAnalyzer;
 }(RES.JsonAnalyzer));
 egret.registerClass(MergeJsonAnalyzer,'MergeJsonAnalyzer');
+//# sourceMappingURL=MergeJsonAnalyzer.js.map

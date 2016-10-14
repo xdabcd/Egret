@@ -10,3 +10,4 @@ var BulletData = (function () {
     return BulletData;
 }());
 egret.registerClass(BulletData,'BulletData');
+//# sourceMappingURL=BulletData.js.map

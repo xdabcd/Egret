@@ -154,3 +154,4 @@ var BaseEuiView = (function (_super) {
     return BaseEuiView;
 }(eui.Component));
 egret.registerClass(BaseEuiView,'BaseEuiView',["IBaseView"]);
+//# sourceMappingURL=BaseEuiView.js.map

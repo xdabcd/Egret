@@ -23,3 +23,4 @@ var Log = (function () {
     return Log;
 }());
 egret.registerClass(Log,'Log');
+//# sourceMappingURL=Log.js.map

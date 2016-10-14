@@ -11,3 +11,4 @@ var MoveData = (function () {
     return MoveData;
 }());
 egret.registerClass(MoveData,'MoveData');
+//# sourceMappingURL=MoveData.js.map

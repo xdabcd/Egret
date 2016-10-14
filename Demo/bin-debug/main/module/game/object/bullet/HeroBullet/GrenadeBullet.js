@@ -131,3 +131,4 @@ var GrenadeBullet = (function (_super) {
     return GrenadeBullet;
 }(HeroBullet));
 egret.registerClass(GrenadeBullet,'GrenadeBullet');
+//# sourceMappingURL=GrenadeBullet.js.map

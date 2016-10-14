@@ -221,3 +221,4 @@ var GameController = (function (_super) {
     return GameController;
 }(BaseController));
 egret.registerClass(GameController,'GameController');
+//# sourceMappingURL=GameController.js.map

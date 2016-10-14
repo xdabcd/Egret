@@ -33,3 +33,4 @@ var FrameExecutor = (function () {
     return FrameExecutor;
 }());
 egret.registerClass(FrameExecutor,'FrameExecutor');
+//# sourceMappingURL=FrameExecutor.js.map

@@ -58,3 +58,4 @@ var SceneEffect = (function (_super) {
     return SceneEffect;
 }(BaseGameObject));
 egret.registerClass(SceneEffect,'SceneEffect');
+//# sourceMappingURL=SceneEffect.js.map

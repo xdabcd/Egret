@@ -10,3 +10,4 @@ var ItemData = (function () {
     return ItemData;
 }());
 egret.registerClass(ItemData,'ItemData');
+//# sourceMappingURL=ItemData.js.map

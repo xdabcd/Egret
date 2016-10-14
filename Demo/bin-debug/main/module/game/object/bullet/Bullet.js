@@ -133,3 +133,4 @@ var Bullet = (function (_super) {
     return Bullet;
 }(BaseGameObject));
 egret.registerClass(Bullet,'Bullet');
+//# sourceMappingURL=Bullet.js.map

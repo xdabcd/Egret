@@ -47,3 +47,4 @@ var EasyLoading = (function (_super) {
     return EasyLoading;
 }(BaseClass));
 egret.registerClass(EasyLoading,'EasyLoading');
+//# sourceMappingURL=EasyLoading.js.map

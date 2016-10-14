@@ -10,3 +10,4 @@ var StoneData = (function () {
     return StoneData;
 }());
 egret.registerClass(StoneData,'StoneData');
+//# sourceMappingURL=StoneData.js.map

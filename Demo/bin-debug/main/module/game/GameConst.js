@@ -19,3 +19,4 @@ var GameConst;
     GameConst[GameConst["Resume"] = 12] = "Resume";
     GameConst[GameConst["Destructor"] = 13] = "Destructor";
 })(GameConst || (GameConst = {}));
+//# sourceMappingURL=GameConst.js.map

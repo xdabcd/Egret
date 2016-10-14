@@ -145,3 +145,4 @@ var GameUIView = (function (_super) {
     return GameUIView;
 }(BaseSpriteView));
 egret.registerClass(GameUIView,'GameUIView');
+//# sourceMappingURL=GameUIView.js.map

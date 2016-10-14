@@ -78,3 +78,4 @@ var EgretTextureAtlasMore = (function (_super) {
     return EgretTextureAtlasMore;
 }(dragonBones.EgretTextureAtlas));
 egret.registerClass(EgretTextureAtlasMore,'EgretTextureAtlasMore');
+//# sourceMappingURL=EgretTextureAtlasMore.js.map

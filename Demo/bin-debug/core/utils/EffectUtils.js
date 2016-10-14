@@ -52,3 +52,4 @@ var EffectUtils = (function (_super) {
     return EffectUtils;
 }(BaseClass));
 egret.registerClass(EffectUtils,'EffectUtils');
+//# sourceMappingURL=EffectUtils.js.map

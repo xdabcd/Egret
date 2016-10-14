@@ -164,3 +164,4 @@ var Boss = (function (_super) {
     return Boss;
 }(Unit));
 egret.registerClass(Boss,'Boss');
+//# sourceMappingURL=Boss.js.map

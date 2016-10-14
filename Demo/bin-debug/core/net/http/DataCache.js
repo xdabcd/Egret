@@ -43,3 +43,4 @@ var DynamicChange = (function () {
     return DynamicChange;
 }());
 egret.registerClass(DynamicChange,'DynamicChange');
+//# sourceMappingURL=DataCache.js.map

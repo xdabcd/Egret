@@ -24,3 +24,4 @@ var Keyboard = (function () {
     return Keyboard;
 }());
 egret.registerClass(Keyboard,'Keyboard');
+//# sourceMappingURL=Keyboard.js.map

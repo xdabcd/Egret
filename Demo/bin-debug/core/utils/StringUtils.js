@@ -49,3 +49,4 @@ var StringUtils = (function (_super) {
     return StringUtils;
 }(BaseClass));
 egret.registerClass(StringUtils,'StringUtils');
+//# sourceMappingURL=StringUtils.js.map

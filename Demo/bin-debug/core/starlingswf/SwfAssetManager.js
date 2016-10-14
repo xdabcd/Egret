@@ -45,3 +45,4 @@ var starlingswf;
     starlingswf.SwfAssetManager = SwfAssetManager;
     egret.registerClass(SwfAssetManager,'starlingswf.SwfAssetManager');
 })(starlingswf || (starlingswf = {}));
+//# sourceMappingURL=SwfAssetManager.js.map

@@ -15,3 +15,4 @@ var FreezBullet = (function (_super) {
     return FreezBullet;
 }(NormalBullet));
 egret.registerClass(FreezBullet,'FreezBullet');
+//# sourceMappingURL=FreezBullet.js.map

@@ -64,3 +64,4 @@ var LocationProperty = (function () {
     return LocationProperty;
 }());
 egret.registerClass(LocationProperty,'LocationProperty');
+//# sourceMappingURL=LocationProperty.js.map

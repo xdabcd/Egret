@@ -81,3 +81,4 @@ var BoomerangBullet = (function (_super) {
     return BoomerangBullet;
 }(HeroBullet));
 egret.registerClass(BoomerangBullet,'BoomerangBullet');
+//# sourceMappingURL=BoomerangBullet.js.map

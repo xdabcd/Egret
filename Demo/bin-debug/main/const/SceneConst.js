@@ -9,3 +9,4 @@ var SceneConst;
     SceneConst[SceneConst["Main"] = 1] = "Main";
     SceneConst[SceneConst["Game"] = 2] = "Game";
 })(SceneConst || (SceneConst = {}));
+//# sourceMappingURL=SceneConst.js.map

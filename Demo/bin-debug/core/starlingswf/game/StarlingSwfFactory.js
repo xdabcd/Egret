@@ -108,3 +108,4 @@ var StarlingSwfFactory = (function (_super) {
     return StarlingSwfFactory;
 }(BaseClass));
 egret.registerClass(StarlingSwfFactory,'StarlingSwfFactory');
+//# sourceMappingURL=StarlingSwfFactory.js.map

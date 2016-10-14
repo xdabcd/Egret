@@ -30,3 +30,4 @@ var HotspotBitmap = (function (_super) {
     return HotspotBitmap;
 }(egret.Bitmap));
 egret.registerClass(HotspotBitmap,'HotspotBitmap');
+//# sourceMappingURL=HotspotBitmap.js.map

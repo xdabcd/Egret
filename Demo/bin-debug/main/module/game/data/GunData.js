@@ -21,3 +21,4 @@ var GunType;
     GunType[GunType["Grenade"] = 7] = "Grenade";
     GunType[GunType["Wave"] = 8] = "Wave";
 })(GunType || (GunType = {}));
+//# sourceMappingURL=GunData.js.map

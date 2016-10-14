@@ -196,3 +196,4 @@ var TimerHandler = (function () {
     return TimerHandler;
 }());
 egret.registerClass(TimerHandler,'TimerHandler');
+//# sourceMappingURL=TimerManager.js.map

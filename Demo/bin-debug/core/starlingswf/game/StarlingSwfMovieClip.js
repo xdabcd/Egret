@@ -94,3 +94,4 @@ var StarlingSwfMovieClip = (function (_super) {
     return StarlingSwfMovieClip;
 }(starlingswf.SwfMovieClip));
 egret.registerClass(StarlingSwfMovieClip,'StarlingSwfMovieClip');
+//# sourceMappingURL=StarlingSwfMovieClip.js.map

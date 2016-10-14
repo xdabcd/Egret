@@ -28,3 +28,4 @@ var LoadingScene = (function (_super) {
     return LoadingScene;
 }(BaseScene));
 egret.registerClass(LoadingScene,'LoadingScene');
+//# sourceMappingURL=LoadingScene.js.map

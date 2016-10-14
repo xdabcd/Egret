@@ -20,3 +20,4 @@ var EgretExpandUtils = (function (_super) {
     return EgretExpandUtils;
 }(BaseClass));
 egret.registerClass(EgretExpandUtils,'EgretExpandUtils');
+//# sourceMappingURL=EgretExpandUtils.js.map

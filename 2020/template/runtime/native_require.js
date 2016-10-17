@@ -27,6 +27,7 @@ var game_file_list = [
 	"bin-debug/utils/FrameExecutor.js",
 	"bin-debug/utils/KeyboardUtils.js",
 	"bin-debug/utils/MathUtils.js",
+	"bin-debug/utils/MazeUtils.js",
 	"bin-debug/utils/ObjectPool.js",
 	"bin-debug/utils/RandomUtils.js",
 	"bin-debug/utils/Rocker.js",

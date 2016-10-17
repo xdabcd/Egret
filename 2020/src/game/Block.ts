@@ -18,6 +18,8 @@ class Block extends egret.DisplayObjectContainer {
     private _text: egret.TextField;
     /** 位置 */
     private _pos: egret.Point;
+    /** 是否选中 */
+    private _isSelect: boolean;
 
     /**
      * 初始化
@@ -35,6 +37,7 @@ class Block extends egret.DisplayObjectContainer {
         if (this._sprite) {
             this._sprite.scaleX = this._sprite.scaleY = 1;
         }
+        this._isSelect = false;
     }
 
     /**
@@ -50,7 +53,7 @@ class Block extends egret.DisplayObjectContainer {
         }
         var sprite: egret.Sprite = this._sprite;
         var size = this.size;
-        DrawUtils.drawRoundHexagon(sprite, size, size / 3, this.color);
+        this.setColor(this.color);
         sprite.x = size;
         sprite.y = size * Math.sqrt(3) / 2;
 
@@ -91,34 +94,48 @@ class Block extends egret.DisplayObjectContainer {
     public show(duration: number) {
         this._sprite.scaleX = this._sprite.scaleY = 0.2;
         egret.Tween.get(this._sprite).to({ scaleX: 1, scaleY: 1 }, duration, egret.Ease.elasticOut);
-  }
+    }
 
     /**
      * 选中
      */
     public select() {
-        // if (!this._selectEffect) return;
-        // var se = this._selectEffect;
-        // egret.Tween.removeTweens(se);
-        // se.visible = true;
-        // se.scaleX = se.scaleY = 1;
-        // se.alpha = 0.6;
-        // egret.Tween.get(se).to({ scaleX: 2.5, scaleY: 2.5, alpha: 0.1 }, 400, egret.Ease.sineIn)
-        //     .call(() => {
-        //         se.visible = false;
-        //     });
+        var s = this._sprite;
+        egret.Tween.removeTweens(s);
+        this._isSelect = true;
+        this.play();
+
     }
 
     /**
-     * 消除
+     * 取消选中
      */
-    public remove(duration: number) {
-        var self = this;
-        egret.Tween.get(this._sprite).to({ scaleX: 0.2, scaleY: 0.2 }, duration)
-            .call(() => {
-                DisplayUtils.removeFromParent(self);
-                ObjectPool.push(self);
-            });;
+    public unSelect() {
+        var s = this._sprite;
+        egret.Tween.removeTweens(s);
+        s.scaleX = s.scaleY = 1;
+    }
+
+    /**
+     * 播放选中效果
+     */
+    private play() {
+        if (!this._isSelect) return;
+        var s = this._sprite;
+        if (s.scaleX < 1) {
+            let duration = (1 - s.scaleX) * 2000;
+            egret.Tween.get(s).to({ scaleX: 1, scaleY: 1 }, duration).call(this.play, this);
+        } else {
+            let duration = (s.scaleX - 0.9) * 2000;
+            egret.Tween.get(s).to({ scaleX: 0.85, scaleY: 0.85 }, duration).call(this.play, this);
+        }
+    }
+
+    /**
+     * 染色
+     */
+    public setColor(color: number) {
+        DrawUtils.drawRoundHexagon(this._sprite, this.size, this.size / 3, color);
     }
 
     /**
@@ -147,5 +164,12 @@ class Block extends egret.DisplayObjectContainer {
      */
     public get color(): number {
         return DataManager.getColor(this._value);
+    }
+
+    /**
+     * 数值
+     */
+    public get value(): number {
+        return this._value;
     }
 }

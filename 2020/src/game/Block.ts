@@ -37,6 +37,7 @@ class Block extends egret.DisplayObjectContainer {
         if (this._sprite) {
             this._sprite.scaleX = this._sprite.scaleY = 1;
         }
+        this.alpha = 1;
         this._isSelect = false;
     }
 
@@ -69,6 +70,8 @@ class Block extends egret.DisplayObjectContainer {
         }
         if (this._value > 0) {
             this._text.text = this._value.toString();
+        }else{
+            this._text.text = "";
         }
     }
 

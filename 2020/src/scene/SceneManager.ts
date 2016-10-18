@@ -37,6 +37,13 @@ class SceneManager {
     private static get stage(): egret.Stage {
         return StageUtils.stage;
     }
+
+    /**
+     * 当前界面
+     */
+    public static get curScene(): BaseScene{
+        return this._curScene;
+    }
 }
 
 /**

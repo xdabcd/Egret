@@ -16,7 +16,7 @@ class DataManager {
 
 	/** 方块半径 */
 	public static get BLOCK_SIZE(): number{
-		return 40;
+		return 45;
 	}
 
 	/** 方块半径 */

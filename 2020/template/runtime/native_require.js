@@ -11,6 +11,7 @@ var game_file_list = [
 	"bin-debug/EgretExpendManager.js",
 	"bin-debug/Main.js",
 	"bin-debug/game/Block.js",
+	"bin-debug/game/Button.js",
 	"bin-debug/scene/BaseScene.js",
 	"bin-debug/game/GameUI.js",
 	"bin-debug/game/data/DataManager.js",
@@ -67,7 +68,7 @@ egret_native.egretStart = function () {
         //----auto option start----
 		entryClassName: "Main",
 		frameRate: 60,
-		scaleMode: "fixedWidth",
+		scaleMode: "fixedHeight",
 		contentWidth: 640,
 		contentHeight: 1136,
 		showPaintRect: false,

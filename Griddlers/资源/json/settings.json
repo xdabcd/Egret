@@ -1,0 +1,42 @@
+{
+	"availableLevelsInCategory" : 4,
+	"slideSensitivity" : 40,
+	"penalties" : true,
+	"penaltiesTime" : [10,15,20,25,30],
+	"hintsForWatchingAd" : 3,
+	"hintPenaltyWhenIncentiviseOff" : 30,
+	"timesUpGameOver" : false,
+
+	"boards" : {
+		"5x5" : {
+			"spriteName" : "griddlers-board-5",
+			"size" : [5,5],
+			"leftMargin" : 7,
+			"topMargin" : 8,
+			"sizeOfCell" : 57,
+			"fontSize" : 30
+		},
+
+		"10x10" : {
+			"spriteName" : "griddlers-board-10",
+			"size" : [10,10],
+			"leftMargin" : 7,
+			"topMargin" : 6,
+			"sizeOfCell" : 38.6,
+			"fontSize" : 25
+		},
+
+		"15x15" : {
+			"spriteName" : "griddlers-board-15",
+			"size" : [15,15],
+			"leftMargin" : 6,
+			"topMargin" : 6,
+			"sizeOfCell" : 25.86,
+			"fontSize" : 20
+		}
+
+
+
+
+	}
+}

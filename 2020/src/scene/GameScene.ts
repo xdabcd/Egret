@@ -104,7 +104,7 @@ class GameScene extends BaseScene {
      * 重新开始
      */
     public restart() {
-        if(this._state != GameState.Idle && this._state != GameState.End) return;
+        if (this._state != GameState.Idle && this._state != GameState.End) return;
         this._ui.clearBlocks();
         var delay = (x, y) => {
             return (this.ver - y) * 200 + (this.hor - x) * 50 + 300;
@@ -113,10 +113,10 @@ class GameScene extends BaseScene {
             for (let y: number = 0; y < this.ver; y++) {
                 TimerManager.doTimer(delay(x, y), 1, () => {
                     let block = this._blocks[x][y];
-                    egret.Tween.get(block).to({alpha: 0.3}, 100).call(()=>{
-                        if(block.value > 0){
+                    egret.Tween.get(block).to({ alpha: 0.3 }, 100).call(() => {
+                        if (block.value > 0) {
                             this.removeBlock(block);
-                        }else{
+                        } else {
                             this.removeBlank(block);
                         }
                     })
@@ -124,6 +124,13 @@ class GameScene extends BaseScene {
             }
         }
         TimerManager.doTimer(delay(0, 0) + 500, 1, this.init, this);
+    }
+
+    /**
+     * 刷新下批方块
+     */
+    public refreshNextBlocks(){
+        
     }
 
     /**

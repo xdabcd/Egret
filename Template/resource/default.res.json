@@ -1,4 +1,13 @@
 {
-	"groups":[],
-	"resources":[]
+	"groups": [
+		{
+			"keys": "",
+			"name": "preload"
+		},
+		{
+			"keys": "",
+			"name": "loading"
+		}
+	],
+	"resources": []
 }

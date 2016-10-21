@@ -1,0 +1,20 @@
+<key>frame</key>
+\s*<string>{{(\d+),(\d+)},{(\d+),(\d+)}}</string>
+\s*<key>offset</key>
+\s*<string>\{(\-?\d+),(\-?\d+)\}</string>
+\s*<key>rotated</key>
+\s*<(false|true) />
+\s*<key>sourceSize</key>
+\s*<string>\{(\d+),(\d+)\}</string>
+
+
+<key>frame</key>
+				<string>{{$1,$2},{$3,$4}}</string>
+				<key>offset</key>
+				<string>\{$5,$6\}</string>
+				<key>rotated</key>
+				<$7 />
+				<key>sourceSize</key>
+				<string>\{$3,$4\}</string>
+				<key>sourceColorRect</key>
+                <string>{{0,0},{$3,$4}}</string>

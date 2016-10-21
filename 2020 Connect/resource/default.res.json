@@ -1,0 +1,240 @@
+{
+	"groups": [
+		{
+			"keys": "_DS_Store,booster_png,btn_boost_1_png,btn_boost_2_png,btn_boost_3_png,btn_boost_4_png,btn_home_png,btn_moregames_png,btn_pause_png,btn_play_png,btn_play2_png,btn_restart_png,btn_sound_off_png,btn_sound_on_png,btn_watch_png,btn_png,cell_png,cell2_png,cell3_png,cellBack_png,close_png,coin_shadow_png,coin_png,hand_png,plop_png,trophy_png,appear_mp3,blocked_mp3,booster_mp3,cell_mp3,click_mp3,coin_mp3,extra1_mp3,extra2_mp3,fail_mp3,gift_mp3,highscore_mp3,move_mp3,music_mp3,popup_mp3,remove_mp3,select_mp3,shout_mp3,stop_mp3,unite_mp3,upcoming_mp3",
+			"name": "preload"
+		}
+	],
+	"resources": [
+		{
+			"url": "audio/appear.mp3",
+			"type": "sound",
+			"name": "appear_mp3"
+		},
+		{
+			"url": "audio/blocked.mp3",
+			"type": "sound",
+			"name": "blocked_mp3"
+		},
+		{
+			"url": "audio/booster.mp3",
+			"type": "sound",
+			"name": "booster_mp3"
+		},
+		{
+			"url": "audio/cell.mp3",
+			"type": "sound",
+			"name": "cell_mp3"
+		},
+		{
+			"url": "audio/click.mp3",
+			"type": "sound",
+			"name": "click_mp3"
+		},
+		{
+			"url": "audio/coin.mp3",
+			"type": "sound",
+			"name": "coin_mp3"
+		},
+		{
+			"url": "audio/extra1.mp3",
+			"type": "sound",
+			"name": "extra1_mp3"
+		},
+		{
+			"url": "audio/extra2.mp3",
+			"type": "sound",
+			"name": "extra2_mp3"
+		},
+		{
+			"url": "audio/fail.mp3",
+			"type": "sound",
+			"name": "fail_mp3"
+		},
+		{
+			"url": "audio/gift.mp3",
+			"type": "sound",
+			"name": "gift_mp3"
+		},
+		{
+			"url": "audio/highscore.mp3",
+			"type": "sound",
+			"name": "highscore_mp3"
+		},
+		{
+			"url": "audio/move.mp3",
+			"type": "sound",
+			"name": "move_mp3"
+		},
+		{
+			"url": "audio/music.mp3",
+			"type": "sound",
+			"name": "music_mp3"
+		},
+		{
+			"url": "audio/popup.mp3",
+			"type": "sound",
+			"name": "popup_mp3"
+		},
+		{
+			"url": "audio/remove.mp3",
+			"type": "sound",
+			"name": "remove_mp3"
+		},
+		{
+			"url": "audio/select.mp3",
+			"type": "sound",
+			"name": "select_mp3"
+		},
+		{
+			"url": "audio/shout.mp3",
+			"type": "sound",
+			"name": "shout_mp3"
+		},
+		{
+			"url": "audio/stop.mp3",
+			"type": "sound",
+			"name": "stop_mp3"
+		},
+		{
+			"url": "audio/unite.mp3",
+			"type": "sound",
+			"name": "unite_mp3"
+		},
+		{
+			"url": "audio/upcoming.mp3",
+			"type": "sound",
+			"name": "upcoming_mp3"
+		},
+		{
+			"url": "imge/.DS_Store",
+			"type": "bin",
+			"name": "_DS_Store"
+		},
+		{
+			"url": "imge/booster.png",
+			"type": "image",
+			"name": "booster_png"
+		},
+		{
+			"url": "imge/btn.png",
+			"type": "image",
+			"name": "btn_png"
+		},
+		{
+			"url": "imge/btn_boost_1.png",
+			"type": "image",
+			"name": "btn_boost_1_png"
+		},
+		{
+			"url": "imge/btn_boost_2.png",
+			"type": "image",
+			"name": "btn_boost_2_png"
+		},
+		{
+			"url": "imge/btn_boost_3.png",
+			"type": "image",
+			"name": "btn_boost_3_png"
+		},
+		{
+			"url": "imge/btn_boost_4.png",
+			"type": "image",
+			"name": "btn_boost_4_png"
+		},
+		{
+			"url": "imge/btn_home.png",
+			"type": "image",
+			"name": "btn_home_png"
+		},
+		{
+			"url": "imge/btn_moregames.png",
+			"type": "image",
+			"name": "btn_moregames_png"
+		},
+		{
+			"url": "imge/btn_pause.png",
+			"type": "image",
+			"name": "btn_pause_png"
+		},
+		{
+			"url": "imge/btn_play.png",
+			"type": "image",
+			"name": "btn_play_png"
+		},
+		{
+			"url": "imge/btn_play2.png",
+			"type": "image",
+			"name": "btn_play2_png"
+		},
+		{
+			"url": "imge/btn_restart.png",
+			"type": "image",
+			"name": "btn_restart_png"
+		},
+		{
+			"url": "imge/btn_sound_off.png",
+			"type": "image",
+			"name": "btn_sound_off_png"
+		},
+		{
+			"url": "imge/btn_sound_on.png",
+			"type": "image",
+			"name": "btn_sound_on_png"
+		},
+		{
+			"url": "imge/btn_watch.png",
+			"type": "image",
+			"name": "btn_watch_png"
+		},
+		{
+			"url": "imge/cell.png",
+			"type": "image",
+			"name": "cell_png"
+		},
+		{
+			"url": "imge/cell2.png",
+			"type": "image",
+			"name": "cell2_png"
+		},
+		{
+			"url": "imge/cell3.png",
+			"type": "image",
+			"name": "cell3_png"
+		},
+		{
+			"url": "imge/cellBack.png",
+			"type": "image",
+			"name": "cellBack_png"
+		},
+		{
+			"url": "imge/close.png",
+			"type": "image",
+			"name": "close_png"
+		},
+		{
+			"url": "imge/coin.png",
+			"type": "image",
+			"name": "coin_png"
+		},
+		{
+			"url": "imge/coin_shadow.png",
+			"type": "image",
+			"name": "coin_shadow_png"
+		},
+		{
+			"url": "imge/hand.png",
+			"type": "image",
+			"name": "hand_png"
+		},
+		{
+			"url": "imge/plop.png",
+			"type": "image",
+			"name": "plop_png"
+		},
+		{
+			"url": "imge/trophy.png",
+			"type": "image",
+			"name": "trophy_png"
+		}
+	]
+}

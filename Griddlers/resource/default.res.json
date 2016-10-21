@@ -1,0 +1,204 @@
+{
+	"groups": [
+		{
+			"keys": "griddlers-board-10-hl_png,griddlers-board-10_png,griddlers-board-15-hl_png,griddlers-board-15_png,griddlers-board-5-hl_png,griddlers-board-5_png,font-blue-shadow_fnt,font-blue-shadow_png,font-blue_fnt,font-blue_png,font_fnt,font_png,loadingbar_png,loadingbar_bg_png,logo_softgames_png,miniaturesheet_json,miniaturesheet_png,spritesheet_json,spritesheet_png,languages_json,levels_json,settings_json,alarm_mp3,charge_up4_mp3,hit_1_mp3,hit_2_mp3,hit_3_mp3,launch_ball_mp3,lose_mp3,music_sfx_mp3,p1_sfx_mp3,p2_sfx_mp3,p3_sfx_mp3,p4_sfx_mp3,pop_mp3,transition_mp3,whoosh_mp3,win_mp3",
+			"name": "preload"
+		},
+		{
+			"keys": "",
+			"name": "loading"
+		}
+	],
+	"resources": [
+		{
+			"url": "images/boards/griddlers-board-10-hl.png",
+			"type": "image",
+			"name": "griddlers-board-10-hl_png"
+		},
+		{
+			"url": "images/boards/griddlers-board-10.png",
+			"type": "image",
+			"name": "griddlers-board-10_png"
+		},
+		{
+			"url": "images/boards/griddlers-board-15-hl.png",
+			"type": "image",
+			"name": "griddlers-board-15-hl_png"
+		},
+		{
+			"url": "images/boards/griddlers-board-15.png",
+			"type": "image",
+			"name": "griddlers-board-15_png"
+		},
+		{
+			"url": "images/boards/griddlers-board-5-hl.png",
+			"type": "image",
+			"name": "griddlers-board-5-hl_png"
+		},
+		{
+			"url": "images/boards/griddlers-board-5.png",
+			"type": "image",
+			"name": "griddlers-board-5_png"
+		},
+		{
+			"url": "images/font-blue-shadow.fnt",
+			"type": "font",
+			"name": "font-blue-shadow_fnt"
+		},
+		{
+			"url": "images/font-blue-shadow.png",
+			"type": "image",
+			"name": "font-blue-shadow_png"
+		},
+		{
+			"url": "images/font-blue.fnt",
+			"type": "font",
+			"name": "font-blue_fnt"
+		},
+		{
+			"url": "images/font-blue.png",
+			"type": "image",
+			"name": "font-blue_png"
+		},
+		{
+			"url": "images/font.fnt",
+			"type": "font",
+			"name": "font_fnt"
+		},
+		{
+			"url": "images/font.png",
+			"type": "image",
+			"name": "font_png"
+		},
+		{
+			"url": "images/loadingbar.png",
+			"type": "image",
+			"name": "loadingbar_png"
+		},
+		{
+			"url": "images/loadingbar_bg.png",
+			"type": "image",
+			"name": "loadingbar_bg_png"
+		},
+		{
+			"url": "images/logo_softgames.png",
+			"type": "image",
+			"name": "logo_softgames_png"
+		},
+		{
+			"url": "images/miniaturesheet.json",
+			"type": "json",
+			"name": "miniaturesheet_json"
+		},
+		{
+			"url": "images/miniaturesheet.png",
+			"type": "image",
+			"name": "miniaturesheet_png"
+		},
+		{
+			"url": "images/spritesheet.json",
+			"type": "json",
+			"name": "spritesheet_json"
+		},
+		{
+			"url": "images/spritesheet.png",
+			"type": "image",
+			"name": "spritesheet_png"
+		},
+		{
+			"url": "json/languages.json",
+			"type": "json",
+			"name": "languages_json"
+		},
+		{
+			"url": "json/levels.json",
+			"type": "json",
+			"name": "levels_json"
+		},
+		{
+			"url": "json/settings.json",
+			"type": "json",
+			"name": "settings_json"
+		},
+		{
+			"url": "sfx/alarm.mp3",
+			"type": "sound",
+			"name": "alarm_mp3"
+		},
+		{
+			"url": "sfx/charge_up4.mp3",
+			"type": "sound",
+			"name": "charge_up4_mp3"
+		},
+		{
+			"url": "sfx/hit_1.mp3",
+			"type": "sound",
+			"name": "hit_1_mp3"
+		},
+		{
+			"url": "sfx/hit_2.mp3",
+			"type": "sound",
+			"name": "hit_2_mp3"
+		},
+		{
+			"url": "sfx/hit_3.mp3",
+			"type": "sound",
+			"name": "hit_3_mp3"
+		},
+		{
+			"url": "sfx/launch_ball.mp3",
+			"type": "sound",
+			"name": "launch_ball_mp3"
+		},
+		{
+			"url": "sfx/lose.mp3",
+			"type": "sound",
+			"name": "lose_mp3"
+		},
+		{
+			"url": "sfx/music_sfx.mp3",
+			"type": "sound",
+			"name": "music_sfx_mp3"
+		},
+		{
+			"url": "sfx/p1_sfx.mp3",
+			"type": "sound",
+			"name": "p1_sfx_mp3"
+		},
+		{
+			"url": "sfx/p2_sfx.mp3",
+			"type": "sound",
+			"name": "p2_sfx_mp3"
+		},
+		{
+			"url": "sfx/p3_sfx.mp3",
+			"type": "sound",
+			"name": "p3_sfx_mp3"
+		},
+		{
+			"url": "sfx/p4_sfx.mp3",
+			"type": "sound",
+			"name": "p4_sfx_mp3"
+		},
+		{
+			"url": "sfx/pop.mp3",
+			"type": "sound",
+			"name": "pop_mp3"
+		},
+		{
+			"url": "sfx/transition.mp3",
+			"type": "sound",
+			"name": "transition_mp3"
+		},
+		{
+			"url": "sfx/whoosh.mp3",
+			"type": "sound",
+			"name": "whoosh_mp3"
+		},
+		{
+			"url": "sfx/win.mp3",
+			"type": "sound",
+			"name": "win_mp3"
+		}
+	]
+}

@@ -1,0 +1,14 @@
+{
+	"name": "egret",
+	"version": "3.0.3",
+	"modules": [
+		{
+			"name": "tiled",
+			"description": "tiled",
+			"files": [
+				
+			],
+			"root": "src"
+		}
+	]
+}

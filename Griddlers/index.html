@@ -28,6 +28,7 @@
 	<script egret="lib" src="libs/modules/game/game.web.js" src-release="libs/modules/game/game.web.min.js"></script>
 	<script egret="lib" src="libs/modules/res/res.js" src-release="libs/modules/res/res.min.js"></script>
 	<script egret="lib" src="libs/modules/tween/tween.js" src-release="libs/modules/tween/tween.min.js"></script>
+	<script egret="lib" src="libs/modules/particle/particle.js" src-release="libs/modules/particle/particle.min.js"></script>
 	<!--modules_files_end-->
 
     <!--这个标签为不通过egret提供的第三方库的方式使用的 javascript 文件，请将这些文件放在libs下，但不要放在modules下面。-->
@@ -38,9 +39,36 @@
     <!--game_files_start-->
 	<script egret="game" src="bin-debug/EgretExpendManager.js"></script>
 	<script egret="game" src="bin-debug/Main.js"></script>
+	<script egret="game" src="bin-debug/game/data/BoardData.js"></script>
+	<script egret="game" src="bin-debug/game/data/CatData.js"></script>
+	<script egret="game" src="bin-debug/game/data/DataManager.js"></script>
+	<script egret="game" src="bin-debug/game/data/ErrParticle.js"></script>
+	<script egret="game" src="bin-debug/game/data/LevelData.js"></script>
+	<script egret="game" src="bin-debug/game/data/PlayerCatData.js"></script>
+	<script egret="game" src="bin-debug/game/data/PlayerData.js"></script>
+	<script egret="game" src="bin-debug/game/data/PlayerDataManager.js"></script>
+	<script egret="game" src="bin-debug/game/data/PlayerLevelData.js"></script>
+	<script egret="game" src="bin-debug/game/data/SoundManager.js"></script>
+	<script egret="game" src="bin-debug/game/object/Background.js"></script>
+	<script egret="game" src="bin-debug/game/object/Board.js"></script>
+	<script egret="game" src="bin-debug/game/object/Button.js"></script>
+	<script egret="game" src="bin-debug/game/object/ButtonGroup.js"></script>
+	<script egret="game" src="bin-debug/game/object/CatButton.js"></script>
+	<script egret="game" src="bin-debug/game/object/CatsGroup.js"></script>
+	<script egret="game" src="bin-debug/game/object/Clouds.js"></script>
+	<script egret="game" src="bin-debug/game/object/Fader.js"></script>
+	<script egret="game" src="bin-debug/game/object/GameButtons.js"></script>
+	<script egret="game" src="bin-debug/game/object/Grid.js"></script>
+	<script egret="game" src="bin-debug/game/object/LevelButton.js"></script>
+	<script egret="game" src="bin-debug/game/object/LevelsGroup.js"></script>
+	<script egret="game" src="bin-debug/game/object/Logo.js"></script>
+	<script egret="game" src="bin-debug/game/object/MarksLayer.js"></script>
+	<script egret="game" src="bin-debug/game/object/PageButton.js"></script>
+	<script egret="game" src="bin-debug/game/object/TopGroup.js"></script>
 	<script egret="game" src="bin-debug/scene/BaseScene.js"></script>
 	<script egret="game" src="bin-debug/scene/GameScene.js"></script>
 	<script egret="game" src="bin-debug/scene/LoadingScene.js"></script>
+	<script egret="game" src="bin-debug/scene/MenuScene.js"></script>
 	<script egret="game" src="bin-debug/scene/SceneManager.js"></script>
 	<script egret="game" src="bin-debug/utils/AnchorUtils.js"></script>
 	<script egret="game" src="bin-debug/utils/ArrayUtils.js"></script>
@@ -70,7 +98,7 @@
     <div style="margin: auto;width: 100%;height: 100%;" class="egret-player"
          data-entry-class="Main"
          data-orientation="auto"
-         data-scale-mode="fixedWidth"
+         data-scale-mode="showAll"
          data-frame-rate="60"
          data-content-width="640"
          data-content-height="1136"

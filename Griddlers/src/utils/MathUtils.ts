@@ -49,4 +49,10 @@ class MathUtils {
         var disQ: number = disX * disX + disY * disY;
         return Math.sqrt(disQ);
     }
+
+    public static sign(num: number): number{
+        if(num > 0) return 1;
+        if(num == 0) return 0;
+        if(num < 0) return -1;
+    }
 }

@@ -10,23 +10,28 @@ class SceneManager {
     /**
      * 进入界面
      */
-    public static enterScene(scene: Scene): BaseScene {
+    public static enterScene(scene: Scene, ...args: any[]): BaseScene {
         /** 销毁当前界面 */
         if (this._curScene) {
-            this._curScene.destroy();
+            ObjectPool.push(this._curScene);
+            DisplayUtils.removeFromParent(this._curScene);
         }
 
         /** 进入新界面 */
         switch (scene) {
             case Scene.Loading:
-                this._curScene = new LoadingScene();
+                this._curScene = ObjectPool.pop("LoadingScene");
                 break;
             case Scene.Game:
-                this._curScene = new GameScene();
+                this._curScene = ObjectPool.pop("GameScene");
+                break;
+            case Scene.Menu:
+                this._curScene = ObjectPool.pop("MenuScene");
                 break;
             default:
                 break;
         }
+        this._curScene.preSet(args);
         this.stage.addChild(this._curScene);
         return this._curScene;
     }
@@ -41,7 +46,7 @@ class SceneManager {
     /**
      * 当前界面
      */
-    public static get curScene(): BaseScene{
+    public static get curScene(): BaseScene {
         return this._curScene;
     }
 }
@@ -51,5 +56,6 @@ class SceneManager {
  */
 enum Scene {
     Loading,
+    Menu,
     Game
 }

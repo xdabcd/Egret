@@ -1,0 +1,26 @@
+{
+	"native": {
+		"path_ignore": [],
+		"android_path": "../demoA"
+	},
+	"publish": {
+		"web": 0,
+		"native": 1
+	},
+	"egret_version": "3.2.1",
+	"modules": [
+		{
+			"name": "egret"
+		},
+		{
+			"name": "game"
+		},
+		{
+			"name": "physics",
+			"path": "../libsrc"
+		},
+		{
+			"name": "res"
+		}
+	]
+}

@@ -28,7 +28,6 @@ class Main extends egret.DisplayObjectContainer {
         RES.addEventListener(RES.ResourceEvent.GROUP_PROGRESS, this.onResourceProgress, this);
         RES.addEventListener(RES.ResourceEvent.ITEM_LOAD_ERROR, this.onItemLoadError, this);
         RES.loadGroup("preload");
-        RES.loadGroup("loading");
     }
 
     /**
@@ -36,13 +35,14 @@ class Main extends egret.DisplayObjectContainer {
      */
     private onResourceLoadComplete(event: RES.ResourceEvent): void {
         if (event.groupName == "preload") {
+            /** 打开加载界面 */
+            this._loadingScene = SceneManager.enterScene(Scene.Loading) as LoadingScene;
+            RES.loadGroup("loading");
+        } else if (event.groupName == "loading") {
             RES.removeEventListener(RES.ResourceEvent.GROUP_COMPLETE, this.onResourceLoadComplete, this);
             RES.removeEventListener(RES.ResourceEvent.GROUP_LOAD_ERROR, this.onResourceLoadError, this);
             RES.removeEventListener(RES.ResourceEvent.GROUP_PROGRESS, this.onResourceProgress, this);
             RES.removeEventListener(RES.ResourceEvent.ITEM_LOAD_ERROR, this.onItemLoadError, this);
-            /** 打开加载界面 */
-            this._loadingScene = SceneManager.enterScene(Scene.Loading) as LoadingScene;
-        } else if(event.groupName == "loading"){
             /** 打开游戏界面 */
             this.createGameScene();
         }
@@ -77,6 +77,7 @@ class Main extends egret.DisplayObjectContainer {
      * Create a game scene
      */
     private createGameScene(): void {
-        SceneManager.enterScene(Scene.Game);
+        DataManager.init();
+        SceneManager.enterScene(Scene.Menu);
     }
 }

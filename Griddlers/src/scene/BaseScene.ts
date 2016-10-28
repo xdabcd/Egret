@@ -15,6 +15,13 @@ class BaseScene extends egret.DisplayObjectContainer {
     }
 
     /**
+     * 预设数据
+     */
+    public preSet(...args: any[]){
+
+    }
+
+    /**
      * 初始化
      */
     protected init() {

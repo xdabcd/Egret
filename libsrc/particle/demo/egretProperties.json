@@ -1,0 +1,23 @@
+{
+	"native": {
+		"path_ignore": [],
+		"android_path": "../../../../za/da"
+	},
+	"publish": {
+		"web": 0,
+		"native": 1
+	},
+	"egret_version": "3.2.1",
+	"modules": [
+		{
+			"name": "egret"
+		},
+		{
+			"name": "particle",
+			"path": "../libsrc"
+		},
+		{
+			"name": "res"
+		}
+	]
+}

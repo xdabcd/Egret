@@ -1,0 +1,25 @@
+{
+	"native": {
+		"path_ignore": []
+	},
+	"publish": {
+		"web": 0,
+		"native": 1
+	},
+	"egret_version": "3.2.1",
+	"modules": [
+		{
+			"name": "egret"
+		},
+		{
+			"name": "game"
+		},
+		{
+			"name": "md5",
+			"path": "../libsrc"
+		},
+		{
+			"name": "res"
+		}
+	]
+}

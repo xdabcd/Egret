@@ -12,13 +12,15 @@ class GameUI extends BaseScene {
     /** 重新开始按钮 */
     private _restartBtn: egret.Sprite;
     /** 更换下一批方块 */
-    private _changeNext: egret.Sprite;
+    private _refreshNext: egret.Sprite;
     /** 消除一个 */
     private _clearOne: egret.Sprite;
-    /** 消除一色 */
-    private _clearOneColor: egret.Sprite;
     /** 消除随机5个 */
     private _clearRandomFive: egret.Sprite;
+    /** 消除一色 */
+    private _clearOneColor: egret.Sprite;
+    /** 提示文字 */
+    private _hint: egret.TextField;
 
     /**
      * 初始化
@@ -49,17 +51,30 @@ class GameUI extends BaseScene {
             this._restartBtn = this.newButton("重启", this.width / 2 + 250, 75, this.restart);
             this._restartBtn.visible = false;
         }
-        if (!this._changeNext) {
+        if (!this._refreshNext) {
             let x = this.width / 2;
             let y = this.height - 75;
-            this._changeNext = this.newButton("刷新", x - 225, y, () => { });
-            this._changeNext.visible = false;
-            this._clearOne = this.newButton("消一", x - 75, y, () => { });
+            this._refreshNext = this.newButton("刷新", x - 225, y, () => this.useItem(1));
+            this._refreshNext.visible = false;
+            this._clearOne = this.newButton("消一", x - 75, y, () => this.useItem(2));
             this._clearOne.visible = false;
-            this._clearOneColor = this.newButton("消色", x + 75, y, () => { });
-            this._clearOneColor.visible = false;
-            this._clearRandomFive = this.newButton("消五", x + 225, y, () => { });
+            this._clearRandomFive = this.newButton("消五", x + 75, y, () => this.useItem(3));
             this._clearRandomFive.visible = false;
+            this._clearOneColor = this.newButton("消色", x + 225, y, () => this.useItem(4));
+            this._clearOneColor.visible = false;
+        }
+        if (!this._hint) {
+            var hint = new egret.TextField;
+            hint.size = 30;
+            hint.x = this.width / 2;
+            hint.y = this.height - 170;
+            hint.textAlign = "center";
+            hint.bold = true;
+            hint.textColor = 0x000000;
+            hint.name = "hint";
+            this.addChild(hint);
+            this._hint = hint;
+            this._hint.visible = false;
         }
     }
 
@@ -67,12 +82,54 @@ class GameUI extends BaseScene {
      * 重新开始
      */
     public restart() {
-        this.hideBtn(this._restartBtn);
+        this.hideBtns();
         let gameSene = SceneManager.curScene as GameScene;
         gameSene.restart();
-
-
     }
+
+    /**
+     * 使用道具
+     */
+    public useItem(idx: number) {
+        let gameSene = SceneManager.curScene as GameScene;
+        gameSene.useItem(idx);
+    }
+
+    /**
+     * 显示提示
+     */
+    public showHint(text: string) {
+        var hint = this._hint;
+        egret.Tween.removeTweens(hint);
+        hint.text = text;
+        AnchorUtils.setAnchor(hint, 0.5);
+        hint.visible = true;
+        hint.scaleX = hint.scaleY = 1;
+        hint.alpha = 0;
+        egret.Tween.get(hint).to({ alpha: 1 }, 300).call(()=>this.playHint());
+    }
+
+    /**
+     * 提示
+     */
+    public playHint() {
+        var hint = this._hint;
+        var target = 1;
+        if(hint.scaleX < 1.1){
+            target = 1.1;
+        }
+        egret.Tween.get(hint).to({ scaleX: target, scaleY: target}, 500).call(()=>this.playHint());
+    }
+
+    /**
+     * 隐藏提示
+     */
+    public hideHint() {
+        var hint = this._hint;
+        egret.Tween.removeTweens(hint);
+        egret.Tween.get(hint).to({ alpha: 0 }, 300).call(() => { hint.visible = false });
+    }
+
 
     /**
      * 结束
@@ -131,13 +188,13 @@ class GameUI extends BaseScene {
     /**
      * 消除方块
      */
-    public removeBlocks() {
+    public removeBlocks(direction: number = 1) {
         var duration = 100;
         if (this._blocks && this._blocks.length > 0) {
             for (let i: number = 0; i < this._blocks.length; i++) {
                 let block = this._blocks[i];
                 TimerManager.doTimer(duration * i, 1, () => {
-                    egret.Tween.get(block).to({ x: block.x, y: block.y + 50, alpha: 0.3 }, 100)
+                    egret.Tween.get(block).to({ x: block.x, y: block.y + 50 * direction, alpha: 0.3 }, 100)
                         .call(() => {
                             this.removeBlock(block);
                         }, this);
@@ -154,7 +211,21 @@ class GameUI extends BaseScene {
      */
     private showBtns() {
         this.showBtn(this._restartBtn);
-        TimerManager.doTimer(100, 1, ()=>this.showBtn(this._changeNext), this);
+        TimerManager.doTimer(100, 1, () => this.showBtn(this._refreshNext), this);
+        TimerManager.doTimer(200, 1, () => this.showBtn(this._clearOne), this);
+        TimerManager.doTimer(300, 1, () => this.showBtn(this._clearRandomFive), this);
+        TimerManager.doTimer(400, 1, () => this.showBtn(this._clearOneColor), this);
+    }
+
+    /**
+     * 隐藏所有按钮
+     */
+    private hideBtns() {
+        this.hideBtn(this._restartBtn);
+        TimerManager.doTimer(400, 1, () => this.hideBtn(this._refreshNext), this);
+        TimerManager.doTimer(300, 1, () => this.hideBtn(this._clearOne), this);
+        TimerManager.doTimer(200, 1, () => this.hideBtn(this._clearRandomFive), this);
+        TimerManager.doTimer(100, 1, () => this.hideBtn(this._clearOneColor), this);
     }
 
     /**
@@ -185,6 +256,7 @@ class GameUI extends BaseScene {
      * 显示按钮
      */
     private showBtn(btn: egret.Sprite) {
+        egret.Tween.removeTweens(btn);
         btn.visible = true;
         btn.scaleX = btn.scaleY = 0.1;
         egret.Tween.get(btn).to({ scaleX: 1, scaleY: 1 }, 500, egret.Ease.elasticOut);
@@ -194,6 +266,7 @@ class GameUI extends BaseScene {
      * 隐藏按钮
      */
     private hideBtn(btn: egret.Sprite) {
+        egret.Tween.removeTweens(btn);
         egret.Tween.get(btn).to({ scaleX: 0.1, scaleY: 0.1 }, 500, egret.Ease.elasticIn)
             .call(() => {
                 btn.visible = false;

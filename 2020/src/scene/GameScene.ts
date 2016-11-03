@@ -30,6 +30,8 @@ class GameScene extends BaseScene {
     private _removeList: Array<Array<Block>>;
     /** 移动标志 */
     private _moveFlag: boolean;
+    /** 当前道具 */
+    private _curItem: number;
 
     /**
      * 初始化
@@ -74,6 +76,7 @@ class GameScene extends BaseScene {
         this._blankList = [];
         this._removeList = [];
         this._moveFlag = false;
+        this._curItem = 0;
         if (!this._blankCon) {
             this._blankCon = new egret.DisplayObjectContainer;
             this._blankCon.name = "空白容器";
@@ -127,10 +130,83 @@ class GameScene extends BaseScene {
     }
 
     /**
-     * 刷新下批方块
+     * 使用道具
      */
-    public refreshNextBlocks(){
-        
+    public useItem(idx: number) {
+        if (this._state != GameState.Idle) return;
+        this.setState(GameState.Item);
+        this._curItem = idx;
+        if (idx == 2 || idx == 4) {
+            this._ui.showHint("选择一个六边形");
+        } else {
+            this.itemEffect();
+        }
+    }
+
+    /**
+     * 道具效果
+     */
+    private itemEffect(block: Block = null) {
+        switch (this._curItem) {
+            case 1:
+                this._ui.removeBlocks(-1);
+                TimerManager.doTimer(500, 1, () => {
+                    this._nextBlocks = this.getNextBlocks();
+                    this._ui.setBlocks(this._nextBlocks);
+                }, this);
+                TimerManager.doTimer(1000, 1, () => {
+                    this.setState(GameState.Idle);
+                }, this);
+                break;
+            case 2:
+                this._ui.hideHint();
+                this.delBlock(block, 600);
+                TimerManager.doTimer(1000, 1, () => this.setState(GameState.Idle), this);
+                break;
+            case 3:
+                var arr = [];
+                this._blocks.forEach(bs => {
+                    bs.forEach(b => {
+                        if (b.value > 0) {
+                            arr.push(b);
+                        }
+                    });
+                });
+                arr.sort(SortUtils.random);
+                var duration = 600;
+                var t = 0;
+                for (let i = 0; i < 5; i++) {
+                    if (arr.length > 0) {
+                        let b = arr.pop();
+                        TimerManager.doTimer(t, 1, () => {
+                            this.delBlock(b, duration);
+                        }, this);
+                        t += this._perMoveTime;
+                    }
+                }
+                TimerManager.doTimer(t + duration + 200, 1, () => {
+                    this.setState(GameState.Idle);
+                }, this);
+                break;
+            case 4:
+                this._ui.hideHint();
+                var duration = 600;
+                var t = 0;
+                this._blocks.forEach(bs => {
+                    bs.forEach(b => {
+                        if (b.value == block.value) {
+                            TimerManager.doTimer(t, 1, () => {
+                                this.delBlock(b, duration);
+                            }, this);
+                            t += this._perMoveTime;
+                        }
+                    });
+                });
+                TimerManager.doTimer(t + duration + 200, 1, () => {
+                    this.setState(GameState.Idle);
+                }, this);
+                break;
+        }
     }
 
     /**
@@ -172,7 +248,7 @@ class GameScene extends BaseScene {
         b.x = postion.x;
         b.y = postion.y;
         this.pushToList(b, x, y);
-        b.show(500);
+        b.show(600);
         b.setOnTap(() => this.tapBlock(b));
     }
 
@@ -210,9 +286,26 @@ class GameScene extends BaseScene {
     }
 
     /**
+     * 删除方块
+     */
+    private delBlock(block: Block, duration: number) {
+        block.hide(duration);
+        TimerManager.doTimer(duration + 100, 1, () => {
+            this.removeBlock(block);
+            this.addBlank(block.pos.x, block.pos.y);
+        }, this);
+    }
+
+    /**
      * 点击方块
      */
     private tapBlock(block: Block) {
+        if (this._state == GameState.Item) {
+            if (this._curItem == 2 || this._curItem == 4) {
+                this.itemEffect(block);
+            }
+            return;
+        }
         if (this._state != GameState.Idle) return;
         if (this._curBlock) {
             this._curBlock.unSelect();
@@ -436,26 +529,14 @@ class GameScene extends BaseScene {
         var arr = [];
         var blankCnt = this._blankList.length;
         var cnt = 0;
-        switch (Math.floor(blankCnt / 10)) {
-            case 0:
-                if (blankCnt < 3) {
-                    cnt = blankCnt
-                } else {
-                    cnt = 3;
-                }
-                break;
-            case 1:
-                cnt = 4;
-                break;
-            case 2:
-                cnt = 5;
-                break;
-            case 3:
-                cnt = 6;
-                break;
-            case 4:
-                cnt = 11;
-                break;
+        if (blankCnt >= this.ver * this.hor) {
+            cnt = 11;
+        } else if (blankCnt >= 20) {
+            cnt = 5;
+        } else if (blankCnt > 5) {
+            cnt = 4;
+        } else {
+            cnt = Math.min(blankCnt, 3);
         }
         if (cnt == 0) {
             this.setState(GameState.End);
@@ -473,7 +554,8 @@ class GameScene extends BaseScene {
     private setState(state: GameState) {
         this._state = state;
         if (state == GameState.Idle) {
-            if (!this.checkRemove() && this._moveFlag) {
+            this._curItem = 0;
+            if ((!this.checkRemove() && this._moveFlag) || this._blankList.length == this.ver * this.hor) {
                 this.addBlocks();
             }
             this._moveFlag = false;
@@ -536,5 +618,7 @@ enum GameState {
     /** 方块移动 */
     Move,
     /** 结束 */
-    End
+    End,
+    /** 使用道具 */
+    Item
 }

@@ -98,6 +98,14 @@ class Block extends egret.DisplayObjectContainer {
         this._sprite.scaleX = this._sprite.scaleY = 0.2;
         egret.Tween.get(this._sprite).to({ scaleX: 1, scaleY: 1 }, duration, egret.Ease.elasticOut);
     }
+    
+    /**
+     * 隐藏
+     */
+    public hide(duration: number) {
+        this._sprite.scaleX = this._sprite.scaleY = 1;
+        egret.Tween.get(this._sprite).to({ scaleX: 0.2, scaleY: 0.2 }, duration, egret.Ease.elasticIn);
+    }
 
     /**
      * 选中

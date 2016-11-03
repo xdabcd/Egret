@@ -10,6 +10,8 @@ var game_file_list = [
 	"libs/modules/tween/tween.js",
 	"bin-debug/EgretExpendManager.js",
 	"bin-debug/Main.js",
+	"bin-debug/game/Board.js",
+	"bin-debug/game/Button.js",
 	"bin-debug/scene/BaseScene.js",
 	"bin-debug/scene/GameScene.js",
 	"bin-debug/scene/LoadingScene.js",

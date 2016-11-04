@@ -9,6 +9,11 @@ class GameUI extends BaseScene {
     private _blockCon: egret.DisplayObjectContainer;
     /** 方块列表 */
     private _blocks: Array<Block>;
+    /** 暂停按钮 */
+    private _pauseBtn: egret.DisplayObjectContainer;
+
+
+
     /** 重新开始按钮 */
     private _restartBtn: egret.Sprite;
     /** 更换下一批方块 */
@@ -37,32 +42,34 @@ class GameUI extends BaseScene {
      */
     private reset() {
         this._blocks = [];
+        var w = this.width;
+        var h = this.height;
 
         if (!this._blockCon) {
             this._blockCon = new egret.DisplayObjectContainer;
             this._blockCon.name = "方块容器";
-            this._blockCon.x = this.width / 2;
-            this._blockCon.y = 50;
+            this._blockCon.x = w / 2;
+            this._blockCon.y = 60;
             this._blockCon.scaleX = this._blockCon.scaleY = 0.75;
             AnchorUtils.setAnchorX(this._blockCon, 0.5);
             this.addChild(this._blockCon);
         }
-        if (!this._restartBtn) {
-            this._restartBtn = this.newButton("重启", this.width / 2 + 250, 75, this.restart);
-            this._restartBtn.visible = false;
+
+        if (!this._pauseBtn) {
+            this.addChild(this._pauseBtn = new egret.DisplayObjectContainer);
+            AnchorUtils.setAnchorX(this._pauseBtn, 0.5);
+            AnchorUtils.setAnchorY(this._pauseBtn, 1);
+            this._pauseBtn.x = w / 2;
+            this._pauseBtn.y = h;
+            var bg = DisplayUtils.createBitmap("pausebg_png");
+            this._pauseBtn.addChild(bg);
+            var icon = DisplayUtils.createBitmap("pause_png");
+            icon.x = bg.width / 2 - icon.width / 2;
+            icon.y = bg.height / 2 - icon.height / 2;
+            this._pauseBtn.addChild(icon);
+            this.setOnTap(this._pauseBtn, ()=>{});
         }
-        if (!this._refreshNext) {
-            let x = this.width / 2;
-            let y = this.height - 75;
-            this._refreshNext = this.newButton("刷新", x - 225, y, () => this.useItem(1));
-            this._refreshNext.visible = false;
-            this._clearOne = this.newButton("消一", x - 75, y, () => this.useItem(2));
-            this._clearOne.visible = false;
-            this._clearRandomFive = this.newButton("消五", x + 75, y, () => this.useItem(3));
-            this._clearRandomFive.visible = false;
-            this._clearOneColor = this.newButton("消色", x + 225, y, () => this.useItem(4));
-            this._clearOneColor.visible = false;
-        }
+
         if (!this._hint) {
             var hint = new egret.TextField;
             hint.size = 30;
@@ -82,7 +89,6 @@ class GameUI extends BaseScene {
      * 重新开始
      */
     public restart() {
-        this.hideBtns();
         let gameSene = SceneManager.curScene as GameScene;
         gameSene.restart();
     }
@@ -106,7 +112,7 @@ class GameUI extends BaseScene {
         hint.visible = true;
         hint.scaleX = hint.scaleY = 1;
         hint.alpha = 0;
-        egret.Tween.get(hint).to({ alpha: 1 }, 300).call(()=>this.playHint());
+        egret.Tween.get(hint).to({ alpha: 1 }, 300).call(() => this.playHint());
     }
 
     /**
@@ -115,10 +121,10 @@ class GameUI extends BaseScene {
     public playHint() {
         var hint = this._hint;
         var target = 1;
-        if(hint.scaleX < 1.1){
+        if (hint.scaleX < 1.1) {
             target = 1.1;
         }
-        egret.Tween.get(hint).to({ scaleX: target, scaleY: target}, 500).call(()=>this.playHint());
+        egret.Tween.get(hint).to({ scaleX: target, scaleY: target }, 500).call(() => this.playHint());
     }
 
     /**
@@ -143,7 +149,7 @@ class GameUI extends BaseScene {
     public setBlocks(list: Array<number>) {
         this._blocks = [];
         var duration = 100;
-        var w = this.blockSize * 1.7;
+        var w = DataManager.BLOCK_W;
         var s = -list.length * w / 2;
         for (let i: number = 0; i < list.length; i++) {
             TimerManager.doTimer(duration * i, 1, () => {
@@ -151,16 +157,16 @@ class GameUI extends BaseScene {
                 block.name = "方块" + i;
                 this._blockCon.addChild(block);
                 block.init(list[i]);
-                block.x = s + w * i;
+                block.x = s + w * (i + 0.5);
                 block.y = 0;
                 this._blocks.push(block);
                 block.show(500);
             }, this);
         }
         TimerManager.doTimer(duration * list.length + 100, 1, () => {
-            if (this._restartBtn.visible == false) {
-                this.showBtns();
-            }
+            // if (this._restartBtn.visible == false) {
+            //     this.showBtns();
+            // }
         }, this);
     }
 
@@ -207,49 +213,17 @@ class GameUI extends BaseScene {
     }
 
     /**
-     * 显示所有按钮
+     * 设置点击回调
      */
-    private showBtns() {
-        this.showBtn(this._restartBtn);
-        TimerManager.doTimer(100, 1, () => this.showBtn(this._refreshNext), this);
-        TimerManager.doTimer(200, 1, () => this.showBtn(this._clearOne), this);
-        TimerManager.doTimer(300, 1, () => this.showBtn(this._clearRandomFive), this);
-        TimerManager.doTimer(400, 1, () => this.showBtn(this._clearOneColor), this);
-    }
-
-    /**
-     * 隐藏所有按钮
-     */
-    private hideBtns() {
-        this.hideBtn(this._restartBtn);
-        TimerManager.doTimer(400, 1, () => this.hideBtn(this._refreshNext), this);
-        TimerManager.doTimer(300, 1, () => this.hideBtn(this._clearOne), this);
-        TimerManager.doTimer(200, 1, () => this.hideBtn(this._clearRandomFive), this);
-        TimerManager.doTimer(100, 1, () => this.hideBtn(this._clearOneColor), this);
-    }
-
-    /**
-     * 新建按钮
-     */
-    private newButton(name: string, x: number, y: number, onTap: Function): egret.Sprite {
-        var btn = new egret.Sprite;
-        btn.name = name;
-        DrawUtils.drawCircle(btn, 50, 0x000000);
-        btn.x = x;
-        btn.y = y;
-        this.addChild(btn);
-        let t = new egret.TextField;
-        btn.addChild(t);
-        t.size = 35;
-        t.width = btn.width;
-        t.height = 35;
-        t.textAlign = "center";
-        t.bold = true;
-        AnchorUtils.setAnchor(t, 0.5);
-        t.text = name;
+    private setOnTap(btn: egret.DisplayObjectContainer, callBack: Function) {
+        btn.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
+            egret.Tween.get(btn).to({ scaleX: 0.95, scaleY: 0.95 }, 120, egret.Ease.quadOut)
+                .to({ scaleX: 1, scaleY: 1 }, 80, egret.Ease.quadOut);
+            if (callBack) {
+                callBack();
+            }
+        }, this);
         btn.touchEnabled = true;
-        btn.addEventListener(egret.TouchEvent.TOUCH_TAP, onTap, this);
-        return btn;
     }
 
     /**
@@ -280,10 +254,5 @@ class GameUI extends BaseScene {
         egret.Tween.removeTweens(block);
         DisplayUtils.removeFromParent(block);
         ObjectPool.push(block);
-    }
-
-    /** 方块半径 */
-    public get blockSize(): number {
-        return DataManager.BLOCK_SIZE;
     }
 }

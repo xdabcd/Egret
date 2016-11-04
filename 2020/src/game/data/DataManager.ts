@@ -14,14 +14,14 @@ class DataManager {
 		return 8;
 	}
 
-	/** 方块半径 */
-	public static get BLOCK_SIZE(): number{
-		return 45;
+	/** 方块横向间距 */
+	public static get BLOCK_W(): number{
+		return 84;
 	}
 
-	/** 方块半径 */
-	public static get BLOCK_GAP(): number{
-		return 5;
+	/** 方块纵向间距 */
+	public static get BLOCK_H(): number{
+		return 95;
 	}
 
 	/** 颜色列表 0:灰 1:黄 2:蓝 4:紫 8:红 16:绿 32:棕 64:青 128:深蓝*/

@@ -13,8 +13,6 @@ class Main extends egret.DisplayObjectContainer {
         EgretExpandManager.init();
         /** 清空舞台 */
         this.stage.removeChildren();
-        /** 打开加载界面 */
-        this._loadingScene = SceneManager.enterScene(Scene.Loading) as LoadingScene;
         /** 加载资源 */
         RES.addEventListener(RES.ResourceEvent.CONFIG_COMPLETE, this.onConfigComplete, this);
         RES.loadConfig("resource/default.res.json", "resource/");
@@ -37,10 +35,15 @@ class Main extends egret.DisplayObjectContainer {
      */
     private onResourceLoadComplete(event: RES.ResourceEvent): void {
         if (event.groupName == "preload") {
+            /** 打开加载界面 */
+            this._loadingScene = SceneManager.enterScene(Scene.Loading) as LoadingScene;
+            RES.loadGroup("loading");
+        } else if (event.groupName == "loading") {
             RES.removeEventListener(RES.ResourceEvent.GROUP_COMPLETE, this.onResourceLoadComplete, this);
             RES.removeEventListener(RES.ResourceEvent.GROUP_LOAD_ERROR, this.onResourceLoadError, this);
             RES.removeEventListener(RES.ResourceEvent.GROUP_PROGRESS, this.onResourceProgress, this);
             RES.removeEventListener(RES.ResourceEvent.ITEM_LOAD_ERROR, this.onItemLoadError, this);
+            /** 打开游戏界面 */
             this.createGameScene();
         }
     }
@@ -64,7 +67,7 @@ class Main extends egret.DisplayObjectContainer {
      * preload资源组加载进度
      */
     private onResourceProgress(event: RES.ResourceEvent): void {
-        if (event.groupName == "preload") {
+        if (event.groupName == "loading") {
             this._loadingScene.setProgress(event.itemsLoaded, event.itemsTotal);
         }
     }

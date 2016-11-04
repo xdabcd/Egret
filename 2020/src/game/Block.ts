@@ -13,7 +13,7 @@ class Block extends egret.DisplayObjectContainer {
     /** 数值 */
     private _value: number;
     /** 方块 */
-    private _sprite: egret.Sprite;
+    private _sprite: egret.Bitmap;
     /** 数字 */
     private _text: egret.TextField;
     /** 位置 */
@@ -34,8 +34,8 @@ class Block extends egret.DisplayObjectContainer {
      * 重置
      */
     private reset() {
-        if (this._sprite) {
-            this._sprite.scaleX = this._sprite.scaleY = 1;
+        if (this) {
+            this.scaleX = this.scaleY = 1;
         }
         this.alpha = 1;
         this._isSelect = false;
@@ -46,33 +46,23 @@ class Block extends egret.DisplayObjectContainer {
      */
     private setBlock() {
         if (!this._sprite) {
-            this._sprite = new egret.Sprite;
+            this._sprite = new egret.Bitmap;
             this._sprite.name = "方块";
             this.addChild(this._sprite);
             this._sprite.touchEnabled = true;
             this._sprite.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onTap, this);
         }
-        var sprite: egret.Sprite = this._sprite;
-        var size = this.size;
-        this.setColor(this.color);
-        sprite.x = size;
-        sprite.y = size * Math.sqrt(3) / 2;
 
         if (!this._text) {
             this._text = new egret.TextField;
             this._text.name = "数字";
-            this._sprite.addChild(this._text);
-            this._text.size = 40;
-            this._text.width = this.width;
-            this._text.height = 40;
+            this._text.fontFamily = "Cookies";
+            this._text.size = 45;
             this._text.textAlign = "center";
-            AnchorUtils.setAnchor(this._text, 0.5);
+            this.addChild(this._text);
         }
-        if (this._value > 0) {
-            this._text.text = this._value.toString();
-        }else{
-            this._text.text = "";
-        }
+
+        this.setSprite();
     }
 
     /**
@@ -95,23 +85,23 @@ class Block extends egret.DisplayObjectContainer {
      * 显示
      */
     public show(duration: number) {
-        this._sprite.scaleX = this._sprite.scaleY = 0.2;
-        egret.Tween.get(this._sprite).to({ scaleX: 1, scaleY: 1 }, duration, egret.Ease.elasticOut);
+        this.scaleX = this.scaleY = 0.2;
+        egret.Tween.get(this).to({ scaleX: 1, scaleY: 1 }, duration, egret.Ease.elasticOut);
     }
-    
+
     /**
      * 隐藏
      */
     public hide(duration: number) {
-        this._sprite.scaleX = this._sprite.scaleY = 1;
-        egret.Tween.get(this._sprite).to({ scaleX: 0.2, scaleY: 0.2 }, duration, egret.Ease.elasticIn);
+        this.scaleX = this.scaleY = 1;
+        egret.Tween.get(this).to({ scaleX: 0.2, scaleY: 0.2 }, duration, egret.Ease.elasticIn);
     }
 
     /**
      * 选中
      */
     public select() {
-        var s = this._sprite;
+        var s = this;
         egret.Tween.removeTweens(s);
         this._isSelect = true;
         this.play();
@@ -122,7 +112,7 @@ class Block extends egret.DisplayObjectContainer {
      * 取消选中
      */
     public unSelect() {
-        var s = this._sprite;
+        var s = this;
         egret.Tween.removeTweens(s);
         s.scaleX = s.scaleY = 1;
     }
@@ -132,7 +122,7 @@ class Block extends egret.DisplayObjectContainer {
      */
     private play() {
         if (!this._isSelect) return;
-        var s = this._sprite;
+        var s = this;
         if (s.scaleX < 1) {
             let duration = (1 - s.scaleX) * 2000;
             egret.Tween.get(s).to({ scaleX: 1, scaleY: 1 }, duration).call(this.play, this);
@@ -143,10 +133,18 @@ class Block extends egret.DisplayObjectContainer {
     }
 
     /**
-     * 染色
+     * 设置图片
      */
-    public setColor(color: number) {
-        DrawUtils.drawRoundHexagon(this._sprite, this.size, this.size / 3, color);
+    public setSprite() {
+        if (this._value == -1) {
+            this._sprite.texture = RES.getRes("blank_png");
+            this._text.text = "";
+        } else {
+            this._sprite.texture = RES.getRes("button_" + this._value + "_png");
+            this._text.text = Math.pow(2, this._value).toString();
+        }
+        AnchorUtils.setAnchor(this._sprite, 0.5);
+        AnchorUtils.setAnchor(this._text, 0.5);
     }
 
     /**
@@ -161,13 +159,6 @@ class Block extends egret.DisplayObjectContainer {
      */
     public set pos(value) {
         this._pos = value;
-    }
-
-    /**
-     * 半径
-     */
-    public get size(): number {
-        return DataManager.BLOCK_SIZE;
     }
 
     /**

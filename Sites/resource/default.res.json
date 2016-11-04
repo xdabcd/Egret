@@ -1,0 +1,218 @@
+{
+	"groups": [
+		{
+			"keys": "bg_png,loading1_png,loading2_png,loading3_png,font_fnt,font_png",
+			"name": "preload"
+		},
+		{
+			"keys": "Hexagonal_png,hexabg_png,help_click_light_png,hand_png,game_png,cup_png,coin_png,button15_png,button14_png,button13_png,button12_png,button11_png,button10_png,button09_png,button08_png,button07_png,button06_png,button05_png,button04_png,button03_png,button02_png,button01_png,btn_play_png,boostbg_png,boost_png,blue_png,blank_png,yellow_png,soundon_png,soundoff_png,retry_png,pausetext_png,pausebg_png,pause_png",
+			"name": "loading"
+		}
+	],
+	"resources": [
+		{
+			"url": "assets/Hexagonal.png",
+			"type": "image",
+			"name": "Hexagonal_png"
+		},
+		{
+			"url": "assets/bg.png",
+			"type": "image",
+			"name": "bg_png",
+			"scale9grid": "74,116,17,39"
+		},
+		{
+			"url": "assets/blank.png",
+			"type": "image",
+			"name": "blank_png"
+		},
+		{
+			"url": "assets/blue.png",
+			"type": "image",
+			"name": "blue_png"
+		},
+		{
+			"url": "assets/boost.png",
+			"type": "image",
+			"name": "boost_png"
+		},
+		{
+			"url": "assets/boostbg.png",
+			"type": "image",
+			"name": "boostbg_png"
+		},
+		{
+			"url": "assets/btn_play.png",
+			"type": "image",
+			"name": "btn_play_png"
+		},
+		{
+			"url": "assets/button01.png",
+			"type": "image",
+			"name": "button01_png"
+		},
+		{
+			"url": "assets/button02.png",
+			"type": "image",
+			"name": "button02_png"
+		},
+		{
+			"url": "assets/button03.png",
+			"type": "image",
+			"name": "button03_png"
+		},
+		{
+			"url": "assets/button04.png",
+			"type": "image",
+			"name": "button04_png"
+		},
+		{
+			"url": "assets/button05.png",
+			"type": "image",
+			"name": "button05_png"
+		},
+		{
+			"url": "assets/button06.png",
+			"type": "image",
+			"name": "button06_png"
+		},
+		{
+			"url": "assets/button07.png",
+			"type": "image",
+			"name": "button07_png"
+		},
+		{
+			"url": "assets/button08.png",
+			"type": "image",
+			"name": "button08_png"
+		},
+		{
+			"url": "assets/button09.png",
+			"type": "image",
+			"name": "button09_png"
+		},
+		{
+			"url": "assets/button10.png",
+			"type": "image",
+			"name": "button10_png"
+		},
+		{
+			"url": "assets/button11.png",
+			"type": "image",
+			"name": "button11_png"
+		},
+		{
+			"url": "assets/button12.png",
+			"type": "image",
+			"name": "button12_png"
+		},
+		{
+			"url": "assets/button13.png",
+			"type": "image",
+			"name": "button13_png"
+		},
+		{
+			"url": "assets/button14.png",
+			"type": "image",
+			"name": "button14_png"
+		},
+		{
+			"url": "assets/button15.png",
+			"type": "image",
+			"name": "button15_png"
+		},
+		{
+			"url": "assets/coin.png",
+			"type": "image",
+			"name": "coin_png"
+		},
+		{
+			"url": "assets/cup.png",
+			"type": "image",
+			"name": "cup_png"
+		},
+		{
+			"url": "assets/game.png",
+			"type": "image",
+			"name": "game_png"
+		},
+		{
+			"url": "assets/hand.png",
+			"type": "image",
+			"name": "hand_png"
+		},
+		{
+			"url": "assets/help_click_light.png",
+			"type": "image",
+			"name": "help_click_light_png"
+		},
+		{
+			"url": "assets/hexabg.png",
+			"type": "image",
+			"name": "hexabg_png"
+		},
+		{
+			"url": "assets/loading1.png",
+			"type": "image",
+			"name": "loading1_png",
+			"scale9grid": "18,0,344,0"
+		},
+		{
+			"url": "assets/loading2.png",
+			"type": "image",
+			"name": "loading2_png",
+			"scale9grid": "17,0,345,0"
+		},
+		{
+			"url": "assets/loading3.png",
+			"type": "image",
+			"name": "loading3_png",
+			"scale9grid": "15,0,351,0"
+		},
+		{
+			"url": "assets/pause.png",
+			"type": "image",
+			"name": "pause_png"
+		},
+		{
+			"url": "assets/pausebg.png",
+			"type": "image",
+			"name": "pausebg_png"
+		},
+		{
+			"url": "assets/pausetext.png",
+			"type": "image",
+			"name": "pausetext_png"
+		},
+		{
+			"url": "assets/retry.png",
+			"type": "image",
+			"name": "retry_png"
+		},
+		{
+			"url": "assets/soundoff.png",
+			"type": "image",
+			"name": "soundoff_png"
+		},
+		{
+			"url": "assets/soundon.png",
+			"type": "image",
+			"name": "soundon_png"
+		},
+		{
+			"url": "assets/yellow.png",
+			"type": "image",
+			"name": "yellow_png"
+		},
+		{
+			"url": "assets/font.fnt",
+			"type": "font",
+			"name": "font_fnt"
+		},
+		{
+			"url": "assets/font.png",
+			"type": "image",
+			"name": "font_png"
+		}
+	]
+}

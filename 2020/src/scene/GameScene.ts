@@ -4,6 +4,8 @@
  *
  */
 class GameScene extends BaseScene {
+    /** 背景 */
+    private _bg: egret.Bitmap;
     /** UI */
     private _ui: GameUI;
     /** 状态 */
@@ -77,24 +79,29 @@ class GameScene extends BaseScene {
         this._removeList = [];
         this._moveFlag = false;
         this._curItem = 0;
+        var w = StageUtils.stageW;
+        var h = StageUtils.stageH;
+        if (!this._bg) {
+            this.addChild(this._bg = DisplayUtils.createBitmap("bg_png"));
+            this._bg.width = w;
+            this._bg.height = h;
+        }
         if (!this._blankCon) {
             this._blankCon = new egret.DisplayObjectContainer;
             this._blankCon.name = "空白容器";
-            this._blankCon.x = StageUtils.stageW / 2;
-            this._blankCon.y = StageUtils.stageH / 2;
-            this._blankCon.width = this.b_w * (this.hor - 1) + this.blockSize * 2;
-            this._blankCon.height = this.b_h * (this.ver - 1) + this.b_h / 2 + this.blockSize * Math.sqrt(3);
-            AnchorUtils.setAnchor(this._blankCon, 0.5);
+            this._blankCon.x = w / 2;
+            this._blankCon.y = h / 2 + 80;
+            this._blankCon.width = this.hor * DataManager.BLOCK_W;
+            this._blankCon.height = (this.ver + 0.5) * DataManager.BLOCK_H;
             this.addChild(this._blankCon);
         }
         if (!this._blockCon) {
             this._blockCon = new egret.DisplayObjectContainer;
             this._blockCon.name = "方块容器";
-            this._blockCon.x = StageUtils.stageW / 2;
-            this._blockCon.y = StageUtils.stageH / 2;
-            this._blockCon.width = this.b_w * (this.hor - 1) + this.blockSize * 2;
-            this._blockCon.height = this.b_h * (this.ver - 1) + this.b_h / 2 + this.blockSize * Math.sqrt(3);
-            AnchorUtils.setAnchor(this._blockCon, 0.5);
+            this._blockCon.x = w / 2;
+            this._blockCon.y = h / 2 + 80;
+            this._blockCon.width = this.hor * DataManager.BLOCK_W;
+            this._blockCon.height = (this.ver + 0.5) * DataManager.BLOCK_H;
             this.addChild(this._blockCon);
         }
         if (!this._ui) {
@@ -117,7 +124,7 @@ class GameScene extends BaseScene {
                 TimerManager.doTimer(delay(x, y), 1, () => {
                     let block = this._blocks[x][y];
                     egret.Tween.get(block).to({ alpha: 0.3 }, 100).call(() => {
-                        if (block.value > 0) {
+                        if (block.value >= 0) {
                             this.removeBlock(block);
                         } else {
                             this.removeBlank(block);
@@ -167,7 +174,7 @@ class GameScene extends BaseScene {
                 var arr = [];
                 this._blocks.forEach(bs => {
                     bs.forEach(b => {
-                        if (b.value > 0) {
+                        if (b.value >= 0) {
                             arr.push(b);
                         }
                     });
@@ -266,10 +273,10 @@ class GameScene extends BaseScene {
      */
     private addBlank(x: number, y: number) {
         let blank: Block = ObjectPool.pop("Block");
-        blank.init(0);
+        blank.init(-1);
         var position = this.getPosition(x, y);
         blank.x = position.x;
-        blank.y = position.y + this.b_h;
+        blank.y = position.y + DataManager.BLOCK_H;
         egret.Tween.get(blank).to({ x: position.x, y: position.y }, 1000, egret.Ease.elasticOut);
         this._blankList.push(blank);
         this.pushToList(blank, x, y);
@@ -331,13 +338,7 @@ class GameScene extends BaseScene {
                 TimerManager.doTimer(duration * i, 1, () => {
                     egret.Tween.get(cur).to({ x: blank.x, y: blank.y }, duration);
                 }, this);
-                TimerManager.doTimer(duration * i + duration / 2, 1, () => {
-                    blank.setColor(cur.color);
-                }, this);
                 let c = blank.color;
-                TimerManager.doTimer(duration * i + duration, 1, () => {
-                    blank.setColor(c);
-                }, this);
             }
             TimerManager.doTimer(duration, 1, () => {
                 this.addBlank(cur.pos.x, cur.pos.y);
@@ -353,9 +354,7 @@ class GameScene extends BaseScene {
             }, this);
         } else {
             let c = blank.color;
-            blank.setColor(0x000000);
             TimerManager.doTimer(this._idleTime, 1, () => {
-                blank.setColor(c);
                 this.setState(GameState.Idle);
             }, this);
         }
@@ -364,7 +363,7 @@ class GameScene extends BaseScene {
     /**
      * 获取路径
      */
-    private getPath(start: egret.Point, end: egret.Point, value: number = 0): Array<egret.Point> {
+    private getPath(start: egret.Point, end: egret.Point, value: number = -1): Array<egret.Point> {
         var blocks = this._blocks;
         var maze: Array<Array<number>> = [];
         for (let x: number = 0; x < this.hor; x++) {
@@ -396,7 +395,7 @@ class GameScene extends BaseScene {
         block.pos = new egret.Point(x, y);
         this._blocks[x][y] = block;
         block.name = "方块（" + x + ", " + y + "）";
-        if (block.value > 0) {
+        if (block.value >= 0) {
             this._blockCon.addChild(block);
             this._checkList = [];
             this.check(block);
@@ -442,7 +441,7 @@ class GameScene extends BaseScene {
             }
         }
         TimerManager.doTimer(t + 200, 1, () => {
-            this.addBlock(pos.x, pos.y, value * 4);
+            this.addBlock(pos.x, pos.y, value * 2);
             TimerManager.doTimer(this._idleTime, 1, () => {
                 this.setState(GameState.Idle);
             }, this);
@@ -543,7 +542,7 @@ class GameScene extends BaseScene {
             this._ui.end();
         }
         for (let i: number = 0; i < cnt; i++) {
-            arr.push(Math.pow(2, RandomUtils.limitInteger(0, 3)));
+            arr.push(RandomUtils.limitInteger(0, 3));
         }
         return arr;
     }
@@ -567,8 +566,8 @@ class GameScene extends BaseScene {
      */
     private getPosition(x, y): egret.Point {
         var position = new egret.Point;
-        position.x = this.b_w * x;
-        position.y = this.b_h / 2 * (2 * y + 1 - x % 2);
+        position.x = (x - DataManager.HOR_SIZE / 2 + 0.5) * DataManager.BLOCK_W;
+        position.y = (y - DataManager.VER_SIZE / 2 + (x % 2 == 0 ? 0.5 : 0)) * DataManager.BLOCK_H;
         return position;
     }
 
@@ -580,26 +579,6 @@ class GameScene extends BaseScene {
     /** 纵向个数 */
     public get ver(): number {
         return DataManager.VER_SIZE;
-    }
-
-    /** 宽 */
-    public get b_w(): number {
-        return this.blockSize * 1.5 + this.blockGap / (Math.sqrt(3) / 2);
-    }
-
-    /** 宽 */
-    public get b_h(): number {
-        return this.blockSize * Math.sqrt(3) + this.blockGap;
-    }
-
-    /** 方块半径 */
-    public get blockSize(): number {
-        return DataManager.BLOCK_SIZE;
-    }
-
-    /** 方块间距 */
-    public get blockGap(): number {
-        return DataManager.BLOCK_GAP;
     }
 }
 

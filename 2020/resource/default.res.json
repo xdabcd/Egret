@@ -1,11 +1,11 @@
 {
 	"groups": [
 		{
-			"keys": "bg_png,loading1_png,loading2_png,loading3_png,font_fnt,font_png",
+			"keys": "loading3_png,loading2_png,loading1_png,bg_png",
 			"name": "preload"
 		},
 		{
-			"keys": "Hexagonal_png,hexabg_png,help_click_light_png,hand_png,game_png,cup_png,coin_png,btn_play_png,boostbg_png,boost_png,blue_png,blank_png,yellow_png,soundon_png,soundoff_png,retry_png,pausetext_png,pausebg_png,pause_png,button_0_png,button_1_png,button_2_png,button_3_png,button_4_png,button_5_png,button_6_png,button_7_png,button_8_png,button_9_png,button_10_png,button_11_png,button_12_png,button_13_png,button_14_png",
+			"keys": "itemBg_png,item4_png,item3_png,item2_png,item1_png,home_png,Hexagonal_png,hexabg_png,help_click_light_png,hand_png,giveup_png,game_png,cup_png,coin_png,close_png,btn_play_png,boostbg1_png,boostbg_png,boost_png,blue_png,blank_png,yellow_png,soundon_png,soundoff_png,retry_png,red_png,pausetext_png,pausebg_png,pause_png,purple_png,cell_1_png,cell_2_png,cell_3_png,cell_4_png,cell_5_png,cell_6_png,cell_7_png,cell_8_png,cell_9_png,cell_10_png,cell_11_png,cell_12_png,cell_13_png,cell_14_png,cell_15_png,effect_png,effect_json,disable_png,upcoming_mp3,unite_mp3,stop_mp3,shout_mp3,select_mp3,remove_mp3,popup_mp3,music_mp3,move_mp3,highscore_mp3,gift_mp3,fail_mp3,extra2_mp3,extra1_mp3,coin_mp3,click_mp3,cell_mp3,booster_mp3,blocked_mp3,appear_mp3,smoke_png",
 			"name": "loading"
 		}
 	],
@@ -19,7 +19,7 @@
 			"url": "assets/bg.png",
 			"type": "image",
 			"name": "bg_png",
-			"scale9grid": "74,116,17,39"
+			"scale9grid": "74,119,20,31"
 		},
 		{
 			"url": "assets/blank.png",
@@ -42,9 +42,19 @@
 			"name": "boostbg_png"
 		},
 		{
+			"url": "assets/boostbg1.png",
+			"type": "image",
+			"name": "boostbg1_png"
+		},
+		{
 			"url": "assets/btn_play.png",
 			"type": "image",
 			"name": "btn_play_png"
+		},
+		{
+			"url": "assets/close.png",
+			"type": "image",
+			"name": "close_png"
 		},
 		{
 			"url": "assets/coin.png",
@@ -62,6 +72,11 @@
 			"name": "game_png"
 		},
 		{
+			"url": "assets/giveup.png",
+			"type": "image",
+			"name": "giveup_png"
+		},
+		{
 			"url": "assets/hand.png",
 			"type": "image",
 			"name": "hand_png"
@@ -77,22 +92,50 @@
 			"name": "hexabg_png"
 		},
 		{
+			"url": "assets/home.png",
+			"type": "image",
+			"name": "home_png"
+		},
+		{
+			"url": "assets/item1.png",
+			"type": "image",
+			"name": "item1_png"
+		},
+		{
+			"url": "assets/item2.png",
+			"type": "image",
+			"name": "item2_png"
+		},
+		{
+			"url": "assets/item3.png",
+			"type": "image",
+			"name": "item3_png"
+		},
+		{
+			"url": "assets/item4.png",
+			"type": "image",
+			"name": "item4_png"
+		},
+		{
+			"url": "assets/itemBg.png",
+			"type": "image",
+			"name": "itemBg_png"
+		},
+		{
 			"url": "assets/loading1.png",
 			"type": "image",
-			"name": "loading1_png",
-			"scale9grid": "18,0,344,0"
+			"name": "loading1_png"
 		},
 		{
 			"url": "assets/loading2.png",
 			"type": "image",
 			"name": "loading2_png",
-			"scale9grid": "17,0,345,0"
+			"scale9grid": "14,0,352,0"
 		},
 		{
 			"url": "assets/loading3.png",
 			"type": "image",
-			"name": "loading3_png",
-			"scale9grid": "15,0,351,0"
+			"name": "loading3_png"
 		},
 		{
 			"url": "assets/pause.png",
@@ -108,6 +151,11 @@
 			"url": "assets/pausetext.png",
 			"type": "image",
 			"name": "pausetext_png"
+		},
+		{
+			"url": "assets/red.png",
+			"type": "image",
+			"name": "red_png"
 		},
 		{
 			"url": "assets/retry.png",
@@ -130,89 +178,204 @@
 			"name": "yellow_png"
 		},
 		{
-			"url": "assets/font.fnt",
-			"type": "font",
-			"name": "font_fnt"
+			"url": "assets/purple.png",
+			"type": "image",
+			"name": "purple_png"
 		},
 		{
-			"url": "assets/font.png",
+			"url": "assets/cell_1.png",
 			"type": "image",
-			"name": "font_png"
+			"name": "cell_1_png"
 		},
 		{
-			"url": "assets/button_0.png",
+			"url": "assets/cell_2.png",
 			"type": "image",
-			"name": "button_0_png"
+			"name": "cell_2_png"
 		},
 		{
-			"url": "assets/button_1.png",
+			"url": "assets/cell_3.png",
 			"type": "image",
-			"name": "button_1_png"
+			"name": "cell_3_png"
 		},
 		{
-			"url": "assets/button_2.png",
+			"url": "assets/cell_4.png",
 			"type": "image",
-			"name": "button_2_png"
+			"name": "cell_4_png"
 		},
 		{
-			"url": "assets/button_3.png",
+			"url": "assets/cell_5.png",
 			"type": "image",
-			"name": "button_3_png"
+			"name": "cell_5_png"
 		},
 		{
-			"url": "assets/button_4.png",
+			"url": "assets/cell_6.png",
 			"type": "image",
-			"name": "button_4_png"
+			"name": "cell_6_png"
 		},
 		{
-			"url": "assets/button_5.png",
+			"url": "assets/cell_7.png",
 			"type": "image",
-			"name": "button_5_png"
+			"name": "cell_7_png"
 		},
 		{
-			"url": "assets/button_6.png",
+			"url": "assets/cell_8.png",
 			"type": "image",
-			"name": "button_6_png"
+			"name": "cell_8_png"
 		},
 		{
-			"url": "assets/button_7.png",
+			"url": "assets/cell_9.png",
 			"type": "image",
-			"name": "button_7_png"
+			"name": "cell_9_png"
 		},
 		{
-			"url": "assets/button_8.png",
+			"url": "assets/cell_10.png",
 			"type": "image",
-			"name": "button_8_png"
+			"name": "cell_10_png"
 		},
 		{
-			"url": "assets/button_9.png",
+			"url": "assets/cell_11.png",
 			"type": "image",
-			"name": "button_9_png"
+			"name": "cell_11_png"
 		},
 		{
-			"url": "assets/button_10.png",
+			"url": "assets/cell_12.png",
 			"type": "image",
-			"name": "button_10_png"
+			"name": "cell_12_png"
 		},
 		{
-			"url": "assets/button_11.png",
+			"url": "assets/cell_13.png",
 			"type": "image",
-			"name": "button_11_png"
+			"name": "cell_13_png"
 		},
 		{
-			"url": "assets/button_12.png",
+			"url": "assets/cell_14.png",
 			"type": "image",
-			"name": "button_12_png"
+			"name": "cell_14_png"
 		},
 		{
-			"url": "assets/button_13.png",
+			"url": "assets/cell_15.png",
 			"type": "image",
-			"name": "button_13_png"
+			"name": "cell_15_png"
 		},
 		{
-			"url": "assets/button_14.png",
+			"url": "assets/effect.png",
 			"type": "image",
-			"name": "button_14_png"
+			"name": "effect_png"
+		},
+		{
+			"url": "assets/effect.json",
+			"type": "json",
+			"name": "effect_json"
+		},
+		{
+			"url": "assets/disable.png",
+			"type": "image",
+			"name": "disable_png"
+		},
+		{
+			"url": "assets/audio/appear.mp3",
+			"type": "sound",
+			"name": "appear_mp3"
+		},
+		{
+			"url": "assets/audio/blocked.mp3",
+			"type": "sound",
+			"name": "blocked_mp3"
+		},
+		{
+			"url": "assets/audio/booster.mp3",
+			"type": "sound",
+			"name": "booster_mp3"
+		},
+		{
+			"url": "assets/audio/cell.mp3",
+			"type": "sound",
+			"name": "cell_mp3"
+		},
+		{
+			"url": "assets/audio/click.mp3",
+			"type": "sound",
+			"name": "click_mp3"
+		},
+		{
+			"url": "assets/audio/coin.mp3",
+			"type": "sound",
+			"name": "coin_mp3"
+		},
+		{
+			"url": "assets/audio/extra1.mp3",
+			"type": "sound",
+			"name": "extra1_mp3"
+		},
+		{
+			"url": "assets/audio/extra2.mp3",
+			"type": "sound",
+			"name": "extra2_mp3"
+		},
+		{
+			"url": "assets/audio/fail.mp3",
+			"type": "sound",
+			"name": "fail_mp3"
+		},
+		{
+			"url": "assets/audio/gift.mp3",
+			"type": "sound",
+			"name": "gift_mp3"
+		},
+		{
+			"url": "assets/audio/highscore.mp3",
+			"type": "sound",
+			"name": "highscore_mp3"
+		},
+		{
+			"url": "assets/audio/move.mp3",
+			"type": "sound",
+			"name": "move_mp3"
+		},
+		{
+			"url": "assets/audio/music.mp3",
+			"type": "sound",
+			"name": "music_mp3"
+		},
+		{
+			"url": "assets/audio/popup.mp3",
+			"type": "sound",
+			"name": "popup_mp3"
+		},
+		{
+			"url": "assets/audio/remove.mp3",
+			"type": "sound",
+			"name": "remove_mp3"
+		},
+		{
+			"url": "assets/audio/select.mp3",
+			"type": "sound",
+			"name": "select_mp3"
+		},
+		{
+			"url": "assets/audio/shout.mp3",
+			"type": "sound",
+			"name": "shout_mp3"
+		},
+		{
+			"url": "assets/audio/stop.mp3",
+			"type": "sound",
+			"name": "stop_mp3"
+		},
+		{
+			"url": "assets/audio/unite.mp3",
+			"type": "sound",
+			"name": "unite_mp3"
+		},
+		{
+			"url": "assets/audio/upcoming.mp3",
+			"type": "sound",
+			"name": "upcoming_mp3"
+		},
+		{
+			"url": "assets/smoke.png",
+			"type": "image",
+			"name": "smoke_png"
 		}
 	]
 }

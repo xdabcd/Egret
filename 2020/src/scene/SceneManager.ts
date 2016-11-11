@@ -7,16 +7,14 @@ class SceneManager {
     /** 当前界面 */
     private static _curScene: BaseScene;
 
+    private static _flag: boolean = true;
+
     /**
      * 进入界面
      */
     public static enterScene(scene: Scene, ...args: any[]): BaseScene {
-        /** 销毁当前界面 */
-        if (this._curScene) {
-            ObjectPool.push(this._curScene);
-            DisplayUtils.removeFromParent(this._curScene);
-        }
-
+        if (!this._flag) return;
+        var oldScene = this._curScene;
         /** 进入新界面 */
         switch (scene) {
             case Scene.Loading:
@@ -31,7 +29,23 @@ class SceneManager {
             default:
                 break;
         }
-        this.stage.addChild(this._curScene);
+        this._flag = false;
+        if (oldScene) {
+            egret.Tween.get(oldScene).to({ alpha: 0.3 }, 500).call(() => {
+                ObjectPool.push(oldScene);
+                DisplayUtils.removeFromParent(oldScene);
+                this._curScene.alpha = 0.3;
+                this.stage.addChild(this._curScene);
+                egret.Tween.get(this._curScene).to({ alpha: 1 }, 500).call(() => {
+                    this._flag = true;
+                });
+            })
+        } else {
+            this._curScene.alpha = 1;
+            this.stage.addChild(this._curScene);
+            this._flag = true;
+        }
+
         return this._curScene;
     }
 

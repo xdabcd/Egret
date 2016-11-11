@@ -49,4 +49,15 @@ class MathUtils {
         var disQ: number = disX * disX + disY * disY;
         return Math.sqrt(disQ);
     }
+
+    /**
+     * 获取幂
+     */
+    public static log(a: number, b: number): number{
+        var v = 0;
+        while((b = Math.floor(b / a)) > 0){
+            v += 1;
+        }
+        return v;
+    }
 }

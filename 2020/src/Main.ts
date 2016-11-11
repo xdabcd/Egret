@@ -77,6 +77,14 @@ class Main extends egret.DisplayObjectContainer {
      * Create a game scene
      */
     private createGameScene(): void {
-        SceneManager.enterScene(Scene.Game);
+        PlayerDataManager.load();
+        StageUtils.stage.addEventListener(egret.Event.ACTIVATE, () => {
+            SoundManager.setVolum(1);
+        }, this);
+        StageUtils.stage.addEventListener(egret.Event.DEACTIVATE, () => {
+            SoundManager.setVolum(0);
+        }, this);
+
+        SceneManager.enterScene(Scene.Menu);
     }
 }

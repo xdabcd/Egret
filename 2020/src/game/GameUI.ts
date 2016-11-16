@@ -81,6 +81,7 @@ class GameUI extends BaseScene {
             this._pauseBtn.addChild(icon);
             this.setOnTap(this._pauseBtn, () => {
                 SoundManager.playEffect("click_mp3");
+                MISO.trigger("gamePause", null);
                 this.pause();
             });
         }
@@ -146,6 +147,11 @@ class GameUI extends BaseScene {
             this._itemBtn.addChild(this._itemClose);
             this._itemClose.visible = false;
             this.setOnTap(this._itemBtn, () => {
+                let gameSene = SceneManager.curScene as GameScene;
+                if(gameSene.state != GameState.Idle){
+                    SoundManager.playEffect("fail_mp3");
+                    return;
+                }
                 SoundManager.playEffect("click_mp3");
                 if (this._itemShow) {
                     this.hideItemScene();

@@ -8,36 +8,29 @@ var game_file_list = [
 	"libs/modules/game/game.native.js",
 	"libs/modules/res/res.js",
 	"libs/modules/tween/tween.js",
-	"libs/modules/miso/miso.min.js",
 	"bin-debug/EgretExpendManager.js",
+	"bin-debug/Game/GameCmd.js",
+	"bin-debug/mvc/BaseController.js",
+	"bin-debug/Game/GameController.js",
+	"bin-debug/Game/GameData.js",
+	"bin-debug/mvc/BaseModel.js",
+	"bin-debug/Game/GameModel.js",
+	"bin-debug/mvc/BaseScene.js",
+	"bin-debug/Game/GameScene.js",
+	"bin-debug/Game/Grid.js",
+	"bin-debug/Game/GridCmd.js",
+	"bin-debug/Game/GridController.js",
+	"bin-debug/Game/GridModel.js",
+	"bin-debug/Game/Tile.js",
+	"bin-debug/Game/TileData.js",
 	"bin-debug/Main.js",
-	"bin-debug/game/Block.js",
-	"bin-debug/game/BtnList.js",
-	"bin-debug/game/Bubble.js",
-	"bin-debug/game/Burst.js",
-	"bin-debug/game/Button.js",
-	"bin-debug/game/ForbidHint.js",
-	"bin-debug/scene/BaseScene.js",
-	"bin-debug/game/GameUI.js",
-	"bin-debug/game/Hand.js",
-	"bin-debug/game/Label.js",
-	"bin-debug/game/Orbit.js",
-	"bin-debug/game/PopHint.js",
-	"bin-debug/game/Praise.js",
-	"bin-debug/game/RecParticle.js",
-	"bin-debug/game/TutorialHand.js",
-	"bin-debug/game/data/DataManager.js",
-	"bin-debug/game/data/EffectManager.js",
-	"bin-debug/game/data/PlayerData.js",
-	"bin-debug/game/data/PlayerDataManager.js",
-	"bin-debug/game/data/SoundManager.js",
-	"bin-debug/scene/EndScene.js",
-	"bin-debug/scene/GameScene.js",
-	"bin-debug/scene/ItemScene.js",
-	"bin-debug/scene/LoadingScene.js",
-	"bin-debug/scene/MenuScene.js",
-	"bin-debug/scene/PauseScene.js",
-	"bin-debug/scene/SceneManager.js",
+	"bin-debug/common/MoveInfo.js",
+	"bin-debug/common/Vector2.js",
+	"bin-debug/loading/LoadingCmd.js",
+	"bin-debug/loading/LoadingController.js",
+	"bin-debug/loading/LoadingScene.js",
+	"bin-debug/mvc/ControllerManager.js",
+	"bin-debug/mvc/SceneManager.js",
 	"bin-debug/utils/AnchorUtils.js",
 	"bin-debug/utils/ArrayUtils.js",
 	"bin-debug/utils/DateUtils.js",
@@ -48,6 +41,7 @@ var game_file_list = [
 	"bin-debug/utils/EffectUtils.js",
 	"bin-debug/utils/FrameExecutor.js",
 	"bin-debug/utils/KeyboardUtils.js",
+	"bin-debug/utils/Log.js",
 	"bin-debug/utils/MathUtils.js",
 	"bin-debug/utils/MazeUtils.js",
 	"bin-debug/utils/ObjectPool.js",
@@ -74,6 +68,12 @@ egret_native.requireFiles = function () {
 };
 
 egret_native.egretInit = function () {
+    if(egret_native.featureEnable) {
+        //控制一些优化方案是否开启
+        egret_native.featureEnable({
+            
+        });
+    }
     egret_native.requireFiles();
     egret.TextField.default_fontFamily = "/system/fonts/DroidSansFallback.ttf";
     //egret.dom为空实现

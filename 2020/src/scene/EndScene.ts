@@ -82,7 +82,10 @@ class EndScene extends BaseScene {
             var giveup: Button = ObjectPool.pop("Button");
             this.addChild(giveup);
             giveup.init("giveup_png", "");
-            giveup.setOnTap(() => { this._giveupFunc() });
+            giveup.setOnTap(() => {
+                MISO.trigger("gameEnd", null);
+                this._giveupFunc()
+            });
             this._giveUp = giveup;
 
             this.onResize();

@@ -20,6 +20,10 @@
 		},
 		{
 			"name": "tween"
+		},
+		{
+			"name": "miso",
+			"path": "../libsrc/miso"
 		}
 	]
 }

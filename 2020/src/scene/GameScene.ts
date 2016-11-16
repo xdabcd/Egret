@@ -207,6 +207,7 @@ class GameScene extends BaseScene {
      * 初始化方块
      */
     private initBlocks() {
+        MISO.trigger("gameStart", null);
         this.setState(GameState.Init);
         SoundManager.playEffect("cell_mp3");
         var delay = (x, y) => {
@@ -233,6 +234,7 @@ class GameScene extends BaseScene {
      * 初始化引导数据 
      */
     private initTutorial() {
+        MISO.trigger("tutorialStart", null);
         this._tutorialArr = [
             {
                 "step": 1,
@@ -334,6 +336,7 @@ class GameScene extends BaseScene {
             var hand = data["hand"];
             if (data["isEnd"]) {
                 this._tutorialStep = 0;
+                MISO.trigger("tutorialEnd", null);
                 PlayerDataManager.tutorialOver();
             }
             var action = () => {
@@ -488,6 +491,7 @@ class GameScene extends BaseScene {
                 }, this);
                 break;
         }
+        this._curItem = 0;
     }
 
     /**
@@ -929,8 +933,6 @@ class GameScene extends BaseScene {
     private setState(state: GameState) {
         this._state = state;
         if (state == GameState.Idle) {
-            this._curItem = 0;
-
             if (!this.checkRemove()) {
                 this.checkMove();
                 this._handInterval = 5000;
@@ -1003,6 +1005,10 @@ class GameScene extends BaseScene {
     /** 纵向个数 */
     public get ver(): number {
         return DataManager.VER_SIZE;
+    }
+
+    public get state(): GameState {
+        return this._state;
     }
 }
 

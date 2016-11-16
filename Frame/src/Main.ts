@@ -1,22 +1,25 @@
+/**
+ * 
+ * 主界面
+ * 
+ */
 class Main extends egret.DisplayObjectContainer {
-
-    private _loadingScene: LoadingScene;
-
     public constructor() {
         super();
         this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
     }
+
+    private _loadingScene: LoadingScene;
 
     private onAddToStage(event: egret.Event) {
         this.removeEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
         /** 初始化扩展工具 */
         EgretExpandManager.init();
         /** 清空舞台 */
-        this.stage.removeChildren();
+        StageUtils.stage.removeChildren();
         /** 加载资源 */
         RES.addEventListener(RES.ResourceEvent.CONFIG_COMPLETE, this.onConfigComplete, this);
         RES.loadConfig("resource/default.res.json", "resource/");
-        MISO.trigger("loadStart", null);
     }
 
     /**
@@ -37,14 +40,13 @@ class Main extends egret.DisplayObjectContainer {
     private onResourceLoadComplete(event: RES.ResourceEvent): void {
         if (event.groupName == "preload") {
             /** 打开加载界面 */
-            this._loadingScene = SceneManager.enterScene(Scene.Loading) as LoadingScene;
+            this._loadingScene = SceneManager.instance.open(SceneID.Loading) as LoadingScene;
             RES.loadGroup("loading");
         } else if (event.groupName == "loading") {
             RES.removeEventListener(RES.ResourceEvent.GROUP_COMPLETE, this.onResourceLoadComplete, this);
             RES.removeEventListener(RES.ResourceEvent.GROUP_LOAD_ERROR, this.onResourceLoadError, this);
             RES.removeEventListener(RES.ResourceEvent.GROUP_PROGRESS, this.onResourceProgress, this);
             RES.removeEventListener(RES.ResourceEvent.ITEM_LOAD_ERROR, this.onItemLoadError, this);
-            MISO.trigger("loadEnd", null);
             /** 打开游戏界面 */
             this.createGameScene();
         }
@@ -79,14 +81,7 @@ class Main extends egret.DisplayObjectContainer {
      * Create a game scene
      */
     private createGameScene(): void {
-        PlayerDataManager.load();
-        StageUtils.stage.addEventListener(egret.Event.ACTIVATE, () => {
-            SoundManager.setVolum(1);
-        }, this);
-        StageUtils.stage.addEventListener(egret.Event.DEACTIVATE, () => {
-            SoundManager.setVolum(0);
-        }, this);
-
-        SceneManager.enterScene(Scene.Menu);
+        SceneManager.instance.close(SceneID.Loading);
+        SceneManager.instance.open(SceneID.Game);
     }
 }

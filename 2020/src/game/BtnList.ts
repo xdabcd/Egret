@@ -43,12 +43,20 @@ class BtnList extends egret.DisplayObjectContainer {
         this._soundBtn.y = posArr[5][1];
         PlayerDataManager.registerSoundBtn(this._soundBtn);
         this._soundBtn.setOnTap(() => {
+            if (PlayerDataManager.isMute) {
+                MISO.trigger("soundOn", null);
+            } else {
+                MISO.trigger("soundOff", null);
+            }
             PlayerDataManager.setMute(!PlayerDataManager.isMute);
         });
         this._moreBtn.init("yellow_png", "game_png");
         this._moreBtn.setSpriteOffset(3, 0);
         this._moreBtn.x = posArr[3][0];
         this._moreBtn.y = posArr[3][1];
+        this._moreBtn.setOnTap(() => {
+            MISO.trigger("moreGames", null);
+        });
         this._restryBtn.init("yellow_png", "retry_png");
         this._restryBtn.x = posArr[4][0];
         this._restryBtn.y = posArr[4][1];
@@ -70,7 +78,7 @@ class BtnList extends egret.DisplayObjectContainer {
 
     public show(scene: string, im: boolean = false) {
         var duration = 100;
-        if(im){
+        if (im) {
             duration = 0;
         }
         for (let i = 0; i < 7; i++) {

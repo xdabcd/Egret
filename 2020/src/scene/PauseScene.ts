@@ -29,7 +29,10 @@ class PauseScene extends BaseScene {
 
         if (!this._btnList) {
             this.addChild(this._btnList = ObjectPool.pop("BtnList"));
-            this._btnList.setStart(() => { this.hide(); });
+            this._btnList.setStart(() => {
+                MISO.trigger("gameResume", null);
+                this.hide();
+            });
             this._btnList.setRetry(() => { this.retry(); });
             this._btnList.setHome(() => { this.home(); });
         }

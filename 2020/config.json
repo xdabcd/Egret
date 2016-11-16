@@ -1,0 +1,55 @@
+{
+    "id": 1,
+    "debug": true,
+    "ga": true,
+    "showWarning": false,
+    "showError": false,
+    "showFloatBtn": true,
+    "noAdPermitted": false,
+    "showLoading": true,
+    "adUrl": "//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js",
+    "configUrl": "config.json",
+    "imaUrl": "//imasdk.googleapis.com/js/sdkloader/ima3.js",
+    "backendHost": "http://event.trustingme.cn",
+    "moreGamesInterface": "/trustingme/eventInfoController.do?getTopEventInfos",
+    "currentLanguage": "en",
+    "defaultLanguage": "en",
+    "GA_UA": "UA-86641463-2",
+    "showAdsWhen": [
+        "logoScreenShowed"
+    ],
+    "text": {
+        "en": {
+            "adblock": {
+                "header": "Oh-no, it seems you are using an Ad-blocker.",
+                "description": "Please disable your Ad-blocker and refresh the page to enjoy our games",
+                "left": "DISABLE",
+                "right": "ADBLOCK"
+            }
+        }
+    },
+    "currentText": {},
+    "builtInHooks": [
+        "logoScreenShowed",
+        "loadStart",
+        "loadEnd",
+        "gameStart",
+        "tutorialStart",
+        "tutorialEnd",
+        "levelUp",
+        "levelEnd",
+        "gameEnd",
+        "gamePause",
+        "gameResume",
+        "menuOpened",
+        "soundOn",
+        "soundOff",
+        "giftOpened",
+        "giftStart",
+        "giftEnd",
+        "missionOpened",
+        "missionStart",
+        "missionEnd",
+        "moreGames"
+    ]
+}

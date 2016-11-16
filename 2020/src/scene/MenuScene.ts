@@ -17,6 +17,8 @@ class MenuScene extends BaseScene {
     protected init() {
         super.init();
         
+        MISO.trigger("menuOpened", null);
+
         if (!this._bg) {
             this.addChild(this._bg = DisplayUtils.createBitmap("bg_png"));
         }

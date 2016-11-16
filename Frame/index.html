@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>2020</title>
+    <title>Egret</title>
     <meta name="viewport" content="width=device-width,initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"/>
     <meta name="apple-mobile-web-app-capable" content="yes"/>
     <meta name="full-screen" content="true"/>
@@ -12,15 +12,11 @@
     <style>
         html, body {
             -ms-touch-action: none;
-            background: #FFFFFF;
+            background: #ffffff;
             padding: 0;
             border: 0;
             margin: 0;
             height: 100%;
-        }
-        @font-face {
-            font-family: Cookies;
-            src: url('resource/Cookies.ttf')
         }
     </style>
 
@@ -32,7 +28,6 @@
 	<script egret="lib" src="libs/modules/game/game.web.js" src-release="libs/modules/game/game.web.min.js"></script>
 	<script egret="lib" src="libs/modules/res/res.js" src-release="libs/modules/res/res.min.js"></script>
 	<script egret="lib" src="libs/modules/tween/tween.js" src-release="libs/modules/tween/tween.min.js"></script>
-	<script egret="lib" src="libs/modules/miso/miso.min.js" src-release="libs/modules/miso/miso.min.js"></script>
 	<!--modules_files_end-->
 
     <!--这个标签为不通过egret提供的第三方库的方式使用的 javascript 文件，请将这些文件放在libs下，但不要放在modules下面。-->
@@ -42,34 +37,28 @@
     <!--这个标签会被替换为项目中所有的 javascript 文件。删除 game_files 标签后，项目文件加载列表将不会变化，请谨慎操作！-->
     <!--game_files_start-->
 	<script egret="game" src="bin-debug/EgretExpendManager.js"></script>
+	<script egret="game" src="bin-debug/Game/GameCmd.js"></script>
+	<script egret="game" src="bin-debug/mvc/BaseController.js"></script>
+	<script egret="game" src="bin-debug/Game/GameController.js"></script>
+	<script egret="game" src="bin-debug/Game/GameData.js"></script>
+	<script egret="game" src="bin-debug/mvc/BaseModel.js"></script>
+	<script egret="game" src="bin-debug/Game/GameModel.js"></script>
+	<script egret="game" src="bin-debug/mvc/BaseScene.js"></script>
+	<script egret="game" src="bin-debug/Game/GameScene.js"></script>
+	<script egret="game" src="bin-debug/Game/Grid.js"></script>
+	<script egret="game" src="bin-debug/Game/GridCmd.js"></script>
+	<script egret="game" src="bin-debug/Game/GridController.js"></script>
+	<script egret="game" src="bin-debug/Game/GridModel.js"></script>
+	<script egret="game" src="bin-debug/Game/Tile.js"></script>
+	<script egret="game" src="bin-debug/Game/TileData.js"></script>
 	<script egret="game" src="bin-debug/Main.js"></script>
-	<script egret="game" src="bin-debug/game/Block.js"></script>
-	<script egret="game" src="bin-debug/game/BtnList.js"></script>
-	<script egret="game" src="bin-debug/game/Bubble.js"></script>
-	<script egret="game" src="bin-debug/game/Burst.js"></script>
-	<script egret="game" src="bin-debug/game/Button.js"></script>
-	<script egret="game" src="bin-debug/game/ForbidHint.js"></script>
-	<script egret="game" src="bin-debug/scene/BaseScene.js"></script>
-	<script egret="game" src="bin-debug/game/GameUI.js"></script>
-	<script egret="game" src="bin-debug/game/Hand.js"></script>
-	<script egret="game" src="bin-debug/game/Label.js"></script>
-	<script egret="game" src="bin-debug/game/Orbit.js"></script>
-	<script egret="game" src="bin-debug/game/PopHint.js"></script>
-	<script egret="game" src="bin-debug/game/Praise.js"></script>
-	<script egret="game" src="bin-debug/game/RecParticle.js"></script>
-	<script egret="game" src="bin-debug/game/TutorialHand.js"></script>
-	<script egret="game" src="bin-debug/game/data/DataManager.js"></script>
-	<script egret="game" src="bin-debug/game/data/EffectManager.js"></script>
-	<script egret="game" src="bin-debug/game/data/PlayerData.js"></script>
-	<script egret="game" src="bin-debug/game/data/PlayerDataManager.js"></script>
-	<script egret="game" src="bin-debug/game/data/SoundManager.js"></script>
-	<script egret="game" src="bin-debug/scene/EndScene.js"></script>
-	<script egret="game" src="bin-debug/scene/GameScene.js"></script>
-	<script egret="game" src="bin-debug/scene/ItemScene.js"></script>
-	<script egret="game" src="bin-debug/scene/LoadingScene.js"></script>
-	<script egret="game" src="bin-debug/scene/MenuScene.js"></script>
-	<script egret="game" src="bin-debug/scene/PauseScene.js"></script>
-	<script egret="game" src="bin-debug/scene/SceneManager.js"></script>
+	<script egret="game" src="bin-debug/common/MoveInfo.js"></script>
+	<script egret="game" src="bin-debug/common/Vector2.js"></script>
+	<script egret="game" src="bin-debug/loading/LoadingCmd.js"></script>
+	<script egret="game" src="bin-debug/loading/LoadingController.js"></script>
+	<script egret="game" src="bin-debug/loading/LoadingScene.js"></script>
+	<script egret="game" src="bin-debug/mvc/ControllerManager.js"></script>
+	<script egret="game" src="bin-debug/mvc/SceneManager.js"></script>
 	<script egret="game" src="bin-debug/utils/AnchorUtils.js"></script>
 	<script egret="game" src="bin-debug/utils/ArrayUtils.js"></script>
 	<script egret="game" src="bin-debug/utils/DateUtils.js"></script>
@@ -80,6 +69,7 @@
 	<script egret="game" src="bin-debug/utils/EffectUtils.js"></script>
 	<script egret="game" src="bin-debug/utils/FrameExecutor.js"></script>
 	<script egret="game" src="bin-debug/utils/KeyboardUtils.js"></script>
+	<script egret="game" src="bin-debug/utils/Log.js"></script>
 	<script egret="game" src="bin-debug/utils/MathUtils.js"></script>
 	<script egret="game" src="bin-debug/utils/MazeUtils.js"></script>
 	<script egret="game" src="bin-debug/utils/ObjectPool.js"></script>
@@ -112,11 +102,10 @@
          * {
          * "renderMode":, //引擎渲染模式，"canvas" 或者 "webgl"
          * "audioType": "" //使用的音频类型，0:默认，1:qq audio，2:web audio，3:audio
+         * "antialias": //WebGL模式下是否开启抗锯齿，true:开启，false:关闭，默认为false
          * }
          **/
-		window.StartGame = function(){
-			egret.runEgret({renderMode:"canvas", audioType:0});
-		}
+        egret.runEgret({renderMode:"canvas", audioType:0});
     </script>
 </body>
 </html>

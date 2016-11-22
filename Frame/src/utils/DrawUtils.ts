@@ -50,6 +50,42 @@ class DrawUtils {
     }
 
     /**
+     * 绘制空心矩形
+     */
+    public static drawHollowRect(sprite: egret.Sprite, w: number, h: number, thickness: number, color) {
+        var graphics = sprite.graphics;
+        graphics.clear();
+
+        graphics.lineStyle(thickness, color);
+
+        graphics.moveTo(thickness / 2, thickness / 2);
+        graphics.lineTo(w + thickness / 2, thickness / 2);
+        graphics.lineTo(w + thickness / 2, h + thickness / 2);
+        graphics.lineTo(thickness / 2, h + thickness / 2);
+        graphics.lineTo(thickness / 2, thickness / 2);
+    }
+
+    /**
+     * 绘制米形
+     */
+    public static drawMi(sprite: egret.Sprite, length: number, thickness: number, color) {
+        var graphics = sprite.graphics;
+        graphics.clear();
+
+        graphics.lineStyle(thickness, color);
+
+        graphics.moveTo(thickness / 2, length / 2 + thickness / 2);
+        graphics.lineTo(length + thickness / 2, length / 2 + thickness / 2);
+        graphics.moveTo(length / 2 + thickness / 2, thickness / 2);
+        graphics.lineTo(length / 2 + thickness / 2, length + thickness / 2);
+        var a = Math.sin(Math.PI / 4);
+        graphics.moveTo(length / 2 * (1 - a) + thickness / 2, length / 2 * (1 - a) + thickness / 2);
+        graphics.lineTo(length / 2 * (1 + a) + thickness / 2, length / 2 * (1 + a) + thickness / 2);
+        graphics.moveTo(length / 2 * (1 - a) + thickness / 2, length / 2 * (1 + a) + thickness / 2);
+        graphics.lineTo(length / 2 * (1 + a) + thickness / 2, length / 2 * (1 - a) + thickness / 2);
+    }
+
+    /**
      * 绘制圆形
      */
     public static drawCircle(sprite: egret.Sprite, r: number, color) {

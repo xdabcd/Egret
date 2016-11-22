@@ -21,6 +21,7 @@ class GridController extends BaseController {
 		this.registerFunc(GridCmd.TILE_UNSELECT, this.unselectTile, this);
 		this.registerFunc(GridCmd.TILE_MOVE, this.moveTile, this);
 		this.registerFunc(GridCmd.TILE_CHANGE_EFFECT, this.changeTileEffect, this);
+		this.registerFunc(GridCmd.TILE_CHANGE_TYPE, this.changeTileType, this);
 	}
 
 	/**
@@ -84,6 +85,13 @@ class GridController extends BaseController {
 	 */
 	private changeTileEffect(tileData: TileData) {
 		this.scene.changeTileEffect(tileData);
+	}
+
+	/**
+	 * 转换格子类型
+	 */
+	private changeTileType(tileData: TileData) {
+		this.scene.changeTileType(tileData);
 	}
 
 	/**

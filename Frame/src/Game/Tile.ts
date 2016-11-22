@@ -113,12 +113,16 @@ class Tile extends egret.DisplayObjectContainer {
             });;
         switch (this._effect) {
             case TileEffect.HOR:
-                egret.Tween.get(this._effectSprte).to({ scaleX: 50, scaleY: 3, alpha: 0.6 }, duration / 2)
+                egret.Tween.get(this._effectSprte).to({ scaleX: 80, scaleY: 3, alpha: 0.6 }, duration / 2)
                     .to({ scaleY: 1, alpha: 0.3 }, duration / 2);
                 break;
             case TileEffect.VER:
-                egret.Tween.get(this._effectSprte).to({ scaleX: 3, scaleY: 50, alpha: 0.6 }, duration / 2)
+                egret.Tween.get(this._effectSprte).to({ scaleX: 3, scaleY: 80, alpha: 0.6 }, duration / 2)
                     .to({ scaleX: 1, alpha: 0.3 }, duration / 2);
+                break;
+            case TileEffect.AREA:
+                break;
+            case TileEffect.TYPE:
                 break;
         }
     }
@@ -175,6 +179,15 @@ class Tile extends egret.DisplayObjectContainer {
                 break;
             case TileEffect.VER:
                 DrawUtils.drawRoundRect(e, s / 15, s / 4, s / 20, s / 20, 0x000000);
+                break;
+            case TileEffect.AREA:
+                DrawUtils.drawHollowRect(e, s / 6, s / 6, s / 15, 0x000000);
+                break;
+            case TileEffect.TYPE:
+                DrawUtils.drawRoundRect(e, s / 6, s / 6, s / 6, s / 6, 0x000000);
+                break;
+            case TileEffect.CONVERT:
+                DrawUtils.drawMi(e, s / 6, s / 40, 0x000000);
                 break;
         }
         e.x = s / 2;

@@ -77,9 +77,8 @@ class GridModel extends BaseModel {
 			removeTime = this.delTile(x, y);
 		}
 		if (this._selectArr.length > 6) {
-			this._addEffectArr.push(RandomUtils.limitInteger(1, 2));
+			this._addEffectArr.push(RandomUtils.limitInteger(1, 5));
 		}
-
 		TimerManager.doTimer(removeTime, 1, () => {
 			this.repair();
 		}, this);
@@ -142,15 +141,39 @@ class GridModel extends BaseModel {
 	 * 执行效果
 	 */
 	private doEffect(tileData: TileData) {
+		var x = tileData.pos.x;
+		var y = tileData.pos.y;
+		var hor = this._hor;
+		var ver = this._ver;
 		switch (tileData.effect) {
 			case TileEffect.HOR:
-				for (let i = 0; i < this._hor; i++) {
-					this.delTile(i, tileData.pos.y);
+				for (let i = 0; i < hor; i++) {
+					this.delTile(i, y);
 				}
 				break;
 			case TileEffect.VER:
-				for (let i = 0; i < this._ver; i++) {
-					this.delTile(tileData.pos.x, i);
+				for (let i = 0; i < ver; i++) {
+					this.delTile(x, i);
+				}
+				break;
+			case TileEffect.AREA:
+				let minX = Math.max(0, x - 1);
+				let maxX = Math.min(hor, x + 2);
+				let minY = Math.max(0, y - 1);
+				let maxY = Math.min(ver, y + 2);
+				for (let i = minX; i < maxX; i++) {
+					for (let j = minY; j < maxY; j++) {
+						this.delTile(i, j);
+					}
+				}
+				break;
+			case TileEffect.TYPE:
+				for (let i = 0; i < hor; i++) {
+					for (let j = 0; j < hor; j++) {
+						var td = this.getTile(i, j);
+						if (td && td.type == tileData.type)
+							this.delTile(i, j);
+					}
 				}
 				break;
 		}
@@ -216,6 +239,27 @@ class GridModel extends BaseModel {
 	 */
 	private select(tileData: TileData) {
 		this.applyFunc(GridCmd.TILE_SELECT, tileData);
+
+		switch (tileData.effect) {
+			case TileEffect.CONVERT:
+				let x = tileData.pos.x;
+				let y = tileData.pos.y;
+				let hor = this._hor;
+				let ver = this._ver;
+				let type = tileData.type;
+				let minX = Math.max(0, x - 1);
+				let maxX = Math.min(hor, x + 2);
+				let minY = Math.max(0, y - 1);
+				let maxY = Math.min(ver, y + 2);
+				for (let i = minX; i < maxX; i++) {
+					for (let j = minY; j < maxY; j++) {
+						if (this.convertTileType(i, j, type)) {
+							tileData.converArr.push(new Vector2(i, j));
+						}
+					}
+				}
+				break;
+		}
 	}
 
 	/**
@@ -223,6 +267,44 @@ class GridModel extends BaseModel {
 	 */
 	private unselect(tileData: TileData) {
 		this.applyFunc(GridCmd.TILE_UNSELECT, tileData);
+
+		switch (tileData.effect) {
+			case TileEffect.CONVERT:
+				if (tileData.converArr.length) {
+					for (let i = 0; i < tileData.converArr.length; i++) {
+						let pos = tileData.converArr[i];
+						this.recoveryTileType(pos.x, pos.y);
+					}
+					tileData.converArr = [];
+				}
+				break;
+		}
+	}
+
+	/**
+	 * 转化格子的类型
+	 */
+	private convertTileType(x: number, y: number, type: number): boolean {
+		var tileData = this.getTile(x, y);
+		if (tileData && tileData.effect == TileEffect.NONE && tileData.type != type) {
+			tileData.changeType(type);
+			//TODO
+
+			this.applyFunc(GridCmd.TILE_CHANGE_TYPE, tileData);
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * 恢复格子的类型
+	 */
+	private recoveryTileType(x: number, y: number) {
+		var tileData = this.getTile(x, y);
+		if (tileData && tileData.effect == TileEffect.NONE && tileData.preType) {
+			tileData.changeType(tileData.preType);
+			this.applyFunc(GridCmd.TILE_CHANGE_TYPE, tileData);
+		}
 	}
 
 	/**

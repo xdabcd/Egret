@@ -101,6 +101,16 @@ class Grid extends BaseScene {
 	}
 
 	/**
+	 * 改变格子效果
+	 */
+	public changeTileType(tileData: TileData) {
+		var tile = this.findTile(tileData.pos);
+		if (tile) {
+			tile.type = tileData.type;
+		}
+	}
+
+	/**
 	 * 格子触摸回调
 	 */
 	private tileOnTouch(pos: Vector2) {

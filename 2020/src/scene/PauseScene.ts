@@ -11,6 +11,8 @@ class PauseScene extends BaseScene {
     /** 按钮 */
     private _btnList: BtnList;
 
+    private adCounter: number = 0;
+
     /**
      * 初始化
      */
@@ -33,7 +35,14 @@ class PauseScene extends BaseScene {
                 MISO.trigger("gameResume", null);
                 this.hide();
             });
-            this._btnList.setRetry(() => { this.retry(); });
+            this._btnList.setRetry(() => {
+                if (this.adCounter % 5 == 0) {
+                    ADManager.showAD(this.retry.bind(this));
+                } else {
+                    this.retry();
+                }
+                this.adCounter += 1;
+            });
             this._btnList.setHome(() => { this.home(); });
         }
         this.onResize();

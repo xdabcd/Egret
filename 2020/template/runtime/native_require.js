@@ -26,6 +26,7 @@ var game_file_list = [
 	"bin-debug/game/Praise.js",
 	"bin-debug/game/RecParticle.js",
 	"bin-debug/game/TutorialHand.js",
+	"bin-debug/game/data/ADManager.js",
 	"bin-debug/game/data/DataManager.js",
 	"bin-debug/game/data/EffectManager.js",
 	"bin-debug/game/data/PlayerData.js",

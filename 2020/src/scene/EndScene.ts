@@ -84,7 +84,7 @@ class EndScene extends BaseScene {
             giveup.init("giveup_png", "");
             giveup.setOnTap(() => {
                 MISO.trigger("gameEnd", null);
-                this._giveupFunc()
+                ADManager.showAD(this._giveupFunc);
             });
             this._giveUp = giveup;
 

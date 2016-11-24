@@ -24,7 +24,7 @@ class RandomUtils {
      * @returns {number}
      */
     public static limitInteger($from: number,$end: number): number {
-        return Math.round(this.limit($from,$end));
+        return Math.round(this.limit($from,$end + 1));
     }
 
     /**
